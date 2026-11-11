@@ -12,7 +12,8 @@ import {
 
 const rateBuckets = new Map();
 const MAX_REQUESTS_PER_MINUTE = 12;
-const MODEL_TIMEOUT_MS = 8_000;
+// The Gemini API rejects manually configured deadlines below 10 seconds.
+const MODEL_TIMEOUT_MS = 15_000;
 const MAX_TOOL_ROUNDS = 4;
 const DEFAULT_MODEL = 'gemini-3-flash-preview';
 const FALLBACK_MODELS = ['gemini-3-flash-preview', 'gemini-3.1-flash-lite', 'gemini-flash-lite-latest'];
