@@ -141,6 +141,21 @@ function modelError(error) {
   return { status: 502, message: 'Falha ao processar a solicitação com o Gemini.' };
 }
 
+function safeErrorDetails(error) {
+  const redact = (value) => String(value || '')
+    .replace(/AIza[A-Za-z0-9_-]+/g, '[REDACTED_API_KEY]')
+    .replace(/([?&](?:key|api_key)=)[^&\s]+/gi, '$1[REDACTED]')
+    .slice(0, 1_000);
+
+  return {
+    name: redact(error?.name),
+    status: Number(error?.status) || null,
+    code: redact(error?.code),
+    message: redact(error?.message || error),
+    cause: redact(error?.cause?.message),
+  };
+}
+
 async function explainExecutedOperation(ai, model, originalPrompt, toolName, result) {
   const contents = [
     {
@@ -446,6 +461,7 @@ export default async function handler(req, res) {
       : await handleMessage({ body: req.body || {}, db, opsDb, user, ai, model: config.model });
     return json(res, result.status, result.payload);
   } catch (error) {
+    console.error('TaskMind agent request failed', safeErrorDetails(error));
     if (error?.status || /Gemini|modelo|quota|cota|Tempo limite|DEADLINE_EXCEEDED/i.test(error?.message || '')) {
       const mapped = modelError(error);
       return json(res, mapped.status, { error: mapped.message });
