@@ -17,7 +17,9 @@ export default function AssistantPage() {
     clearChat,
     actionPlan,
     toggleActionPlanStep,
+    saveActionPlan,
     settings,
+    subjects,
   } = useAcademic();
 
   const [inputPrompt, setInputPrompt] = useState('');
@@ -59,7 +61,7 @@ export default function AssistantPage() {
             </span>
             <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-surface-container-high text-on-surface font-code-sm text-code-sm">
               <span className="w-2 h-2 rounded-full bg-secondary animate-pulse" />
-              Contexto Ativo: 5 Disciplinas Sincronizadas
+              Contexto Ativo: {subjects.length} disciplina(s) sincronizada(s)
             </span>
             <span className="hidden md:inline-flex text-on-surface-variant font-body-sm text-body-sm">
               Semestre Letivo {settings.user.semester} • {settings.user.institution} / {settings.user.course}
@@ -96,7 +98,7 @@ export default function AssistantPage() {
           </div>
         </div>
 
-        {/* Phase 1 Agent Architecture Status Banner */}
+        {/* Agent Architecture Status Banner */}
         <div className="p-space-md rounded-2xl bg-secondary-fixed/20 border border-secondary/30 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-space-md">
           <div className="flex items-start gap-space-sm">
             <span className="material-symbols-outlined text-secondary text-2xl mt-0.5">
@@ -104,18 +106,16 @@ export default function AssistantPage() {
             </span>
             <div className="flex flex-col">
               <span className="font-label-md text-label-md font-bold text-on-surface">
-                Fluxo de Agente IA — Fase 1: Arquitetura & Validação Humana
+                Fluxo de agente Gemini com validação humana
               </span>
               <p className="font-body-sm text-body-sm text-on-surface-variant max-w-4xl">
-                O assistente opera em modo arquitetural isolado. Toda operação que altera dados
-                (como criação de tarefas ou reorganização de planos) exige validação prévia do discente
-                antes da execução, preparando o caminho para as chamadas de ferramentas (Tool Calling)
-                do Gemini na Fase 2.
+                O backend autentica a sessão, consulta somente dados autorizados por RLS e executa leituras.
+                Toda criação, edição ou exclusão é persistida como proposta e só é executada após sua confirmação.
               </p>
             </div>
           </div>
           <span className="px-3 py-1 rounded-full font-code-sm text-code-sm bg-surface-container text-on-surface-variant whitespace-nowrap font-semibold">
-            Status: Pronto p/ Gemini API
+            Status: API protegida
           </span>
         </div>
 
@@ -142,7 +142,7 @@ export default function AssistantPage() {
                     <span className="inline-block w-2 h-2 rounded-full bg-emerald-500" />
                     <span>Online ⚡</span>
                     <span className="text-outline-variant">•</span>
-                    <span>Conectado às suas disciplinas do semestre 2026.2 e calendário acadêmico</span>
+                    <span>Conectado a {subjects.length} disciplina(s) e ao calendário acadêmico</span>
                   </p>
                 </div>
               </div>
@@ -206,7 +206,7 @@ export default function AssistantPage() {
                         </span>
                         {!isUser && (
                           <span className="px-2 py-0.5 rounded-full bg-surface-container text-on-surface-variant font-code-sm text-[10px] font-semibold">
-                            Motor de Regras Locais (Fase 1)
+                            TaskMind Agent
                           </span>
                         )}
                         {msg.badge && (
@@ -265,7 +265,7 @@ export default function AssistantPage() {
                                 <div key={k} className="flex items-baseline gap-1">
                                   <span className="font-semibold text-on-surface">{k}:</span>
                                   <span className="truncate">
-                                    {Array.isArray(v) ? v.join(', ') : String(v)}
+                                    {Array.isArray(v) ? v.join(', ') : typeof v === 'object' && v !== null ? JSON.stringify(v) : String(v)}
                                   </span>
                                 </div>
                               ))}
@@ -285,10 +285,10 @@ export default function AssistantPage() {
 
                               <button
                                 type="button"
-                                disabled={Boolean(msg.toolProposal.executed)}
+                                disabled={Boolean(msg.toolProposal.executed || msg.toolProposal.confirming)}
                                 onClick={() => executeProposedAction(msg.toolProposal, msg.id)}
                                 className={`px-4 py-2 rounded-lg font-label-md text-label-md font-semibold shadow-xs flex items-center gap-1.5 transition-all ${
-                                  msg.toolProposal.executed
+                                  msg.toolProposal.executed || msg.toolProposal.confirming
                                     ? 'bg-surface-container-high text-on-surface-variant opacity-60 cursor-not-allowed'
                                     : 'bg-secondary text-on-secondary hover:bg-secondary-container cursor-pointer active:scale-95'
                                 }`}
@@ -297,7 +297,7 @@ export default function AssistantPage() {
                                 <span className="material-symbols-outlined text-base">
                                   {msg.toolProposal.executed ? 'check' : 'check_circle'}
                                 </span>
-                                <span>{msg.toolProposal.executed ? 'Executado' : 'Confirmar e Executar'}</span>
+                                <span>{msg.toolProposal.executed ? 'Executado' : msg.toolProposal.confirming ? 'Executando…' : 'Confirmar e Executar'}</span>
                               </button>
                             </div>
                           </div>
@@ -334,7 +334,7 @@ export default function AssistantPage() {
                       <img
                         className="w-9 h-9 rounded-full object-cover shrink-0 shadow-xs mt-5 ring-1 ring-secondary/30"
                         alt={msg.authorName}
-                        src={settings.user.avatar}
+                        src={settings.user.avatar || '/assets/avatar-placeholder.svg'}
                       />
                     )}
                   </div>
@@ -442,10 +442,10 @@ export default function AssistantPage() {
               <div className="flex flex-col gap-space-xs">
                 <div className="flex items-center justify-between">
                   <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-secondary-fixed text-on-secondary-fixed font-code-sm text-code-sm font-semibold uppercase tracking-wider">
-                    <span className="material-symbols-outlined text-sm">auto_awesome</span> Plano Estruturado [Demonstração da Fase 1]
+                    <span className="material-symbols-outlined text-sm">auto_awesome</span> Plano de estudo
                   </span>
                   <span className="font-code-sm text-code-sm text-on-surface-variant">
-                    Sincronizado
+                    {actionPlan.steps.length ? 'Estruturado' : 'Aguardando geração'}
                   </span>
                 </div>
                 <h2 className="font-headline-sm text-headline-sm text-on-surface font-bold mt-1">
@@ -454,9 +454,7 @@ export default function AssistantPage() {
                 <p className="font-body-sm text-body-sm text-on-surface-variant">
                   {actionPlan.description}
                 </p>
-                <span className="text-[11px] font-code-sm text-on-surface-variant/80 italic mt-0.5">
-                  Checklist pré-estruturado demonstrativo. Na Fase 2, a geração será dinâmica via Gemini.
-                </span>
+                <button type="button" onClick={saveActionPlan} className="self-start px-3 py-1.5 rounded-lg bg-primary text-on-primary text-sm font-semibold">Salvar plano</button>
               </div>
 
               {/* Stats / Metas Bar */}
