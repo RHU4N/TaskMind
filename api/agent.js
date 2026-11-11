@@ -22,7 +22,7 @@ function serverConfig() {
   return {
     supabaseUrl: process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL,
     supabaseKey: process.env.SUPABASE_PUBLISHABLE_KEY || process.env.VITE_SUPABASE_PUBLISHABLE_KEY,
-    serviceRoleKey: process.env.SUPABASE_SERVICE_ROLE_KEY,
+    secretKey: process.env.SUPABASE_SECRET_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY,
     geminiKey: process.env.GEMINI_API_KEY,
     model: process.env.GEMINI_MODEL || 'gemini-3.8-flash',
   };
@@ -137,14 +137,14 @@ export default async function handler(req, res) {
   if (!token) return json(res, 401, { error: 'Sessão autenticada obrigatória.' });
   const config = serverConfig();
   if (!config.supabaseUrl || !config.supabaseKey) return json(res, 503, { error: 'Supabase não configurado no servidor.' });
-  if (!config.serviceRoleKey) return json(res, 503, { error: 'Chave administrativa do Supabase não configurada no servidor.' });
+  if (!config.secretKey) return json(res, 503, { error: 'SUPABASE_SECRET_KEY não configurada no servidor.' });
   if (!config.geminiKey) return json(res, 503, { error: 'Gemini não configurado no servidor.' });
   const db = createUserClient(config.supabaseUrl, config.supabaseKey, token);
   const { data: { user }, error: authError } = await db.auth.getUser(token);
   if (authError || !user) return json(res, 401, { error: 'Sessão inválida ou expirada.' });
   if (!checkRateLimit(user.id)) return json(res, 429, { error: 'Limite de solicitações excedido. Aguarde um minuto.' });
   const ai = new GoogleGenAI({ apiKey: config.geminiKey });
-  const opsDb = createClient(config.supabaseUrl, config.serviceRoleKey, { auth: { persistSession: false, autoRefreshToken: false } });
+  const opsDb = createClient(config.supabaseUrl, config.secretKey, { auth: { persistSession: false, autoRefreshToken: false } });
   try {
     const action = req.body?.action || 'message';
     const result = action === 'confirm'

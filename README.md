@@ -72,7 +72,7 @@ flowchart LR
   Ops --> Supabase
 ```
 
-O token do usuário define a identidade. O backend nunca aceita `userId` enviado pelo navegador ou pelo modelo. A chave `service_role` é usada apenas no servidor para controlar a máquina de estados privada de `agent_operations`; dados acadêmicos continuam sendo consultados e alterados com o token do usuário e RLS.
+O token do usuário define a identidade. O backend nunca aceita `userId` enviado pelo navegador ou pelo modelo. A chave secreta `sb_secret_…` é usada apenas no servidor para controlar a máquina de estados privada de `agent_operations`; dados acadêmicos continuam sendo consultados e alterados com o token do usuário e RLS.
 
 ## Fluxo do agente e confirmação humana
 
@@ -153,12 +153,12 @@ Copie `.env.example` para `.env`. Não faça commit desse arquivo.
 |---|---|---|
 | `VITE_SUPABASE_URL` | navegador/servidor | URL pública do projeto |
 | `VITE_SUPABASE_PUBLISHABLE_KEY` | navegador/servidor | chave publicável protegida por RLS |
-| `SUPABASE_SERVICE_ROLE_KEY` | somente servidor | estado idempotente das confirmações |
+| `SUPABASE_SECRET_KEY` | somente servidor | chave `sb_secret_…` para o estado idempotente das confirmações |
 | `GEMINI_API_KEY` | somente servidor | Gemini Developer API |
 | `GEMINI_MODEL` | somente servidor | modelo suportado configurável (`gemini-3.8-flash` validado) |
 | `APP_URL` | servidor | URL da aplicação e redirects |
 
-Nunca use prefixo `VITE_` em `GEMINI_API_KEY` ou `SUPABASE_SERVICE_ROLE_KEY`.
+Nunca use prefixo `VITE_` em `GEMINI_API_KEY` ou `SUPABASE_SECRET_KEY`.
 
 ## Instalação e execução local
 
