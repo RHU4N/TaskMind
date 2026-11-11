@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import agentHandler, { checkRateLimit, handleConfirmation, modelError, withTimeout } from '../api/agent.js';
-import { validateToolCall } from '../api/lib/agentTools.js';
+import { validateToolCall } from '../api/_lib/agentTools.js';
 
 test('validação server-side aceita apenas campos e enums permitidos', () => {
   assert.deepEqual(validateToolCall('createTask', { title: 'Estudar Nuvem', priority: 'alta', ignored: 'não deve passar' }), { title: 'Estudar Nuvem', priority: 'alta' });
