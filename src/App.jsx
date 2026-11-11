@@ -7,6 +7,9 @@
 import React, { useState } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AcademicProvider } from './context/AcademicContext.jsx';
+import { useAcademic } from './context/AcademicContext.jsx';
+import { AuthProvider } from './context/AuthContext.jsx';
+import AuthGate from './components/auth/AuthGate.jsx';
 import Sidebar from './components/layout/Sidebar.jsx';
 import Header from './components/layout/Header.jsx';
 import TaskModal from './components/tasks/TaskModal.jsx';
@@ -21,6 +24,7 @@ import SimulatorPage from './pages/SimulatorPage.jsx';
 
 function MainLayout() {
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
+  const { isLoading, repositoryError } = useAcademic();
 
   return (
     <div className="bg-surface font-body-md text-on-surface antialiased min-h-screen flex">
@@ -37,6 +41,8 @@ function MainLayout() {
 
         {/* Routed Page Container */}
         <main className="w-full pt-16 bg-surface flex-1">
+          {repositoryError && <div role="alert" className="m-4 rounded-lg bg-error-container p-3 text-on-error-container">Falha de sincronização: {repositoryError}</div>}
+          {isLoading && <div className="m-4 rounded-lg bg-surface-container p-3 text-on-surface-variant">Sincronizando dados acadêmicos…</div>}
           <Routes>
             <Route path="/" element={<DashboardPage />} />
             <Route path="/dashboard" element={<DashboardPage />} />
@@ -58,10 +64,6 @@ function MainLayout() {
 
 export default function App() {
   return (
-    <AcademicProvider>
-      <BrowserRouter>
-        <MainLayout />
-      </BrowserRouter>
-    </AcademicProvider>
+    <AuthProvider><AuthGate><AcademicProvider><BrowserRouter><MainLayout /></BrowserRouter></AcademicProvider></AuthGate></AuthProvider>
   );
 }

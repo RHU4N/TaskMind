@@ -25,7 +25,6 @@ export default function TaskModal() {
   const [description, setDescription] = useState('');
   const [subtasks, setSubtasks] = useState([]);
   const [newSubtaskText, setNewSubtaskText] = useState('');
-  const [isGeneratingChecklist, setIsGeneratingChecklist] = useState(false);
   const [validationError, setValidationError] = useState('');
 
   // Pre-fill fields on open / edit
@@ -42,16 +41,10 @@ export default function TaskModal() {
     } else {
       setTitle('');
       setSubjectId(subjects[0] ? subjects[0].id : '');
-      const defaultDate = new Date(Date.now() + 86400000 * 2);
-      defaultDate.setHours(23, 59, 0, 0);
-      setDueDate(defaultDate.toISOString().slice(0, 16));
-      setPriority('alta');
+      setDueDate('');
+      setPriority('media');
       setDescription('');
-      setSubtasks([
-        { id: 'st-temp-1', text: '1. Definir estrutura do grafo e classes de nós', completed: true },
-        { id: 'st-temp-2', text: '2. Implementar fila de prioridade com Heurística Euclidiana', completed: false },
-        { id: 'st-temp-3', text: '3. Validar resultados e gerar gráficos de convergência', completed: false },
-      ]);
+      setSubtasks([]);
     }
     setValidationError('');
   }, [editingTask, isTaskModalOpen, subjects]);
@@ -85,19 +78,6 @@ export default function TaskModal() {
 
   const handleRemoveSubtask = (index) => {
     setSubtasks((prev) => prev.filter((_, i) => i !== index));
-  };
-
-  const handleRegenerateChecklist = () => {
-    setIsGeneratingChecklist(true);
-    setTimeout(() => {
-      const generated = [
-        { id: `st-gen-1`, text: '1. Mapeamento bibliográfico e levantamento de referências', completed: false },
-        { id: `st-gen-2`, text: '2. Desenvolvimento da prova de conceito experimental', completed: false },
-        { id: `st-gen-3`, text: '3. Análise estatística dos resultados e redação final', completed: false },
-      ];
-      setSubtasks(generated);
-      setIsGeneratingChecklist(false);
-    }, 600);
   };
 
   const handleSubmit = (e) => {
@@ -312,20 +292,9 @@ export default function TaskModal() {
               <div className="flex items-center gap-2">
                 <span className="material-symbols-outlined text-secondary text-xl">checklist</span>
                 <span className="font-title text-title font-bold text-on-surface">
-                  Checklist Acadêmico Estruturado (Sugestão Local / Demonstração)
+                  Checklist da tarefa
                 </span>
               </div>
-              <button
-                type="button"
-                onClick={handleRegenerateChecklist}
-                disabled={isGeneratingChecklist}
-                className="inline-flex items-center gap-1 px-3 py-1 bg-secondary text-on-secondary rounded-lg font-label-sm text-label-sm font-semibold shadow-xs hover:bg-secondary-container transition-all cursor-pointer disabled:opacity-50"
-              >
-                <span className={`material-symbols-outlined text-sm ${isGeneratingChecklist ? 'animate-spin' : ''}`}>
-                  cached
-                </span>
-                <span>{isGeneratingChecklist ? 'Atualizando...' : 'Sugerir Etapas Locais'}</span>
-              </button>
             </div>
 
             {/* Subtasks List */}
@@ -385,21 +354,21 @@ export default function TaskModal() {
             </div>
           </div>
 
-          {/* Anexos de Arquivos (Exemplo Demonstrativo) */}
+          {/* Anexos dependem de um serviço de armazenamento ainda não configurado. */}
           <div className="flex items-center gap-space-sm p-3 bg-surface-container-low rounded-xl">
             <div className="p-2 rounded-lg bg-surface-container-lowest text-on-surface-variant">
               <span className="material-symbols-outlined text-xl">attach_file</span>
             </div>
             <div className="flex flex-col flex-1 min-w-0">
               <span className="font-label-md text-label-md font-semibold text-on-surface truncate">
-                especificacao_projeto_academic_ai.pdf [Documento de Exemplo]
+                Anexos de arquivos
               </span>
               <span className="font-code-sm text-code-sm text-on-surface-variant">
-                1.4 MB • Enunciado e Rubrica de Avaliação Demonstrativa
+                Recurso indisponível até a configuração de armazenamento seguro.
               </span>
             </div>
             <span className="px-2 py-0.5 rounded font-code-sm text-code-sm bg-surface-container-high text-on-surface-variant font-semibold">
-              Demonstração
+              Indisponível
             </span>
           </div>
 

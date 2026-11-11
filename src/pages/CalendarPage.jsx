@@ -11,14 +11,12 @@ import { useAcademic } from '../context/AcademicContext.jsx';
 export default function CalendarPage() {
   const {
     tasks,
-    subjects,
     setIsTaskModalOpen,
     setEditingTask,
   } = useAcademic();
 
-  // Calendar date navigation: default to November 2026 (Semestre 2026.2)
-  const [currentDate, setCurrentDate] = useState(new Date(2026, 10, 10)); // Nov 2026
-  const [selectedDate, setSelectedDate] = useState(10); // 10 Nov (Hoje)
+  const [currentDate, setCurrentDate] = useState(() => new Date());
+  const [selectedDate, setSelectedDate] = useState(() => new Date().getDate());
   const [calendarView, setCalendarView] = useState('month'); // month, week, gantt
   const [eventTypeFilter, setEventTypeFilter] = useState('all'); // all, exams, submissions, ai_sessions
   const [isAlertDismissed, setIsAlertDismissed] = useState(false);
@@ -45,12 +43,6 @@ export default function CalendarPage() {
     const today = new Date();
     setCurrentDate(today);
     setSelectedDate(today.getDate());
-  };
-
-  // Quick navigation to preserve and inspect November 2026 demonstration dataset
-  const goToDemoSemester = () => {
-    setCurrentDate(new Date(2026, 10, 10));
-    setSelectedDate(10);
   };
 
   // Build grid days (including trailing days from previous month)
@@ -149,7 +141,7 @@ export default function CalendarPage() {
                   Período Ativo
                 </span>
                 <span className="font-code-sm text-code-sm text-on-surface-variant flex items-center gap-1">
-                  <span className="w-1.5 h-1.5 rounded-full bg-secondary" /> Semestre Letivo 2026.2
+                  <span className="w-1.5 h-1.5 rounded-full bg-secondary" /> Período atual • {year}
                 </span>
               </div>
               <h1 className="font-headline-lg text-headline-lg text-on-surface tracking-tight mt-1">
@@ -164,12 +156,14 @@ export default function CalendarPage() {
             <div className="flex flex-wrap items-center gap-space-xs">
               <button
                 type="button"
-                className="inline-flex items-center gap-space-xs h-10 px-4 bg-surface-container-lowest text-on-surface rounded-lg font-label-md text-label-md hover:bg-surface-container-low transition-all shadow-xs border border-surface-container"
+                disabled
+                title="Integração institucional não configurada"
+                className="inline-flex items-center gap-space-xs h-10 px-4 bg-surface-container-lowest text-on-surface-variant rounded-lg font-label-md text-label-md opacity-60 cursor-not-allowed shadow-xs border border-surface-container"
               >
                 <span className="material-symbols-outlined text-lg text-secondary">sync</span>
                 <span>Moodle / SIGAA</span>
                 <span className="px-1.5 py-0.5 rounded text-[10px] bg-surface-container text-on-surface-variant font-code-sm">
-                  Demonstração
+                  Indisponível
                 </span>
               </button>
 
@@ -217,14 +211,6 @@ export default function CalendarPage() {
                 title={`Navegar para a data atual real (${new Date().toLocaleDateString('pt-BR')})`}
               >
                 Hoje
-              </button>
-              <button
-                type="button"
-                onClick={goToDemoSemester}
-                className="h-9 px-3 rounded-lg font-label-sm text-label-sm bg-surface-container-low text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors cursor-pointer text-xs"
-                title="Visualizar período demonstrativo (Novembro 2026)"
-              >
-                Período 2026.2
               </button>
             </div>
 

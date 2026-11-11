@@ -16,41 +16,65 @@ import {
   loadFromStorage,
   saveToStorage,
 } from '../services/storageService.js';
-import { processAgentMessage } from '../services/agentService.js';
+import { confirmAgentOperation, processAgentMessage } from '../services/agentService.js';
 import {
   validateProposalExecution,
   prepareTaskFromProposal,
   markProposalExecuted,
 } from '../services/agentExecutionService.js';
 import { calculateOverallAttendance, calculateIra } from '../utils/academicCalculations.js';
+import { isSupabaseConfigured } from '../services/supabaseClient.js';
+import { loadAcademicData, persistTask, removeTask, persistSubject, removeSubject, setTodayAttendance, persistStudyPlan } from '../services/academicRepository.js';
+import { useAuth } from './AuthContext.jsx';
 
 const AcademicContext = createContext(null);
 
 export function AcademicProvider({ children }) {
+  const { user } = useAuth();
+  const [repositoryError, setRepositoryError] = useState('');
+  const [isLoading, setIsLoading] = useState(isSupabaseConfigured);
+  const [conversationId, setConversationId] = useState(null);
   // 1. Centralized Persistent States
-  const [tasks, setTasks] = useState(() => loadFromStorage(STORAGE_KEYS.TASKS, INITIAL_TASKS));
-  const [subjects, setSubjects] = useState(() => loadFromStorage(STORAGE_KEYS.SUBJECTS, INITIAL_SUBJECTS));
+  const [tasks, setTasks] = useState(() => isSupabaseConfigured ? [] : loadFromStorage(STORAGE_KEYS.TASKS, INITIAL_TASKS));
+  const [subjects, setSubjects] = useState(() => isSupabaseConfigured ? [] : loadFromStorage(STORAGE_KEYS.SUBJECTS, INITIAL_SUBJECTS));
   const [chatMessages, setChatMessages] = useState(() =>
-    loadFromStorage(STORAGE_KEYS.CHAT_MESSAGES, INITIAL_CHAT)
+    isSupabaseConfigured ? [] : loadFromStorage(STORAGE_KEYS.CHAT_MESSAGES, INITIAL_CHAT)
   );
   const [actionPlan, setActionPlan] = useState(() =>
-    loadFromStorage(STORAGE_KEYS.AI_ACTION_PLAN, INITIAL_ACTION_PLAN)
+    isSupabaseConfigured ? { title: 'Nenhum plano salvo', description: 'Peça ao agente um plano de estudos baseado nas suas tarefas.', stats: { totalTime: '0h', efficiency: '—' }, steps: [] } : loadFromStorage(STORAGE_KEYS.AI_ACTION_PLAN, INITIAL_ACTION_PLAN)
   );
   const [settings, setSettings] = useState(() =>
     loadFromStorage(STORAGE_KEYS.SETTINGS, INITIAL_SETTINGS)
   );
 
+  useEffect(() => {
+    if (!isSupabaseConfigured || !user) { setIsLoading(false); return; }
+    setSettings((old) => ({ ...old, user: { ...old.user, name: user.user_metadata?.full_name || user.email?.split('@')[0] || 'Estudante', course: '', institution: '', semester: '', avatar: user.user_metadata?.avatar_url || '' } }));
+    setIsLoading(true);
+    loadAcademicData().then((data) => {
+      setTasks(data.tasks); setSubjects(data.subjects);
+      setConversationId(data.conversation?.id || null);
+      setChatMessages((data.conversation?.chat_messages || []).map((m) => ({ id: m.id, sender: m.role === 'user' ? 'user' : 'assistant', content: m.content, timestamp: new Date(m.created_at).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }), toolProposal: m.metadata?.toolProposal })));
+      const semesterEnd = data.academicSettings?.semester_end ? new Date(`${data.academicSettings.semester_end}T23:59:59`) : null;
+      const semesterStart = data.academicSettings?.semester_start ? new Date(`${data.academicSettings.semester_start}T00:00:00`) : null;
+      const daysRemaining = semesterEnd ? Math.max(0, Math.ceil((semesterEnd - new Date()) / 86400000)) : 0;
+      const progress = semesterStart && semesterEnd && semesterEnd > semesterStart ? Math.max(0, Math.min(100, Math.round(((Date.now() - semesterStart.getTime()) / (semesterEnd - semesterStart)) * 100))) : 0;
+      setSettings((old) => ({ ...old, user: { ...old.user, name: data.profile?.full_name || user.email?.split('@')[0] || 'Estudante', course: data.profile?.course || '', institution: data.profile?.institution || '', semester: data.profile?.semester || '', daysRemaining, semesterProgressPercent: progress } }));
+      if (data.plan?.plan) setActionPlan(data.plan.plan);
+    }).catch((error) => setRepositoryError(error.message)).finally(() => setIsLoading(false));
+  }, [user]);
+
   // Sync to localStorage whenever states change
   useEffect(() => {
-    saveToStorage(STORAGE_KEYS.TASKS, tasks);
+    if (!isSupabaseConfigured) saveToStorage(STORAGE_KEYS.TASKS, tasks);
   }, [tasks]);
 
   useEffect(() => {
-    saveToStorage(STORAGE_KEYS.SUBJECTS, subjects);
+    if (!isSupabaseConfigured) saveToStorage(STORAGE_KEYS.SUBJECTS, subjects);
   }, [subjects]);
 
   useEffect(() => {
-    saveToStorage(STORAGE_KEYS.CHAT_MESSAGES, chatMessages);
+    if (!isSupabaseConfigured) saveToStorage(STORAGE_KEYS.CHAT_MESSAGES, chatMessages);
   }, [chatMessages]);
 
   useEffect(() => {
@@ -146,6 +170,7 @@ export function AcademicProvider({ children }) {
     };
 
     setTasks((prev) => [newTask, ...prev]);
+    if (isSupabaseConfigured) persistTask(newTask).then((saved) => setTasks((prev) => prev.map((t) => t.id === newTask.id ? { ...t, id: saved.id } : t))).catch((error) => { setTasks((prev) => prev.filter((t) => t.id !== newTask.id)); setRepositoryError(error.message); });
     return newTask;
   };
 
@@ -153,13 +178,17 @@ export function AcademicProvider({ children }) {
     setTasks((prev) =>
       prev.map((t) => (t.id === taskId ? { ...t, ...fields } : t))
     );
+    if (isSupabaseConfigured) { const current = tasks.find((t) => t.id === taskId); if (current) persistTask({ ...current, ...fields }).catch((error) => setRepositoryError(error.message)); }
   };
 
   const deleteTask = (taskId) => {
     setTasks((prev) => prev.filter((t) => t.id !== taskId));
+    if (isSupabaseConfigured) removeTask(taskId).catch((error) => setRepositoryError(error.message));
   };
 
   const toggleTaskStatus = (taskId) => {
+    const current = tasks.find((task) => task.id === taskId);
+    if (current && isSupabaseConfigured) persistTask({ ...current, status: current.status === 'completed' ? 'pending' : 'completed' }).catch((error) => setRepositoryError(error.message));
     setTasks((prev) =>
       prev.map((t) => {
         if (t.id === taskId) {
@@ -172,6 +201,8 @@ export function AcademicProvider({ children }) {
   };
 
   const toggleSubtask = (taskId, subtaskId) => {
+    const current = tasks.find((task) => task.id === taskId);
+    if (current && isSupabaseConfigured) persistTask({ ...current, subtasks: current.subtasks.map((item) => item.id === subtaskId ? { ...item, completed: !item.completed } : item) }).catch((error) => setRepositoryError(error.message));
     setTasks((prev) =>
       prev.map((t) => {
         if (t.id === taskId) {
@@ -197,10 +228,10 @@ export function AcademicProvider({ children }) {
       room: subjectData.room || 'Campus Central',
       color: subjectData.color || '#7C3AED',
       category: subjectData.category || 'Exatas & Comp',
-      totalClasses: Number(subjectData.totalClasses) || 30,
-      attendances: Number(subjectData.attendances) || 28,
-      absences: Number(subjectData.absences) || 2,
-      maxAbsences: Number(subjectData.maxAbsences) || 15,
+      totalClasses: Number(subjectData.totalClasses) || 0,
+      attendances: Number(subjectData.attendances) || 0,
+      absences: Number(subjectData.absences) || 0,
+      maxAbsences: Number(subjectData.maxAbsences) || 0,
       currentGrade:
         subjectData.currentGrade !== undefined &&
         subjectData.currentGrade !== null &&
@@ -214,6 +245,7 @@ export function AcademicProvider({ children }) {
       isDemo: false,
     };
     setSubjects((prev) => [...prev, newSubj]);
+    if (isSupabaseConfigured) persistSubject(newSubj).then((saved) => setSubjects((prev) => prev.map((s) => s.id === newSubj.id ? { ...s, id: saved.id } : s))).catch((error) => setRepositoryError(error.message));
     return newSubj;
   };
 
@@ -221,13 +253,20 @@ export function AcademicProvider({ children }) {
     setSubjects((prev) =>
       prev.map((s) => (s.id === subjectId ? { ...s, ...fields } : s))
     );
+    if (isSupabaseConfigured) { const current = subjects.find((s) => s.id === subjectId); if (current) persistSubject({ ...current, ...fields }).catch((error) => setRepositoryError(error.message)); }
   };
 
   const deleteSubject = (subjectId) => {
     setSubjects((prev) => prev.filter((s) => s.id !== subjectId));
+    if (isSupabaseConfigured) removeSubject(subjectId).catch((error) => setRepositoryError(error.message));
   };
 
-  const addAbsence = (subjectId) => {
+  const addAbsence = async (subjectId) => {
+    if (isSupabaseConfigured) {
+      try { await setTodayAttendance(subjectId, 'absent'); const data = await loadAcademicData(); setSubjects(data.subjects); } catch (error) { setRepositoryError(error.message); }
+      return;
+    }
+    if (isSupabaseConfigured) setTodayAttendance(subjectId, 'absent').catch((error) => setRepositoryError(error.message));
     setSubjects((prev) =>
       prev.map((s) => {
         if (s.id === subjectId) {
@@ -240,7 +279,12 @@ export function AcademicProvider({ children }) {
     );
   };
 
-  const addAttendance = (subjectId) => {
+  const addAttendance = async (subjectId) => {
+    if (isSupabaseConfigured) {
+      try { await setTodayAttendance(subjectId, 'present'); const data = await loadAcademicData(); setSubjects(data.subjects); } catch (error) { setRepositoryError(error.message); }
+      return;
+    }
+    if (isSupabaseConfigured) setTodayAttendance(subjectId, 'present').catch((error) => setRepositoryError(error.message));
     setSubjects((prev) =>
       prev.map((s) => {
         if (s.id === subjectId && s.absences > 0) {
@@ -268,9 +312,16 @@ export function AcademicProvider({ children }) {
     };
 
     setChatMessages((prev) => [...prev, userMsg]);
-
     // Process through agent architecture
-    const response = await processAgentMessage(text, { tasks, subjects });
+    let response;
+    try {
+      response = await processAgentMessage(text, { tasks, subjects, conversationId });
+      if (response.conversationId) setConversationId(response.conversationId);
+      if (response.studyPlan) setActionPlan(response.studyPlan);
+    } catch (error) {
+      response = { content: `Não foi possível processar sua mensagem: ${error.message}`, notice: 'Nenhuma operação foi executada.' };
+      setRepositoryError(error.message);
+    }
 
     setTimeout(() => {
       const assistantMsg = {
@@ -288,7 +339,22 @@ export function AcademicProvider({ children }) {
     }, 450);
   };
 
-  const executeProposedAction = (proposal, messageId) => {
+  const executeProposedAction = async (proposal, messageId) => {
+    if (isSupabaseConfigured) {
+      if (proposal?.executed) return { success: false, error: 'Esta ação já foi executada.' };
+      setChatMessages((prev) => prev.map((msg) => msg.id === messageId ? { ...msg, toolProposal: { ...msg.toolProposal, confirming: true } } : msg));
+      try {
+        const result = await confirmAgentOperation(proposal.id);
+        const data = await loadAcademicData();
+        setTasks(data.tasks); setSubjects(data.subjects);
+        setChatMessages((prev) => prev.map((msg) => msg.id === messageId ? { ...msg, toolProposal: { ...msg.toolProposal, executed: true, executedAt: new Date().toISOString() } } : msg).concat({ id: `msg-${Date.now()}`, sender: 'assistant', authorName: 'TaskMind AI', timestamp: new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }), content: result.content }));
+        return { success: true, result: result.result };
+      } catch (error) {
+        setRepositoryError(error.message);
+        setChatMessages((prev) => prev.map((msg) => msg.id === messageId ? { ...msg, toolProposal: { ...msg.toolProposal, confirming: false } } : msg).concat({ id: `msg-${Date.now()}`, sender: 'assistant', authorName: 'TaskMind AI', timestamp: new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }), content: `A operação não foi executada: ${error.message}` }));
+        return { success: false, error: error.message };
+      }
+    }
     // 1. Validate proposal execution via production guards module
     const validation = validateProposalExecution({
       proposal,
@@ -386,6 +452,7 @@ export function AcademicProvider({ children }) {
 
   const clearChat = () => {
     setChatMessages([]);
+    setConversationId(null);
   };
 
   const toggleActionPlanStep = (stepId) => {
@@ -397,6 +464,11 @@ export function AcademicProvider({ children }) {
     }));
   };
 
+  const saveActionPlan = async () => {
+    if (!isSupabaseConfigured) { saveToStorage(STORAGE_KEYS.AI_ACTION_PLAN, actionPlan); return { success: true }; }
+    try { await persistStudyPlan(actionPlan); return { success: true }; } catch (error) { setRepositoryError(error.message); return { success: false, error: error.message }; }
+  };
+
   const value = {
     tasks,
     subjects,
@@ -404,6 +476,9 @@ export function AcademicProvider({ children }) {
     actionPlan,
     settings,
     metrics,
+    isLoading,
+    repositoryError,
+    conversationId,
     globalSearch,
     setGlobalSearch,
 
@@ -434,6 +509,7 @@ export function AcademicProvider({ children }) {
     executeProposedAction,
     clearChat,
     toggleActionPlanStep,
+    saveActionPlan,
   };
 
   return <AcademicContext.Provider value={value}>{children}</AcademicContext.Provider>;

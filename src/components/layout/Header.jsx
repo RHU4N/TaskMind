@@ -5,8 +5,10 @@
 
 import React, { useState } from 'react';
 import { useAcademic } from '../../context/AcademicContext.jsx';
+import { useAuth } from '../../context/AuthContext.jsx';
 
 export default function Header({ onMenuClick }) {
+  const { signOut } = useAuth();
   const {
     globalSearch,
     setGlobalSearch,
@@ -17,6 +19,7 @@ export default function Header({ onMenuClick }) {
   } = useAcademic();
 
   const [showNotifications, setShowNotifications] = useState(false);
+  const notifications = metrics.sortedUpcoming.slice(0, 3);
 
   const handleOpenNewTask = () => {
     setEditingTask(null);
@@ -72,15 +75,15 @@ export default function Header({ onMenuClick }) {
               className="relative p-2 rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors cursor-pointer"
             >
               <span className="material-symbols-outlined text-2xl">notifications</span>
-              {metrics.overdueCount > 0 ? (
+              {notifications.length > 0 && (metrics.overdueCount > 0 ? (
                 <span className="absolute top-1.5 right-1.5 flex h-4 w-4 items-center justify-center rounded-full bg-error text-on-error font-code-sm text-code-sm font-bold">
-                  {metrics.overdueCount + 1}
+                  {Math.min(9, metrics.overdueCount)}
                 </span>
               ) : (
                 <span className="absolute top-1.5 right-1.5 flex h-4 w-4 items-center justify-center rounded-full bg-secondary text-on-secondary font-code-sm text-code-sm font-bold">
-                  2
+                  {Math.min(9, notifications.length)}
                 </span>
-              )}
+              ))}
             </button>
 
             {/* Notifications Dropdown Popover */}
@@ -91,67 +94,15 @@ export default function Header({ onMenuClick }) {
                     Notificações de Prazos
                   </span>
                   <span className="font-code-sm text-code-sm text-secondary font-semibold">
-                    Semestre 2026.2
+                    {settings.user.semester || 'Período atual'}
                   </span>
                 </div>
 
                 <div className="flex flex-col gap-2 max-h-72 overflow-y-auto">
-                  <div className="p-2.5 rounded-xl bg-error-container/40 flex items-start gap-2.5">
-                    <span className="material-symbols-outlined text-error text-xl shrink-0 mt-0.5">
-                      warning
-                    </span>
-                    <div className="flex flex-col">
-                      <div className="flex items-center gap-1.5">
-                        <span className="font-label-md text-label-md font-semibold text-on-surface">
-                          Prova P1 de Banco de Dados II
-                        </span>
-                        <span className="px-1.5 py-0.2 bg-surface-container text-on-surface-variant font-code-sm text-[10px] rounded">
-                          Demonstração
-                        </span>
-                      </div>
-                      <span className="font-body-sm text-body-sm text-error font-medium">
-                        Sex, 13 Nov às 14:00 • Sala 304 Bloco B
-                      </span>
-                    </div>
-                  </div>
-
-                  <div className="p-2.5 rounded-xl bg-secondary-fixed/40 flex items-start gap-2.5">
-                    <span className="material-symbols-outlined text-secondary text-xl shrink-0 mt-0.5">
-                      auto_awesome
-                    </span>
-                    <div className="flex flex-col">
-                      <div className="flex items-center gap-1.5">
-                        <span className="font-label-md text-label-md font-semibold text-on-surface">
-                          Otimização Sugerida
-                        </span>
-                        <span className="px-1.5 py-0.2 bg-surface-container text-on-surface-variant font-code-sm text-[10px] rounded">
-                          Demonstração
-                        </span>
-                      </div>
-                      <span className="font-body-sm text-body-sm text-on-surface-variant">
-                        Conflito de carga horária detectado para quinta-feira.
-                      </span>
-                    </div>
-                  </div>
-
-                  <div className="p-2.5 rounded-xl bg-surface-container-low flex items-start gap-2.5">
-                    <span className="material-symbols-outlined text-on-surface-variant text-xl shrink-0 mt-0.5">
-                      campaign
-                    </span>
-                    <div className="flex flex-col">
-                      <div className="flex items-center gap-1.5">
-                        <span className="font-label-md text-label-md font-semibold text-on-surface">
-                          Secretaria Geral
-                        </span>
-                        <span className="px-1.5 py-0.2 bg-surface-container text-on-surface-variant font-code-sm text-[10px] rounded">
-                          Aviso Exemplo
-                        </span>
-                      </div>
-                      <span className="font-body-sm text-body-sm text-on-surface-variant">
-                        Inscrições abertas para monitoria bolsista 2026.2 até 25/11.
-                      </span>
-                    </div>
-                  </div>
+                  {notifications.length === 0 ? <p className="p-3 text-on-surface-variant">Nenhum prazo pendente.</p> : notifications.map((task) => {
+                    const overdue = task.dueDate && new Date(task.dueDate) < new Date();
+                    return <div key={task.id} className={`p-2.5 rounded-xl flex items-start gap-2.5 ${overdue ? 'bg-error-container/40' : 'bg-surface-container-low'}`}><span className={`material-symbols-outlined text-xl ${overdue ? 'text-error' : 'text-secondary'}`}>{overdue ? 'warning' : 'event'}</span><div className="flex flex-col"><span className="font-label-md text-label-md font-semibold text-on-surface">{task.title}</span><span className="font-body-sm text-body-sm text-on-surface-variant">{task.dueDate ? new Date(task.dueDate).toLocaleString('pt-BR', { dateStyle: 'short', timeStyle: 'short' }) : 'Sem prazo'}</span></div></div>;
+                  })}
                 </div>
 
                 <button
@@ -170,7 +121,7 @@ export default function Header({ onMenuClick }) {
             <img
               alt="Avatar do usuário"
               className="w-8 h-8 rounded-full object-cover ring-1 ring-secondary/30"
-              src={settings.user.avatar}
+              src={settings.user.avatar || '/assets/avatar-placeholder.svg'}
             />
             <div className="hidden xl:flex flex-col text-left">
               <span className="font-label-md text-label-md text-on-surface font-semibold leading-tight">
@@ -181,6 +132,9 @@ export default function Header({ onMenuClick }) {
               </span>
             </div>
           </div>
+          <button type="button" onClick={signOut} title="Sair" aria-label="Sair da conta" className="p-2 rounded-lg text-on-surface-variant hover:bg-surface-container-low">
+            <span className="material-symbols-outlined text-xl">logout</span>
+          </button>
         </div>
       </div>
     </header>

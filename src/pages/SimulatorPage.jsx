@@ -15,7 +15,6 @@ export default function SimulatorPage() {
   const {
     subjects,
     createTask,
-    settings,
   } = useAcademic();
 
   const [searchParams] = useSearchParams();

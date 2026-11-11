@@ -13,7 +13,9 @@
  * 6. Audit & response synthesis
  */
 
-// Formal Tool Definitions for Gemini API Function Calling (Phase 2 readiness)
+import { isSupabaseConfigured, supabase } from './supabaseClient.js';
+
+// Tool definitions are mirrored on the server; only the server copy is authoritative.
 export const AGENT_TOOLS_DEFINITIONS = [
   {
     name: 'createTask',
@@ -84,11 +86,10 @@ export const AGENT_TOOLS_DEFINITIONS = [
  * Agent Status & Metadata for UI feedback
  */
 export const AGENT_CONFIG = {
-  version: 'TaskMind Agent v1.0 (Fase 1 - Regras Locais)',
-  backendStatus: 'not_connected', // 'connected' | 'not_connected'
-  modelTarget: 'gemini-2.5-flash (Planejado Fase 2)',
-  notice:
-    'Fase 1: O assistente opera em modo de demonstração arquitetural com processamento determinístico por regras locais. A integração com chaves Gemini e backend de agentes será ativada na Fase 2.',
+  version: 'TaskMind Agent v2.0',
+  backendStatus: 'server_authenticated',
+  modelTarget: 'Configurado por GEMINI_MODEL no servidor',
+  notice: 'Gemini com function calling, RLS e confirmação humana para alterações.',
 };
 
 /**
@@ -155,6 +156,18 @@ export function matchSubjectInText(text, subjects = []) {
  * @returns {Promise<Object>}
  */
 export async function processAgentMessage(prompt, contextData = {}) {
+  if (isSupabaseConfigured) {
+    const { data } = await supabase.auth.getSession();
+    if (!data.session) throw new Error('Sua sessão expirou. Entre novamente.');
+    const response = await fetch('/api/agent', {
+      method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${data?.session?.access_token || ''}` },
+      body: JSON.stringify({ action: 'message', prompt, conversationId: contextData.conversationId || null }),
+    });
+    const payload = await response.json().catch(() => ({}));
+    if (!response.ok) throw new Error(payload.error || 'Falha ao consultar o agente.');
+    return { ...payload, notice: 'Resposta do Gemini com ferramentas executadas no servidor.' };
+  }
+  // Explicit demo/offline fallback below. It is never used for authenticated production sessions.
   const normalized = (prompt || '').toLowerCase().trim();
   const tasks = contextData.tasks || [];
   const subjects = contextData.subjects || [];
@@ -263,4 +276,18 @@ export async function processAgentMessage(prompt, contextData = {}) {
     contextFactors: [],
     notice: 'Agente em modo arquitetural da Fase 1 (sem conexão externa ao Gemini).',
   };
+}
+
+export async function confirmAgentOperation(operationId) {
+  if (!isSupabaseConfigured) throw new Error('Confirmação remota indisponível no modo demonstração.');
+  const { data } = await supabase.auth.getSession();
+  if (!data.session) throw new Error('Sua sessão expirou. Entre novamente.');
+  const response = await fetch('/api/agent', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${data.session.access_token}` },
+    body: JSON.stringify({ action: 'confirm', operationId }),
+  });
+  const payload = await response.json().catch(() => ({}));
+  if (!response.ok) throw new Error(payload.error || 'Não foi possível executar a operação.');
+  return payload;
 }

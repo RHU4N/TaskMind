@@ -170,9 +170,9 @@ export default function Sidebar({ isOpen, onClose }) {
           {/* User Profile info */}
           <div className="flex items-center gap-space-sm pt-space-xs">
             <img
-              alt="Perfil de Mariana Silva"
+              alt={`Perfil de ${settings.user.name || 'estudante'}`}
               className="w-8 h-8 rounded-full object-cover shadow-xs ring-1 ring-secondary/30"
-              src={settings.user.avatar}
+              src={settings.user.avatar || '/assets/avatar-placeholder.svg'}
             />
             <div className="flex flex-col min-w-0 flex-1">
               <span className="font-label-md text-label-md text-on-surface truncate font-semibold">

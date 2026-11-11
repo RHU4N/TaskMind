@@ -1,176 +1,239 @@
-# TaskMind — Academic Intelligence (Fase 1)
+# TaskMind — produtividade acadêmica com agente Gemini
 
-> Protótipo funcional de inteligência e produtividade acadêmica universitária, concebido a partir do design system do Google Stitch.
+O TaskMind é uma aplicação acadêmica full stack para organizar tarefas, disciplinas, prazos, notas, frequência e planos de estudo. O projeto preserva as seis interfaces criadas no Google Stitch e adiciona autenticação, persistência relacional e um agente com function calling real.
 
----
+> Estado atual: o código, migrations, testes e build estão preparados localmente. A integração remota só é considerada ativa depois que as migrations forem aplicadas a um projeto Supabase e as variáveis server-side forem configuradas. Nenhum deploy ou banco remoto foi alterado por esta implementação.
 
-## 1. Descrição do Projeto
+## Problema e justificativa
 
-O **TaskMind** é uma aplicação web voltada para a gestão integrada de rotinas universitárias. O sistema consolida, em uma interface única e responsiva, o acompanhamento de entregas acadêmicas, disciplinas matriculadas, cálculo em tempo real de frequência e IRA (Índice de Rendimento Acadêmico), simulação preditiva de notas para aprovação e um assistente conversacional preparado para fluxos de agente inteligente.
+Informações acadêmicas costumam ficar fragmentadas entre portais, calendários e anotações. Isso dificulta visualizar carga de trabalho, antecipar atrasos, acompanhar frequência e saber qual nota ainda é necessária. O TaskMind centraliza esses dados e permite que um agente consulte e proponha alterações sem executar ações destrutivas silenciosamente.
 
-Este repositório compreende a **Fase 1** (de um projeto acadêmico de três etapas), com foco na estruturação do frontend, arquitetura de componentes reutilizáveis, gerenciamento de estado centralizado, fórmulas matemáticas de domínio e interfaces para futura orquestração de IA.
+## Objetivos
 
----
+- Manter uma visão única e responsiva da rotina acadêmica.
+- Persistir dados por usuário com integridade relacional e Row Level Security.
+- Calcular médias, frequência e nota necessária com funções determinísticas.
+- Usar Gemini para interpretar linguagem natural e selecionar ferramentas.
+- Exigir confirmação humana para criação, edição e exclusão.
 
-## 2. O Problema
+## Funcionalidades
 
-Estudantes do ensino superior enfrentam sobrecarga cognitiva decorrente da fragmentação de informações acadêmicas:
-- Prazos dispersos entre múltiplos portais (SIGAA, Moodle, Classroom e calendários pessoais).
-- Ausência de visibilidade preditiva de notas, dificultando saber qual pontuação exata é necessária nas provas finais para atingir a média de aprovação ou critérios de bolsas e intercâmbio.
-- Dificuldade no controle preventivo de faltas para evitar reprovação pelo limite regulatório institucional (75% de presença mínima exigida pelo MEC).
-- Inexistência de um fluxo estruturado que auxilie na decomposição de trabalhos complexos (seminários, projetos práticos e TCC) em microetapas acionáveis.
+### Implementadas no código
 
----
+- Cadastro, login, logout, recuperação de senha e restauração de sessão pelo Supabase Auth.
+- Rotas da aplicação protegidas por sessão.
+- CRUD persistente de tarefas, subtarefas e disciplinas.
+- Persistência de avaliações, frequência, conversas e planos de estudo.
+- Dashboard, calendário e filtros derivados do estado sincronizado.
+- Simulador acadêmico com tratamento de nota zero, dados ausentes e metas impossíveis.
+- `/api/agent` autenticado, com rate limit, timeout, schemas allowlist e erros específicos.
+- Ferramentas `listTasks`, `createTask`, `updateTask`, `deleteTask`, `listSubjects`, `suggestStudyPlan`, `calculateRequiredGrade` e `getAcademicOverview`.
+- Confirmações persistidas e idempotentes no backend.
+- Fallback local explicitamente identificado quando o Supabase não está configurado.
 
-## 3. Objetivos
+### Desabilitadas ou pendentes de configuração externa
 
-### Objetivo Geral
-Desenvolver um protótipo navegável, determinístico e de alta fidelidade visual para suporte à produtividade acadêmica, preparando os contratos de interface e validação humana necessários para a integração de agentes autônomos baseados em LLM na Fase 2.
+- SIGAA, Moodle, biblioteca e comandos de voz não possuem API/credenciais e aparecem como indisponíveis.
+- O ciclo real Supabase + Gemini requer aplicação das migrations, uma conta autenticada e segredos configurados.
+- O teste SQL de isolamento RLS exige uma instância Supabase local descartável.
 
-### Objetivos Específicos da Fase 1
-1. Implementar as 6 telas centrais projetadas no Google Stitch em conformidade com as diretrizes de design (`DESIGN.md`).
-2. Centralizar o gerenciamento de dados de tarefas, disciplinas, notas e histórico de chat via Context API e persistência em `localStorage`.
-3. Desenvolver o **Simulador de Média & Aprovação**, baseado na fórmula de média ponderada oficial, com proteção contra dados vazios ou fabricados.
-4. Estruturar o módulo `agentService.js` com extração dinâmica de títulos a partir da linguagem natural do usuário, sem criar dados fictícios e exigindo confirmação humana (*Human-in-the-Loop*) para execução de ferramentas.
-5. Garantir a integridade da suíte de testes automatizados com funções puras de produção desacopladas em `academicCalculations.js`.
+## As seis telas
 
----
+| Tela | Captura |
+|---|---|
+| Dashboard | ![Dashboard](screen_dash.png) |
+| Tarefas | ![Tarefas](screen_tarefas.png) |
+| Assistente | ![Assistente](screen_assistente.png) |
+| Calendário | ![Calendário](stitch_extracted/stitch_taskmind_academic_dashboard/calend_rio_e_cronograma_de_provas/screen.png) |
+| Disciplinas | ![Disciplinas](screen_disciplinas.png) |
+| Simulador | ![Simulador](screen_simulador_verified.png) |
 
-## 4. Stack Tecnológica
+As referências completas do Stitch estão indexadas em [`docs/design/README.md`](docs/design/README.md).
 
-- **Linguagem:** JavaScript (ES6+), JSX puro (sem uso de TypeScript no código-fonte da aplicação).
-- **Biblioteca de Interface:** React 19 (Functional Components, Hooks e Context API).
-- **Roteamento SPA:** React Router (`react-router-dom` v7).
-- **Estilização e Design System:** Tailwind CSS v4, Google Material Symbols Outlined e tipografia institucional (*Plus Jakarta Sans* e *Inter*).
-- **Build & Dev Server:** Vite 8 com `@vitejs/plugin-react` e `@tailwindcss/vite`.
-- **Testes Automatizados:** Test runner nativo do Node.js (`node:test` e `node:assert/strict`).
-- **Persistência Temporária:** Browser `localStorage` (chaves isoladas `taskmind_v2_*`).
+## Tecnologias
 
----
+- React 19, React Router, Vite e Tailwind CSS.
+- Node.js e Express no servidor local; Vercel Functions em produção.
+- Supabase PostgreSQL, Auth e RLS.
+- `@google/genai` para Gemini Developer API.
+- `node:test` e ESLint.
 
-## 5. Arquitetura da Aplicação
+## Arquitetura
 
-A arquitetura do projeto segue separação de responsabilidades em camadas desacopladas:
-
-```
-/
-├── src/
-│   ├── components/         # Componentes modulares e reutilizáveis
-│   │   ├── layout/         # Header global, Sidebar de navegação e rodapés
-│   │   └── tasks/          # Modais de criação/edição e confirmação de exclusão
-│   ├── context/            # Contexto centralizado (AcademicContext.jsx)
-│   ├── pages/              # As 6 telas da aplicação
-│   │   ├── DashboardPage.jsx   # Tela 1: Visão Geral e Indicadores do Semestre
-│   │   ├── TasksPage.jsx       # Tela 2: Gestão de Tarefas (Tabela, Kanban, Lista)
-│   │   ├── AssistantPage.jsx   # Tela 3: Assistente Acadêmico IA
-│   │   ├── CalendarPage.jsx    # Tela 4: Calendário & Grade Mensal de Prazos
-│   │   ├── SubjectsPage.jsx    # Tela 5: Disciplinas, Ementas e Frequência
-│   │   └── SimulatorPage.jsx   # Tela 6: Simulador de Média e Aprovação
-│   ├── services/           # Serviços de dados e agentes
-│   │   ├── agentService.js     # Contratos de ferramentas e motor de regras locais
-│   │   └── storageService.js   # Sementes e adaptadores de localStorage
-│   ├── utils/              # Módulos puros de cálculo matemático
-│   │   └── academicCalculations.js # Médias ponderadas, corte e frequência
-│   ├── App.jsx             # Definição de rotas da aplicação
-│   ├── index.css           # Tokens de design do Google Stitch e Tailwind CSS
-│   └── main.jsx            # Ponto de entrada do React DOM
-├── tests/
-│   └── simulator.test.js   # Suíte de testes unitários automatizados
-├── package.json            # Scripts de build, dev e test
-└── vite.config.js          # Configuração do Vite em JavaScript puro
+```mermaid
+flowchart LR
+  Browser[React no navegador] -->|access token| API[/api/agent]
+  Browser -->|CRUD com RLS| Supabase[(Supabase PostgreSQL)]
+  Browser --> Auth[Supabase Auth]
+  API -->|valida token| Auth
+  API -->|contexto mínimo| Gemini[Gemini API]
+  API -->|token do usuário + RLS| Supabase
+  API -->|somente estado de confirmação| Ops[agent_operations]
+  Ops --> Supabase
 ```
 
----
+O token do usuário define a identidade. O backend nunca aceita `userId` enviado pelo navegador ou pelo modelo. A chave `service_role` é usada apenas no servidor para controlar a máquina de estados privada de `agent_operations`; dados acadêmicos continuam sendo consultados e alterados com o token do usuário e RLS.
 
-## 6. Etapas do Trabalho Acadêmico (Cronograma da Disciplina)
+## Fluxo do agente e confirmação humana
 
-O desenvolvimento deste trabalho acadêmico está estruturado em três marcos avaliativos com datas formais de entrega:
+```mermaid
+sequenceDiagram
+  actor U as Estudante
+  participant UI as React
+  participant API as API autenticada
+  participant G as Gemini
+  participant DB as Supabase
+  U->>UI: Pedido em português
+  UI->>API: Mensagem + access token
+  API->>G: Prompt + declarações de ferramentas
+  G-->>API: FunctionCall
+  alt ferramenta de leitura
+    API->>DB: Consulta autorizada por RLS
+    DB-->>API: Resultado real
+    API->>G: FunctionResponse
+    G-->>UI: Explicação final
+  else ferramenta de escrita
+    API->>DB: Salva proposta pending
+    API-->>UI: Dados exatos para revisão
+    U->>UI: Confirma
+    UI->>API: operationId
+    API->>DB: pending → executing (atômico)
+    API->>DB: Executa mutação com identidade autenticada
+    API->>G: FunctionResponse real
+    G-->>UI: Confirmação final
+  end
+```
 
-- **Parte 1 (10 de novembro de 2026):** Definição do projeto, planejamento e desenvolvimento inicial. Compreende a concepção do escopo, estruturação da arquitetura em React/JavaScript, portabilidade fiel das 6 telas desenhadas no Google Stitch, criação do modelo de dados em memória e `localStorage`, definição das regras matemáticas de frequência/notas e implementação da base do assistente com contratos de ferramentas e verificação humana.
-- **Parte 2 (17 de novembro de 2026):** Acompanhamento, conclusão e documentação. Foco na auditoria de dados, monitoramento das métricas em tempo real, prevenção de ações duplicadas, resolução de pendências de prazos e notas, estabilização de bugs e consolidação de toda a documentação técnica e testes automatizados.
-- **Parte 3 (24 de novembro de 2026):** Apresentação final do projeto acadêmico. Demonstração funcional das telas, validação de usabilidade, explicação das decisões arquiteturais e defesa do protótipo perante a banca avaliadora.
+Uma segunda confirmação recebe `409` e não repete a mutação. Falhas alteram a operação para `failed`; a interface não informa sucesso se a gravação falhar.
 
----
+## Estrutura principal
 
-## 7. Instruções de Instalação e Execução
+```text
+api/
+  agent.js                 endpoint Vercel e orquestração
+  lib/agentTools.js        schemas, validação e ferramentas
+src/
+  components/              layout, autenticação e modais
+  context/                 AuthContext e AcademicContext
+  pages/                   seis telas preservadas
+  services/                Supabase, repositório e agente cliente
+  utils/                   cálculos acadêmicos puros
+supabase/
+  migrations/              schema e endurecimento de segurança
+  tests/                   isolamento RLS executável localmente
+tests/                      testes Node
+server.js                   Vite + API no desenvolvimento local
+```
 
-### Pré-requisitos
-- Node.js versão 20 ou superior.
-- NPM versão 9 ou superior.
+## Modelo relacional
 
-### Instalação de Dependências
+```mermaid
+erDiagram
+  AUTH_USERS ||--|| PROFILES : possui
+  AUTH_USERS ||--o{ SUBJECTS : possui
+  AUTH_USERS ||--o{ TASKS : possui
+  SUBJECTS ||--o{ TASKS : classifica
+  TASKS ||--o{ SUBTASKS : contém
+  SUBJECTS ||--o{ ASSESSMENTS : avalia
+  SUBJECTS ||--o{ ATTENDANCE_RECORDS : registra
+  AUTH_USERS ||--o{ CHAT_CONVERSATIONS : inicia
+  CHAT_CONVERSATIONS ||--o{ CHAT_MESSAGES : contém
+  AUTH_USERS ||--o{ STUDY_PLANS : salva
+  AUTH_USERS ||--|| ACADEMIC_SETTINGS : configura
+  AUTH_USERS ||--o{ AGENT_OPERATIONS : confirma
+```
+
+Todas as entidades usam UUID, constraints, timestamps, chaves estrangeiras e índices adequados. As migrations criam políticas SELECT, INSERT, UPDATE e DELETE separadas. Relações sem `user_id` verificam a propriedade pela entidade-pai.
+
+## Variáveis de ambiente
+
+Copie `.env.example` para `.env`. Não faça commit desse arquivo.
+
+| Variável | Ambiente | Uso |
+|---|---|---|
+| `VITE_SUPABASE_URL` | navegador/servidor | URL pública do projeto |
+| `VITE_SUPABASE_PUBLISHABLE_KEY` | navegador/servidor | chave publicável protegida por RLS |
+| `SUPABASE_SERVICE_ROLE_KEY` | somente servidor | estado idempotente das confirmações |
+| `GEMINI_API_KEY` | somente servidor | Gemini Developer API |
+| `GEMINI_MODEL` | somente servidor | modelo suportado configurável (`gemini-3.8-flash` validado) |
+| `APP_URL` | servidor | URL da aplicação e redirects |
+
+Nunca use prefixo `VITE_` em `GEMINI_API_KEY` ou `SUPABASE_SERVICE_ROLE_KEY`.
+
+## Instalação e execução local
+
+Requisitos: Node.js 22+ e npm.
+
 ```bash
 npm install
-```
-
-### Execução em Modo de Desenvolvimento
-```bash
 npm run dev
 ```
-O servidor de desenvolvimento será iniciado na porta 3000: `http://localhost:3000`.
 
-### Execução da Suíte de Testes Automatizados
+`npm run dev` inicia Express, a função `/api/agent` e o Vite na mesma origem. Use `TASKMIND_PORT` se a porta 3000 estiver ocupada. `npm run dev:frontend` inicia somente a interface e não serve o agente.
+
+## Migrations e RLS
+
+Para uma instância local descartável:
+
 ```bash
+npx supabase start
+npx supabase db reset
+npx supabase test db
+```
+
+As migrations ficam em `supabase/migrations`. O teste `supabase/tests/rls_isolation.sql` alterna identidades e falha se um usuário conseguir ler a disciplina de outro. Para um projeto remoto, revise o diff e execute `supabase db push` somente após autorização explícita.
+
+Em **Supabase Auth → URL Configuration**, configure `http://localhost:3000` e os domínios de preview/produção permitidos.
+
+## Testes e qualidade
+
+```bash
+npm run lint
 npm test
-```
-Executa a suíte de testes de regras de domínio, matemática do simulador e validações de duplo clique de propostas.
-
-### Build de Produção
-```bash
 npm run build
+npm run check
 ```
 
----
+Resultado local em 10/11/2026:
 
-## 8. Funcionalidades Concluídas na Fase 1
+- ESLint: aprovado, sem erros.
+- Node test runner: 28 testes aprovados, 0 falhas.
+- Vite build: aprovado.
+- `npm audit --omit=dev`: 0 vulnerabilidades conhecidas.
+- Endpoint local sem token: rejeitado com HTTP 401.
+- Consulta de metadados do modelo `gemini-3.8-flash`: aprovada; tentativa de function calling real recebeu HTTP 503 por alta demanda temporária.
+- Teste SQL RLS e ciclo remoto Gemini/Supabase: não executados, pois exigem migrations aplicadas e configuração externa.
 
-1. **Dashboard Acadêmico:**
-   - Métricas em tempo real calculadas a partir do estado: tarefas ativas, concluídas, atrasadas e horas focadas.
-   - Grade horizontal de prioridades da semana corrente com identificação da Prova P1.
-2. **Gestão Completa de Tarefas (CRUD):**
-   - Criação, leitura, atualização e remoção de tarefas com modal de confirmação obrigatória (`DeleteConfirmModal`).
-   - Filtros dinâmicos por disciplina, prioridade, status e busca de texto.
-   - Alternância entre visões Tabela, Kanban e Lista.
-3. **Controle de Disciplinas e Frequência:**
-   - Gestão de matérias matriculadas, docentes e salas de aula.
-   - Cálculo estrito da taxa de frequência (aulas assistidas / total) com destaque de zona de risco (< 75% MEC).
-4. **Simulador de Média e Aprovação:**
-   - Cálculo dinâmico da média ponderada: $\text{Média} = \frac{\sum (\text{Nota}_i \times \text{Peso}_i)}{\sum \text{Peso}_i}$.
-   - Nota mínima necessária nas avaliações restantes: $\text{Nota Restante} = \frac{\text{Meta} \times \sum \text{Peso} - \text{Pontos Obtidos}}{\text{Peso Pendente}}$.
-   - Estado vazio (*empty state*) sem dados fictícios quando a disciplina não possui avaliações.
-   - Botão para converter metas acadêmicas em tarefas diretamente no calendário.
-5. **Calendário Acadêmico:**
-   - Visualização mensal com navegação e destaque para provas e entregas.
-   - Botão **Hoje** que navega dinamicamente para a data real atual do sistema.
-   - Botão de atalho para retorno ao período letivo de demonstração (Novembro de 2026).
-6. **Assistente Acadêmico (Motor de Regras Locais):**
-   - Extração do título da tarefa a partir da mensagem do discente sem impor propostas genéricas.
-   - Solicitação de informações faltantes caso o discente não informe o nome da tarefa.
-   - Proteção de confirmação humana: uma proposta executada é marcada como concluída e seu botão de confirmação é desativado, prevenindo criação acidental de tarefas duplicadas.
-   - Sinalização transparente de execução via regras determinísticas locais.
+Mocks são usados apenas para testar validação, timeout e idempotência isoladamente; não são apresentados como prova de integração remota.
 
----
+## Vercel
 
-## 9. Limitações Conhecidas da Fase 1
+1. Importe o repositório e mantenha o framework Vite.
+2. Cadastre as seis variáveis da tabela nos ambientes Preview e Production apropriados.
+3. Configure as Redirect URLs do Supabase para cada domínio autorizado.
+4. Aguarde o workflow de lint/test/build antes de promover uma versão.
+5. Valide login, consulta e confirmação em Preview.
 
-- **Processamento de Linguagem Natural Heurístico:** O assistente utiliza classificação local baseada em padrões de texto e regras determinísticas. Não consome tokens de LLM nem realiza inferência generativa nesta fase.
-- **Botões Multimodais Desabilitados:** O botão de captura por voz (microfone) e upload de arquivos (anexo de PDF) estão desativados com aviso informativo, uma vez que o pipeline multimodal requer o backend da Fase 2.
-- **Sincronizações Institucionais Simuladas:** As conexões exibidas na interface para SIGAA, Moodle e Reserva de Salas na Biblioteca são componentes demonstrativos sem integração de rede ativa.
-- **Dados Demonstrativos Fictícios:** O conjunto semente de dados acadêmicos (estudante Mariana Silva, disciplinas CC320, CC510, CC440, ES301, MAT204 e tarefas associadas) é estritamente fictício, servindo para demonstrar a reatividade das telas.
+`vercel.json` usa o fallback SPA oficial. A Vercel dá precedência aos arquivos/funções existentes antes do rewrite, portanto `/api/agent` permanece uma Function. Nenhum deploy é executado automaticamente por scripts deste repositório.
 
----
+## Cronograma acadêmico — novembro de 2026
 
-## 10. Roadmap de Evolução do Produto de Software (Pós-Fase 1)
+- **10/11:** base visual, domínio acadêmico e auditoria.
+- **17/11:** persistência, autenticação, migrations e RLS.
+- **24/11:** agente Gemini, testes integrados, documentação e preparação de entrega.
 
-As funcionalidades futuras do produto de software estão planejadas para versões posteriores e são mantidas formalmente separadas das entregas do cronograma da disciplina acadêmica:
+## Limitações e evoluções futuras
 
-1. **Proxy Seguro no Backend (Node.js):** Configurar endpoints REST intermediários em Node.js (`server.js`) para mediar a comunicação entre o cliente e o SDK `@google/genai` utilizando a chave injetada via `GEMINI_API_KEY`, sem expor credenciais ao navegador.
-2. **Ativação de Tool Calling com o Gemini:** Conectar os esquemas formais declarados em `AGENT_TOOLS_DEFINITIONS` (`createTask`, `listTasks`, `updateTask`, `suggestStudyPlan`) às chamadas reais do modelo LLM com preservação do fluxo de aprovação humana prévia.
-3. **RAG e Leitura Multimodal de PDFs:** Habilitar a extração automatizada de tópicos de provas, prazos e critérios de avaliação a partir do upload de arquivos de ementas pedagógicas.
-4. **Persistência Centralizada em Nuvem:** Transição do `localStorage` para banco de dados relacional (PostgreSQL/Supabase) e introdução de autenticação discente.
+- Aplicar e validar as migrations em ambiente remoto autorizado.
+- Executar o teste RLS em duas contas reais e o fluxo Gemini ponta a ponta.
+- Adicionar testes E2E de navegador após disponibilizar um ambiente descartável.
+- Implementar edição de perfil e configurações acadêmicas pela interface.
+- Dividir o bundle principal, atualmente acima do aviso de 500 kB do Vite.
+- Integrar sistemas institucionais somente quando APIs oficiais estiverem disponíveis.
 
----
+## Créditos e autoria
 
-## 11. Declaração de Integridade Acadêmica
-
-O projeto foi construído respeitando as restrições estipuladas para a Fase 1: ausência de TypeScript em arquivos de produção, ausência de chamadas fictícias a modelos externos e rotulagem explícita de todos os dados e fluxos de demonstração.
+- Concepção visual: Google Stitch.
+- Prototipação inicial: Google AI Studio.
+- Evolução full stack: desenvolvimento assistido por IA com revisão humana.
+- Autor do repositório: **RHU4N**, conforme metadados existentes.
