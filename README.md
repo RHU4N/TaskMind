@@ -111,7 +111,7 @@ Uma segunda confirmação recebe `409` e não repete a mutação. Falhas alteram
 ```text
 api/
   agent.js                 endpoint Vercel e orquestração
-  lib/agentTools.js        schemas, validação e ferramentas
+  _lib/agentTools.js       schemas, validação e ferramentas
 src/
   components/              layout, autenticação e modais
   context/                 AuthContext e AcademicContext
@@ -155,7 +155,7 @@ Copie `.env.example` para `.env`. Não faça commit desse arquivo.
 | `VITE_SUPABASE_PUBLISHABLE_KEY` | navegador/servidor | chave publicável protegida por RLS |
 | `SUPABASE_SECRET_KEY` | somente servidor | chave `sb_secret_…` para o estado idempotente das confirmações |
 | `GEMINI_API_KEY` | somente servidor | Gemini Developer API |
-| `GEMINI_MODEL` | somente servidor | modelo suportado configurável (`gemini-3.8-flash` validado) |
+| `GEMINI_MODEL` | somente servidor | modelo suportado configurável (`gemini-3-flash-preview` com fallback automático) |
 | `APP_URL` | servidor | URL da aplicação e redirects |
 
 Nunca use prefixo `VITE_` em `GEMINI_API_KEY` ou `SUPABASE_SECRET_KEY`.
