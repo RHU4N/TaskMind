@@ -15,12 +15,12 @@ export default function SubjectsPage() {
     subjects,
     tasks,
     metrics,
+    settings,
     createSubject,
     updateSubject,
     deleteSubject,
     addAbsence,
     addAttendance,
-    setIsSimulatorModalOpen,
     setSelectedSimulatorSubjectId,
   } = useAcademic();
 
@@ -143,7 +143,7 @@ export default function SubjectsPage() {
               </h1>
               <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-surface-container-high text-on-surface rounded-full font-label-sm text-label-sm shadow-xs font-semibold">
                 <span className="w-2 h-2 rounded-full bg-secondary" />
-                Semestre Letivo 2026.2 • {subjects.length} Disciplinas Matriculadas (
+                {settings.user.semester ? `Semestre Letivo ${settings.user.semester} • ` : ''}{subjects.length} Disciplinas Matriculadas (
                 {subjects.reduce((acc, s) => acc + (s.credits || 4), 0)} créditos)
               </span>
             </div>
@@ -157,12 +157,12 @@ export default function SubjectsPage() {
           <div className="flex flex-wrap items-center gap-space-sm">
             <div className="flex items-center gap-space-xs px-3 py-1.5 bg-surface-container-lowest rounded-lg shadow-xs border border-surface-container">
               <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-              <span className="font-body-sm text-body-sm text-on-surface-variant">Sincronizado</span>
+              <span className="font-body-sm text-body-sm text-on-surface-variant">Dados do usuário</span>
               <span className="font-label-sm text-label-sm text-on-surface font-semibold ml-1">
-                SIGAA / Moodle
+                Supabase
               </span>
               <span className="px-1.5 py-0.2 rounded font-code-sm text-[10px] bg-surface-container text-on-surface-variant ml-1">
-                Demonstração
+                RLS ativo
               </span>
             </div>
 

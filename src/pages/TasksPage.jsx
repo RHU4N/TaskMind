@@ -15,8 +15,7 @@ export default function TasksPage() {
     tasks,
     subjects,
     metrics,
-    createTask,
-    updateTask,
+    settings,
     deleteTask,
     toggleTaskStatus,
     setIsTaskModalOpen,
@@ -119,11 +118,11 @@ export default function TasksPage() {
           <div className="flex flex-col gap-space-xs">
             <div className="flex items-center gap-space-xs">
               <span className="px-2 py-0.5 rounded-full font-code-sm text-code-sm bg-surface-container-high text-on-surface-variant font-medium tracking-wide">
-                SEMESTRE 2026.2 • SEMANA 16
+                {settings.user.semester ? `SEMESTRE ${settings.user.semester}` : 'PERÍODO ATUAL'}
               </span>
               <span className="w-1.5 h-1.5 rounded-full bg-secondary" />
               <span className="font-code-sm text-code-sm text-secondary font-semibold">
-                Sincronizado via SIGAA [Demonstração da Fase 1]
+                Persistência protegida pelo Supabase
               </span>
             </div>
             <div className="flex items-baseline gap-space-sm flex-wrap">

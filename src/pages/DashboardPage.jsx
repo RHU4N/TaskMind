@@ -10,8 +10,8 @@ import { useAcademic } from '../context/AcademicContext.jsx';
 
 export default function DashboardPage() {
   const {
-    tasks,
     subjects,
+    settings,
     metrics,
     toggleTaskStatus,
     setIsTaskModalOpen,
@@ -57,20 +57,17 @@ export default function DashboardPage() {
           <div className="flex flex-col gap-space-xs max-w-2xl">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-secondary-fixed text-on-secondary-fixed font-label-sm text-label-sm w-fit shadow-xs">
               <span className="material-symbols-outlined text-sm text-secondary">auto_awesome</span>
-              <span>Semana Acadêmica 16 • Sprint de Avaliações (Semestre 2026.2)</span>
+              <span>{new Date().toLocaleDateString('pt-BR', { weekday: 'long', day: '2-digit', month: 'long' })}{settings.user.semester ? ` • Semestre ${settings.user.semester}` : ''}</span>
             </div>
             <h1 className="font-display text-display text-on-surface tracking-tight">
-              Olá, Mariana! <span className="inline-block hover:rotate-12 transition-transform cursor-default">👋</span>
+              Olá, {settings.user.name || 'estudante'}! <span className="inline-block hover:rotate-12 transition-transform cursor-default">👋</span>
             </h1>
             <p className="font-body-lg text-body-lg text-on-surface-variant">
               Você tem{' '}
               <strong className="text-on-surface font-semibold">
                 {metrics.pendingCount} entregas prioritárias
               </strong>{' '}
-              para esta semana e{' '}
-              <span className="text-error font-semibold underline decoration-error-container underline-offset-4">
-                1 prova em 3 dias
-              </span>.
+              no momento, com {metrics.overdueCount} tarefa(s) atrasada(s).
             </p>
           </div>
 
@@ -81,7 +78,7 @@ export default function DashboardPage() {
                 school
               </span>
               <select className="pl-9 pr-8 py-2 rounded-lg bg-surface-container-low font-label-md text-label-md text-on-surface focus:outline-none focus:bg-surface-container transition-colors appearance-none cursor-pointer">
-                <option>Semestre 2026.2 (Vigente)</option>
+                <option>{settings.user.semester ? `Semestre ${settings.user.semester}` : 'Período atual'}</option>
                 <option>Histórico Geral</option>
               </select>
               <span className="material-symbols-outlined absolute right-2 text-on-surface-variant text-base pointer-events-none">
@@ -307,8 +304,6 @@ export default function DashboardPage() {
               ) : (
                 filteredPriorities.map((task) => {
                   const isChecked = task.status === 'completed';
-                  const isHighOrUrgent = task.priority === 'alta' || task.priority === 'urgente';
-
                   return (
                     <div
                       key={task.id}
