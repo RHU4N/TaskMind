@@ -8,7 +8,8 @@ import { useAcademic } from '../../context/AcademicContext.jsx';
 import { useAuth } from '../../context/AuthContext.jsx';
 
 export default function Header({ onMenuClick }) {
-  const { signOut } = useAuth();
+  const { signOut, user } = useAuth();
+  const [isSigningOut, setIsSigningOut] = useState(false);
   const {
     globalSearch,
     setGlobalSearch,
@@ -127,13 +128,26 @@ export default function Header({ onMenuClick }) {
               <span className="font-label-md text-label-md text-on-surface font-semibold leading-tight">
                 {settings.user.name}
               </span>
-              <span className="font-body-sm text-body-sm text-on-surface-variant leading-tight">
-                Discente Ativa
+              <span className="font-body-sm text-body-sm text-on-surface-variant leading-tight truncate max-w-[160px]">
+                {settings.user.course || user?.email || 'Conta conectada'}
               </span>
             </div>
           </div>
-          <button type="button" onClick={signOut} title="Sair" aria-label="Sair da conta" className="p-2 rounded-lg text-on-surface-variant hover:bg-surface-container-low">
+          <button
+            type="button"
+            disabled={isSigningOut}
+            onClick={async () => {
+              setIsSigningOut(true);
+              try { await signOut(); } finally { setIsSigningOut(false); }
+            }}
+            title="Sair da conta"
+            aria-label="Sair da conta"
+            className="inline-flex items-center gap-1.5 px-2.5 py-2 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors cursor-pointer disabled:opacity-50"
+          >
             <span className="material-symbols-outlined text-xl">logout</span>
+            <span className="hidden md:inline font-label-sm text-label-sm">
+              {isSigningOut ? 'Saindo…' : 'Sair'}
+            </span>
           </button>
         </div>
       </div>

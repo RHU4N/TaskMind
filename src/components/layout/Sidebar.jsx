@@ -150,7 +150,7 @@ export default function Sidebar({ isOpen, onClose }) {
           <div className="p-space-md bg-surface-container-low rounded-xl flex flex-col gap-space-xs">
             <div className="flex items-center justify-between">
               <span className="font-label-sm text-label-sm text-on-surface font-semibold">
-                Semestre {settings.user.semester}
+                Semestre {settings.user.semester || 'atual'}
               </span>
               <span className="font-code-sm text-code-sm text-secondary font-semibold">
                 {settings.user.semesterProgressPercent}%
@@ -179,7 +179,7 @@ export default function Sidebar({ isOpen, onClose }) {
                 {settings.user.name}
               </span>
               <span className="font-body-sm text-body-sm text-on-surface-variant truncate">
-                {settings.user.course}
+                {settings.user.course || 'Curso não informado'}
               </span>
             </div>
             <span
