@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={"darkMode":"class","theme":{"extend":{"colors":{"tertiary-fixed":"#cce5ff","surface-container-highest":"#d3e4fe","error-container":"#ffdad6","on-secondary-fixed":"#25005a","on-surface-variant":"#45464d","on-secondary-fixed-variant":"#5a00c6","on-tertiary-fixed":"#001d31","error":"#ba1a1a","on-primary-fixed":"#131b2e","inverse-primary":"#bec6e0","on-background":"#0b1c30","on-error":"#ffffff","on-primary-container":"#7c839b","tertiary-container":"#001d31","secondary-fixed":"#eaddff","surface-container":"#e5eeff","primary-container":"#131b2e","on-primary":"#ffffff","primary-fixed":"#dae2fd","surface":"#f8f9ff","on-tertiary-fixed-variant":"#004b73","surface-container-lowest":"#ffffff","tertiary-fixed-dim":"#93ccff","on-surface":"#0b1c30","surface-bright":"#f8f9ff","on-tertiary-container":"#188ace","on-secondary":"#ffffff","primary-fixed-dim":"#bec6e0","surface-tint":"#565e74","surface-container-low":"#eff4ff","primary":"#000000","inverse-on-surface":"#eaf1ff","on-primary-fixed-variant":"#3f465c","on-secondary-container":"#fffbff","outline":"#76777d","surface-variant":"#d3e4fe","tertiary":"#000000","secondary-fixed-dim":"#d2bbff","secondary-container":"#8a4cfc","on-error-container":"#93000a","outline-variant":"#c6c6cd","surface-dim":"#cbdbf5","background":"#f8f9ff","surface-container-high":"#dce9ff","on-tertiary":"#ffffff","inverse-surface":"#213145","secondary":"#712ae2"},"borderRadius":{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},"spacing":{"space-lg":"1.5rem","space-xs":"0.25rem","space-sm":"0.5rem","margin-mobile":"1rem","space-2xl":"3rem","space-xl":"2rem","margin":"2rem","space-md":"1rem","gutter":"1.5rem","gutter-mobile":"1rem"},"fontFamily":{"display-mobile":["Plus Jakarta Sans"],"code-sm":["JetBrains Mono"],"label-sm":["Inter"],"body-lg":["Inter"],"headline-sm":["Plus Jakarta Sans"],"body-sm":["Inter"],"label-md":["Inter"],"body-md":["Inter"],"title":["Plus Jakarta Sans"],"display":["Plus Jakarta Sans"],"headline-lg-mobile":["Plus Jakarta Sans"],"headline-lg":["Plus Jakarta Sans"],"headline-md":["Plus Jakarta Sans"]},"fontSize":{"display-mobile":["1.75rem",{"lineHeight":"2.25rem","letterSpacing":"-0.02em","fontWeight":"700"}],"code-sm":["0.75rem",{"lineHeight":"1rem","fontWeight":"400"}],"label-sm":["0.75rem",{"lineHeight":"1rem","letterSpacing":"0.01em","fontWeight":"600"}],"body-lg":["1rem",{"lineHeight":"1.625rem","fontWeight":"400"}],"headline-sm":["1.125rem",{"lineHeight":"1.625rem","letterSpacing":"-0.01em","fontWeight":"600"}],"body-sm":["0.75rem",{"lineHeight":"1.125rem","fontWeight":"400"}],"label-md":["0.875rem",{"lineHeight":"1.25rem","fontWeight":"500"}],"body-md":["0.875rem",{"lineHeight":"1.375rem","fontWeight":"400"}],"title":["1rem",{"lineHeight":"1.5rem","letterSpacing":"-0.005em","fontWeight":"600"}],"display":["2.25rem",{"lineHeight":"2.75rem","letterSpacing":"-0.025em","fontWeight":"700"}],"headline-lg-mobile":["1.375rem",{"lineHeight":"1.875rem","letterSpacing":"-0.015em","fontWeight":"600"}],"headline-lg":["1.75rem",{"lineHeight":"2.25rem","letterSpacing":"-0.02em","fontWeight":"600"}],"headline-md":["1.25rem",{"lineHeight":"1.75rem","letterSpacing":"-0.015em","fontWeight":"600"}]}}}}</script></head><body class="bg-surface font-body-md text-on-surface antialiased min-h-screen"><aside class="hidden lg:flex fixed left-0 top-0 h-full w-64 bg-surface-container-lowest shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-50 flex-col justify-between"><div class="flex flex-col"><div class="h-16 px-space-md flex items-center gap-space-sm"><img alt="TaskMind Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/ALJJyrCHzmE-pEaVLvgUCVwRIHjfSQiaUs68soDTJJAOQzRdiYcRl5NlppQMKbw41TAZLgsdDD38rIq1dGwQotUkoROBqh7B67ht6HebgFTtz-fjJLALHO7VMgYI_7rponmQW67tVzec8p7Ry4OrJMphYfKxwC8Zv4LGsdK2v7fqwMjwHVYJIbQVWE6DhPCnxrXyjK6X-Y4E85cz_ogfL8fZjSIKxyFG5GwwBfPx7zhXWfvL"/><div class="flex flex-col"><span class="font-title text-title text-on-surface leading-tight">TaskMind</span><span class="font-code-sm text-code-sm text-secondary font-medium tracking-wide uppercase">Acadêmico IA</span></div></div><div class="px-space-md py-space-sm"><span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant">Menu Principal</span></div><nav class="flex flex-col gap-space-xs px-space-sm" data-active-classes="bg-surface-container text-on-surface font-semibold"><a aria-current="page" class="flex items-center gap-space-sm px-space-md py-2.5 rounded-lg transition-colors bg-surface-container text-on-surface font-semibold" data-path="visao-geral" href="#"><span class="material-symbols-outlined text-xl">dashboard</span><span>Visão Geral</span></a><a class="flex items-center justify-between px-space-md py-2.5 rounded-lg font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="minhas-tarefas" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-xl">check_circle</span><span>Minhas Tarefas</span></div><span class="px-1.5 py-0.5 rounded font-code-sm text-code-sm bg-surface-container text-on-surface-variant">12</span></a><a class="flex items-center justify-between px-space-md py-2.5 rounded-lg font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="assistente-ia" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-xl text-secondary">auto_awesome</span><span>Assistente IA</span></div><span class="px-2 py-0.5 rounded-full font-label-sm text-label-sm bg-secondary-fixed text-on-secondary-fixed font-semibold">Pro/IA</span></a><a class="flex items-center gap-space-sm px-space-md py-2.5 rounded-lg font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="disciplinas" href="#"><span class="material-symbols-outlined text-xl">menu_book</span><span>Disciplinas</span></a><a class="flex items-center gap-space-sm px-space-md py-2.5 rounded-lg font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="calendario" href="#"><span class="material-symbols-outlined text-xl">calendar_today</span><span>Calendário</span></a></nav></div><div class="p-space-md flex flex-col gap-space-sm"><div class="p-space-md bg-surface-container-low rounded-xl flex flex-col gap-space-xs"><div class="flex items-center justify-between"><span class="font-label-sm text-label-sm text-on-surface font-semibold">Semestre 2025.1</span><span class="font-code-sm text-code-sm text-secondary font-semibold">68%</span></div><div class="w-full bg-surface-container-high rounded-full h-1.5 overflow-hidden"><div class="bg-secondary h-1.5 rounded-full" style="width: 68%"></div></div><p class="font-body-sm text-body-sm text-on-surface-variant">Faltam 42 dias para o término do período letivo.</p></div><div class="flex items-center gap-space-sm pt-space-xs"><img alt="Profile" class="w-8 h-8 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBtpY6lyXcYJa5d4GdtYugyp36tKBpmibILjqM05LXN_vj6kzucxmxyLHGPuov37c2zJZsQwY4aEcnVWAtMW0gok7UpyxXMn9o1UhjtsV_0T3PKHqgNONpnMa2qkmRNfdnInXGVfb0n3GUfXZE921YfqbvWKBN_NDDD7NC44FGW7jeQtcaL7hkOHidBJky237zD5fBftBgr4q3Hd0-aHG_juKtC_N8Diqdv16LS20o"/><div class="flex flex-col min-w-0 flex-1"><span class="font-label-md text-label-md text-on-surface truncate font-semibold">Mariana Silva</span><span class="font-body-sm text-body-sm text-on-surface-variant truncate">Eng. de Software</span></div><span class="w-2.5 h-2.5 rounded-full bg-secondary" title="Status Ativo"></span></div></div></aside><div class="lg:pl-64 flex flex-col min-h-screen"><header class="fixed top-0 left-0 lg:left-64 right-0 z-40 bg-surface/85 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-16 w-full px-space-md lg:px-gutter flex items-center justify-between gap-space-md"><div class="flex items-center gap-space-sm flex-1 max-w-xl"><div class="relative w-full"><span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-xl pointer-events-none">search</span><input class="w-full h-10 pl-10 pr-4 bg-surface-container-lowest rounded-lg font-body-md text-body-md text-on-surface placeholder:text-on-surface-variant/70 focus:outline-none focus:ring-2 focus:ring-secondary/40 transition-all shadow-[0_1px_3px_rgba(15,23,42,0.04)]" placeholder="Buscar tarefas, disciplinas, resumos... (Ctrl + K)" type="text"/></div></div><div class="flex items-center gap-space-sm"><button class="inline-flex items-center gap-space-xs h-10 px-4 bg-primary text-on-primary rounded-lg font-label-md text-label-md hover:bg-primary-container hover:text-on-primary-container transition-colors shadow-sm" type="button"><span class="material-symbols-outlined text-lg">add</span><span class="hidden sm:inline">Nova Tarefa</span></button><button aria-label="Notificações de prazos" class="relative p-2 rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" type="button"><span class="material-symbols-outlined text-2xl">notifications</span><span class="absolute top-1.5 right-1.5 flex h-4 w-4 items-center justify-center rounded-full bg-error text-on-error font-code-sm text-code-sm">3</span></button><div class="hidden sm:flex items-center gap-space-xs pl-space-xs"><img alt="Profile" class="w-8 h-8 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBtpY6lyXcYJa5d4GdtYugyp36tKBpmibILjqM05LXN_vj6kzucxmxyLHGPuov37c2zJZsQwY4aEcnVWAtMW0gok7UpyxXMn9o1UhjtsV_0T3PKHqgNONpnMa2qkmRNfdnInXGVfb0n3GUfXZE921YfqbvWKBN_NDDD7NC44FGW7jeQtcaL7hkOHidBJky237zD5fBftBgr4q3Hd0-aHG_juKtC_N8Diqdv16LS20o"/><div class="hidden xl:flex flex-col text-left"><span class="font-label-md text-label-md text-on-surface font-semibold leading-tight">Mariana Silva</span><span class="font-body-sm text-body-sm text-on-surface-variant leading-tight">Discente Ativa</span></div></div></div></div></header><main class="w-full pt-16 bg-surface flex-1"><div class="flex flex-col w-full">
+<!-- Dynamic Gradient Ambient Backdrop for Depth -->
+<div class="relative w-full px-space-md lg:px-margin py-space-xl max-w-7xl mx-auto flex flex-col gap-space-xl">
+<!-- Ambient Soft Glow Elements (contained) -->
+<div class="absolute -top-12 right-12 w-96 h-96 bg-secondary-fixed/30 rounded-full blur-3xl pointer-events-none -z-10"></div>
+<div class="absolute top-80 left-0 w-80 h-80 bg-surface-container-high/60 rounded-full blur-3xl pointer-events-none -z-10"></div>
+<!-- 1. Header & Quick Controls -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-space-lg">
+<div class="flex flex-col gap-space-xs max-w-2xl">
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-secondary-fixed text-on-secondary-fixed font-label-sm text-label-sm w-fit shadow-sm">
+<span class="material-symbols-outlined text-sm text-secondary" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+<span>Semana Acadêmica 07 • Sprint de Avaliações</span>
+</div>
+<h1 class="font-display text-display text-on-surface tracking-tight">
+          Olá, Mariana! <span class="inline-block hover:rotate-12 transition-transform cursor-default">👋</span>
+</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant">
+          Você tem <strong class="text-on-surface font-semibold">4 entregas prioritárias</strong> para esta semana e <span class="text-error font-semibold underline decoration-error-container underline-offset-4">1 prova em 3 dias</span>.
+        </p>
+</div>
+<!-- Filters & Academic Segment Selectors -->
+<div class="flex flex-wrap items-center gap-space-sm bg-surface-container-lowest p-1.5 rounded-xl shadow-sm">
+<div class="relative flex items-center">
+<span class="material-symbols-outlined absolute left-3 text-secondary text-lg pointer-events-none">school</span>
+<select class="pl-9 pr-8 py-2 rounded-lg bg-surface-container-low font-label-md text-label-md text-on-surface focus:outline-none focus:bg-surface-container transition-colors appearance-none cursor-pointer">
+<option>Semestre 2025.1 (Vigente)</option>
+<option>Histórico Geral</option>
+</select>
+<span class="material-symbols-outlined absolute right-2 text-on-surface-variant text-base pointer-events-none">expand_more</span>
+</div>
+<div class="relative flex items-center">
+<span class="material-symbols-outlined absolute left-3 text-on-surface-variant text-lg pointer-events-none">filter_list</span>
+<select class="pl-9 pr-8 py-2 rounded-lg bg-surface-container-low font-label-md text-label-md text-on-surface focus:outline-none focus:bg-surface-container transition-colors appearance-none cursor-pointer">
+<option>Todas as Disciplinas</option>
+<option>Cálculo Numérico</option>
+<option>Redes Neurais</option>
+<option>Sistemas Distribuídos</option>
+<option>Estruturas de Dados Avançadas</option>
+</select>
+<span class="material-symbols-outlined absolute right-2 text-on-surface-variant text-base pointer-events-none">expand_more</span>
+</div>
+</div>
+</div>
+<!-- 2. Summary Metric Cards Grid -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-space-md">
+<!-- Card 1: Pendentes -->
+<div class="bg-surface-container-lowest p-space-lg rounded-2xl shadow-sm hover:shadow-md transition-all flex flex-col justify-between gap-space-md group relative overflow-hidden">
+<div class="flex items-center justify-between">
+<div class="w-10 h-10 rounded-xl bg-surface-container flex items-center justify-center text-on-surface">
+<span class="material-symbols-outlined text-xl">pending_actions</span>
+</div>
+<span class="px-2 py-0.5 rounded-full font-code-sm text-code-sm bg-tertiary-fixed text-on-tertiary-fixed font-medium">
+            +3 hoje
+          </span>
+</div>
+<div>
+<span class="font-display text-display text-on-surface tracking-tight leading-none block">12</span>
+<span class="font-label-md text-label-md text-on-surface-variant mt-1 block">Tarefas Pendentes</span>
+</div>
+<div class="w-full bg-surface-container rounded-full h-1 overflow-hidden">
+<div class="bg-primary h-1 rounded-full" style="width: 58%"></div>
+</div>
+</div>
+<!-- Card 2: Concluídas -->
+<div class="bg-surface-container-lowest p-space-lg rounded-2xl shadow-sm hover:shadow-md transition-all flex flex-col justify-between gap-space-md group relative overflow-hidden">
+<div class="flex items-center justify-between">
+<div class="w-10 h-10 rounded-xl bg-surface-container flex items-center justify-center text-on-surface">
+<span class="material-symbols-outlined text-xl" style="font-variation-settings: 'FILL' 1;">task_alt</span>
+</div>
+<span class="px-2 py-0.5 rounded-full font-label-sm text-label-sm bg-surface-container text-on-surface font-medium flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span> 82% da meta
+          </span>
+</div>
+<div>
+<span class="font-display text-display text-on-surface tracking-tight leading-none block">28</span>
+<span class="font-label-md text-label-md text-on-surface-variant mt-1 block">Concluídas no Mês</span>
+</div>
+<div class="w-full bg-surface-container rounded-full h-1 overflow-hidden">
+<div class="bg-secondary h-1 rounded-full" style="width: 82%"></div>
+</div>
+</div>
+<!-- Card 3: Prazos Atrasados -->
+<div class="bg-surface-container-lowest p-space-lg rounded-2xl shadow-sm hover:shadow-md transition-all flex flex-col justify-between gap-space-md group relative overflow-hidden">
+<div class="flex items-center justify-between">
+<div class="w-10 h-10 rounded-xl bg-error-container/60 flex items-center justify-center text-error">
+<span class="material-symbols-outlined text-xl">warning</span>
+</div>
+<span class="px-2 py-0.5 rounded-full font-label-sm text-label-sm bg-error-container text-on-error-container font-semibold">
+            Crítico
+          </span>
+</div>
+<div>
+<span class="font-display text-display text-error tracking-tight leading-none block">02</span>
+<span class="font-label-md text-label-md text-on-surface-variant mt-1 block">Prazos Atrasados</span>
+</div>
+<p class="font-code-sm text-code-sm text-error truncate font-medium">Requer atenção imediata</p>
+</div>
+<!-- Card 4: Horas Focadas (IA) -->
+<div class="bg-surface-container-lowest p-space-lg rounded-2xl shadow-sm hover:shadow-md transition-all flex flex-col justify-between gap-space-md group relative overflow-hidden bg-gradient-to-br from-surface-container-lowest via-surface-container-lowest to-secondary-fixed/20">
+<div class="flex items-center justify-between">
+<div class="w-10 h-10 rounded-xl bg-secondary flex items-center justify-center text-on-secondary">
+<span class="material-symbols-outlined text-xl">timer</span>
+</div>
+<span class="px-2 py-0.5 rounded-full font-label-sm text-label-sm bg-secondary-fixed text-on-secondary-fixed font-semibold flex items-center gap-1">
+<span class="material-symbols-outlined text-xs">bolt</span> 94% Eficácia
+          </span>
+</div>
+<div>
+<span class="font-display text-display text-on-surface tracking-tight leading-none block">24.5<span class="text-headline-md font-code-sm text-secondary">h</span></span>
+<span class="font-label-md text-label-md text-on-surface-variant mt-1 block">Horas de Estudo Focadas</span>
+</div>
+<div class="flex items-center justify-between text-code-sm font-code-sm text-on-surface-variant">
+<span>Meta: 30h</span>
+<span class="text-secondary font-semibold">+4h hoje</span>
+</div>
+</div>
+</div>
+<!-- 5. TaskMind AI Spark Insight Banner -->
+<div class="relative w-full rounded-2xl bg-primary-container text-on-primary p-space-lg lg:p-space-xl overflow-hidden shadow-xl flex flex-col md:flex-row items-start md:items-center justify-between gap-space-lg">
+<div class="absolute -right-8 -top-8 w-64 h-64 bg-secondary-container/30 rounded-full blur-2xl pointer-events-none"></div>
+<div class="flex items-start gap-space-md relative z-10 max-w-3xl">
+<div class="p-3 bg-secondary rounded-xl text-on-secondary shrink-0 shadow-md">
+<span class="material-symbols-outlined text-2xl" style="font-variation-settings: 'FILL' 1;">lightbulb</span>
+</div>
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-2">
+<span class="font-code-sm text-code-sm uppercase tracking-wider text-secondary-fixed font-semibold">Insight Preditivo TaskMind AI</span>
+<span class="inline-block w-1.5 h-1.5 rounded-full bg-secondary-container animate-pulse"></span>
+</div>
+<p class="font-headline-sm text-headline-sm text-white font-semibold">
+            Conflito de carga horária detectado para Quinta-feira
+          </p>
+<p class="font-body-md text-body-md text-inverse-primary leading-relaxed">
+            Você tem 2 entregas complexas no mesmo dia. Deseja que a IA decomponha o <strong class="text-white">Trabalho de Sistemas Distribuídos</strong> em 3 micro-etapas focadas de 45 min para hoje e amanhã?
+          </p>
+</div>
+</div>
+<div class="flex items-center gap-space-sm w-full md:w-auto shrink-0 relative z-10">
+<button class="flex-1 md:flex-initial px-4 py-2.5 rounded-lg bg-primary-container/80 text-on-primary-container hover:text-white font-label-md text-label-md transition-colors text-center" id="dismiss-ai-btn" type="button">
+          Dispensar
+        </button>
+<button class="flex-1 md:flex-initial inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg bg-secondary text-on-secondary font-label-md text-label-md shadow-md hover:bg-secondary-container transition-all" id="optimize-ai-btn" type="button">
+<span class="material-symbols-outlined text-base">auto_fix_high</span>
+<span>Otimizar com IA</span>
+</button>
+</div>
+</div>
+<!-- Main Content Dual-Column Section: Priorities & Timeline -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-xl items-start">
+<!-- 3. Seção 'Prioridades de Hoje' (8 Cols Desktop) -->
+<div class="lg:col-span-8 flex flex-col gap-space-md">
+<div class="flex items-center justify-between pb-space-xs">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-secondary text-2xl">flag</span>
+<h2 class="font-headline-md text-headline-md text-on-surface tracking-tight">Prioridades de Hoje</h2>
+<span class="ml-2 px-2 py-0.5 rounded-full font-code-sm text-code-sm bg-surface-container-high text-on-surface font-semibold">4 tarefas</span>
+</div>
+<div class="flex items-center gap-2">
+<button class="text-secondary hover:text-on-surface font-label-md text-label-md font-semibold flex items-center gap-1 transition-colors" type="button">
+<span class="material-symbols-outlined text-lg">sort</span>
+<span>Ordenar por Prazo</span>
+</button>
+</div>
+</div>
+<!-- Priority Task Cards Container -->
+<div class="flex flex-col gap-space-sm" id="priorities-list">
+<!-- Task 1: Cálculo Numérico -->
+<div class="group bg-surface-container-lowest p-space-md rounded-2xl shadow-sm hover:shadow-md transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-space-md border-l-4 border-error">
+<div class="flex items-start gap-space-md min-w-0">
+<button class="task-checkbox mt-1 w-5 h-5 rounded-md bg-surface-container flex items-center justify-center text-transparent hover:text-on-surface-variant transition-all cursor-pointer" type="button">
+<span class="material-symbols-outlined text-base">check</span>
+</button>
+<div class="flex flex-col min-w-0">
+<div class="flex flex-wrap items-center gap-2 mb-1">
+<span class="px-2 py-0.5 rounded font-label-sm text-label-sm bg-surface-container-low text-on-surface-variant flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span> Cálculo Numérico
+                  </span>
+<span class="px-2 py-0.5 rounded font-label-sm text-label-sm bg-error-container text-on-error-container font-semibold">
+                    Alta
+                  </span>
+<span class="font-code-sm text-code-sm text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-xs">schedule</span> Vence hoje às 23:59
+                  </span>
+</div>
+<h3 class="font-title text-title text-on-surface truncate group-hover:text-secondary transition-colors font-semibold">
+                  Entregar Lista de Exercícios 4 - Interpolação Polinomial
+                </h3>
+<span class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">
+                  Resolução via método de Newton com script Python anexado.
+                </span>
+</div>
+</div>
+<div class="flex items-center justify-between sm:justify-end gap-space-md shrink-0 pt-2 sm:pt-0">
+<div class="flex items-center gap-1 font-code-sm text-code-sm text-on-surface-variant bg-surface-container px-2.5 py-1 rounded-lg">
+<span class="material-symbols-outlined text-sm">timelapse</span>
+<span>1h 30m</span>
+</div>
+<button class="p-2 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors" title="Iniciar Pomodoro" type="button">
+<span class="material-symbols-outlined text-xl">play_circle</span>
+</button>
+</div>
+</div>
+<!-- Task 2: Redes Neurais (Com IA Badge) -->
+<div class="group bg-surface-container-lowest p-space-md rounded-2xl shadow-sm hover:shadow-md transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-space-md border-l-4 border-secondary">
+<div class="flex items-start gap-space-md min-w-0">
+<button class="task-checkbox mt-1 w-5 h-5 rounded-md bg-surface-container flex items-center justify-center text-transparent hover:text-on-surface-variant transition-all cursor-pointer" type="button">
+<span class="material-symbols-outlined text-base">check</span>
+</button>
+<div class="flex flex-col min-w-0">
+<div class="flex flex-wrap items-center gap-2 mb-1">
+<span class="px-2 py-0.5 rounded font-label-sm text-label-sm bg-surface-container-low text-on-surface-variant flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span> Inteligência Artificial
+                  </span>
+<span class="px-2 py-0.5 rounded font-label-sm text-label-sm bg-error-container text-on-error-container font-semibold">
+                    Alta
+                  </span>
+<span class="px-2 py-0.5 rounded-full font-label-sm text-label-sm bg-secondary-fixed text-on-secondary-fixed font-semibold flex items-center gap-1">
+<span class="material-symbols-outlined text-xs">auto_awesome</span> Resumo Gerado
+                  </span>
+<span class="font-code-sm text-code-sm text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-xs">schedule</span> Hoje às 16:00
+                  </span>
+</div>
+<h3 class="font-title text-title text-on-surface truncate group-hover:text-secondary transition-colors font-semibold">
+                  Revisar Artigo de Redes Neurais para Seminário
+                </h3>
+<span class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">
+                  Foco na seção de Transformers e Mecanismos de Atenção Flash.
+                </span>
+</div>
+</div>
+<div class="flex items-center justify-between sm:justify-end gap-space-md shrink-0 pt-2 sm:pt-0">
+<div class="flex items-center gap-1 font-code-sm text-code-sm text-on-surface-variant bg-surface-container px-2.5 py-1 rounded-lg">
+<span class="material-symbols-outlined text-sm">timelapse</span>
+<span>45m</span>
+</div>
+<button class="p-2 rounded-lg text-secondary hover:bg-secondary-fixed transition-colors" title="Abrir Síntese do Artigo" type="button">
+<span class="material-symbols-outlined text-xl">description</span>
+</button>
+</div>
+</div>
+<!-- Task 3: Proposta TCC -->
+<div class="group bg-surface-container-lowest p-space-md rounded-2xl shadow-sm hover:shadow-md transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-space-md border-l-4 border-surface-container-highest">
+<div class="flex items-start gap-space-md min-w-0">
+<button class="task-checkbox mt-1 w-5 h-5 rounded-md bg-surface-container flex items-center justify-center text-transparent hover:text-on-surface-variant transition-all cursor-pointer" type="button">
+<span class="material-symbols-outlined text-base">check</span>
+</button>
+<div class="flex flex-col min-w-0">
+<div class="flex flex-wrap items-center gap-2 mb-1">
+<span class="px-2 py-0.5 rounded font-label-sm text-label-sm bg-surface-container-low text-on-surface-variant flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-primary-fixed-dim"></span> Trabalho de Conclusão (TCC)
+                  </span>
+<span class="px-2 py-0.5 rounded font-label-sm text-label-sm bg-surface-container text-on-surface-variant font-medium">
+                    Média
+                  </span>
+<span class="font-code-sm text-code-sm text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-xs">schedule</span> Hoje às 18:00
+                  </span>
+</div>
+<h3 class="font-title text-title text-on-surface truncate group-hover:text-secondary transition-colors font-semibold">
+                  Enviar proposta de tema e justificativa para Orientador
+                </h3>
+<span class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">
+                  Prof. Dr. Ricardo Medeiros (Departamento de Informática).
+                </span>
+</div>
+</div>
+<div class="flex items-center justify-between sm:justify-end gap-space-md shrink-0 pt-2 sm:pt-0">
+<div class="flex items-center gap-1 font-code-sm text-code-sm text-on-surface-variant bg-surface-container px-2.5 py-1 rounded-lg">
+<span class="material-symbols-outlined text-sm">timelapse</span>
+<span>30m</span>
+</div>
+<button class="p-2 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors" title="Ver Detalhes" type="button">
+<span class="material-symbols-outlined text-xl">more_vert</span>
+</button>
+</div>
+</div>
+<!-- Task 4: Estruturas de Dados -->
+<div class="group bg-surface-container-lowest p-space-md rounded-2xl shadow-sm hover:shadow-md transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-space-md border-l-4 border-surface-container-highest">
+<div class="flex items-start gap-space-md min-w-0">
+<button class="task-checkbox mt-1 w-5 h-5 rounded-md bg-surface-container flex items-center justify-center text-transparent hover:text-on-surface-variant transition-all cursor-pointer" type="button">
+<span class="material-symbols-outlined text-base">check</span>
+</button>
+<div class="flex flex-col min-w-0">
+<div class="flex flex-wrap items-center gap-2 mb-1">
+<span class="px-2 py-0.5 rounded font-label-sm text-label-sm bg-surface-container-low text-on-surface-variant flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-outline"></span> Algoritmos &amp; Grafos
+                  </span>
+<span class="px-2 py-0.5 rounded font-label-sm text-label-sm bg-surface-container text-on-surface-variant font-medium">
+                    Média
+                  </span>
+<span class="font-code-sm text-code-sm text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-xs">schedule</span> Hoje às 21:00
+                  </span>
+</div>
+<h3 class="font-title text-title text-on-surface truncate group-hover:text-secondary transition-colors font-semibold">
+                  Leitura Cap. 5 - Árvores B+ e Indexação em Memória Secundária
+                </h3>
+<span class="font-body-sm text-body-sm text-on-surface-variant mt-0.5">
+                  Preparatório para a maratona prática de programação de amanhã.
+                </span>
+</div>
+</div>
+<div class="flex items-center justify-between sm:justify-end gap-space-md shrink-0 pt-2 sm:pt-0">
+<div class="flex items-center gap-1 font-code-sm text-code-sm text-on-surface-variant bg-surface-container px-2.5 py-1 rounded-lg">
+<span class="material-symbols-outlined text-sm">timelapse</span>
+<span>1h 00m</span>
+</div>
+<button class="p-2 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low transition-colors" title="Iniciar Leitura Focada" type="button">
+<span class="material-symbols-outlined text-xl">menu_book</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Academic Resource Snippet Visual Card -->
+<div class="mt-space-md bg-surface-container-lowest p-space-lg rounded-2xl shadow-sm flex flex-col md:flex-row items-center gap-space-lg">
+<div class="w-full md:w-48 h-32 rounded-xl overflow-hidden shrink-0 relative bg-surface-container">
+<img class="w-full h-full object-cover" data-alt="Modern university library study desk with open notebooks, laptop displaying algorithms, scientific calculator, soft daylight streaming through academic library windows, contemporary Brazilian collegiate atmosphere" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDk08yZQPQAyqGup76D0UkpJcjkQmshhAL6G2Ak8dgaJ2HHOVN9LegdRwtzjBfmT4TUiXjeBRMgJQOLRcZc3Gg_3qK1mIslCSq15dcLPwbCgTLuzGho569SLQtRSrENTAC67_cEyGnBmxFkmT4dLu_eOxxvewnKTqINH49zcuHCeZukA4e7LdHlu8TO1tYZAwIxY-gz2kbxiaicTyD9vnTtPONod8_ucyGYyVD14sA"/>
+<div class="absolute inset-0 bg-primary/20 backdrop-blur-[1px]"></div>
+<span class="absolute bottom-2 left-2 px-2 py-0.5 rounded bg-surface text-on-surface font-code-sm text-code-sm font-semibold">Biblioteca Central</span>
+</div>
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-base">local_library</span>
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-secondary font-semibold">Espaço de Concentração</span>
+</div>
+<h4 class="font-headline-sm text-headline-sm text-on-surface font-semibold">Sala de Estudo Silencioso 12B reservada</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+              Sua reserva para estudo individual das 14:00 às 17:30 foi confirmada pelo Sistema Integrado Universitário. Leve seu comprovante digital.
+            </p>
+</div>
+</div>
+</div>
+<!-- 4. Seção 'Próximos Prazos e Provas' (4 Cols Desktop) -->
+<div class="lg:col-span-4 flex flex-col gap-space-md">
+<div class="flex items-center justify-between pb-space-xs">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-secondary text-2xl">event_upcoming</span>
+<h2 class="font-headline-md text-headline-md text-on-surface tracking-tight">Próximos Prazos</h2>
+</div>
+<button class="text-on-surface-variant hover:text-on-surface font-label-sm text-label-sm font-medium" type="button">Ver mês</button>
+</div>
+<div class="bg-surface-container-lowest p-space-lg rounded-2xl shadow-sm flex flex-col gap-space-lg">
+<!-- Mini Horizontal Day Scroller -->
+<div class="flex items-center justify-between gap-1 pb-space-sm border-b-0">
+<div class="flex flex-col items-center p-2 rounded-xl bg-secondary text-on-secondary w-12 cursor-pointer shadow-sm">
+<span class="font-label-sm text-label-sm">TER</span>
+<span class="font-title text-title font-bold">18</span>
+<span class="w-1.5 h-1.5 rounded-full bg-on-secondary mt-1"></span>
+</div>
+<div class="flex flex-col items-center p-2 rounded-xl hover:bg-surface-container-low text-on-surface w-12 cursor-pointer transition-colors">
+<span class="font-label-sm text-label-sm text-on-surface-variant">QUA</span>
+<span class="font-title text-title font-bold">19</span>
+<span class="w-1.5 h-1.5 rounded-full bg-error mt-1" title="Prova P1"></span>
+</div>
+<div class="flex flex-col items-center p-2 rounded-xl hover:bg-surface-container-low text-on-surface w-12 cursor-pointer transition-colors">
+<span class="font-label-sm text-label-sm text-on-surface-variant">QUI</span>
+<span class="font-title text-title font-bold">20</span>
+<span class="w-1.5 h-1.5 rounded-full bg-secondary-container mt-1"></span>
+</div>
+<div class="flex flex-col items-center p-2 rounded-xl hover:bg-surface-container-low text-on-surface w-12 cursor-pointer transition-colors">
+<span class="font-label-sm text-label-sm text-on-surface-variant">SEX</span>
+<span class="font-title text-title font-bold">21</span>
+<span class="w-1.5 h-1.5 rounded-full bg-on-surface-variant mt-1"></span>
+</div>
+<div class="flex flex-col items-center p-2 rounded-xl hover:bg-surface-container-low text-on-surface w-12 cursor-pointer transition-colors opacity-50">
+<span class="font-label-sm text-label-sm text-on-surface-variant">SÁB</span>
+<span class="font-title text-title font-bold">22</span>
+</div>
+</div>
+<!-- Chronological Exam and Assessment Cards -->
+<div class="flex flex-col gap-space-md">
+<!-- Deadline 1: Prova Presencial (Impact Visual) -->
+<div class="relative p-space-md rounded-xl bg-error-container/30 flex flex-col gap-2">
+<div class="flex items-center justify-between">
+<span class="px-2 py-0.5 rounded font-label-sm text-label-sm bg-error text-on-error font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-xs">edit_document</span> PROVA P1
+                </span>
+<span class="font-code-sm text-code-sm text-error font-semibold">Amanhã • 14:00</span>
+</div>
+<h4 class="font-title text-title text-on-surface font-semibold">
+                Banco de Dados II: Modelagem &amp; SQL Avançado
+              </h4>
+<div class="flex items-center gap-1 text-on-surface-variant font-body-sm text-body-sm">
+<span class="material-symbols-outlined text-sm text-error">room</span>
+<span>Sala 304 • Bloco B (Campus Central)</span>
+</div>
+<div class="pt-2 flex items-center justify-between">
+<span class="font-code-sm text-code-sm text-on-surface-variant">Peso na Média: 40%</span>
+<button class="text-error font-label-sm text-label-sm font-semibold hover:underline" type="button">Ver Tópicos de Estudo</button>
+</div>
+</div>
+<!-- Deadline 2: Trabalho em Grupo -->
+<div class="p-space-md rounded-xl bg-surface-container-low flex flex-col gap-2 hover:bg-surface-container transition-colors">
+<div class="flex items-center justify-between">
+<span class="px-2 py-0.5 rounded font-label-sm text-label-sm bg-secondary-fixed text-on-secondary-fixed font-semibold">
+                  Trabalho em Equipe
+                </span>
+<span class="font-code-sm text-code-sm text-on-surface-variant font-medium">Qui, 23:59</span>
+</div>
+<h4 class="font-title text-title text-on-surface font-semibold">
+                Sistema Distribuído de Microserviços
+              </h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+                Engenharia de Software • Entrega do repositório Git e documentação OpenAPI.
+              </p>
+<div class="flex items-center justify-between pt-1">
+<div class="flex -space-x-1.5 overflow-hidden">
+<span class="inline-block h-6 w-6 rounded-full ring-2 ring-surface bg-surface-container-highest text-center font-code-sm text-code-sm pt-0.5 font-bold">MS</span>
+<span class="inline-block h-6 w-6 rounded-full ring-2 ring-surface bg-primary-fixed-dim text-center font-code-sm text-code-sm pt-0.5 font-bold">GC</span>
+<span class="inline-block h-6 w-6 rounded-full ring-2 ring-surface bg-tertiary-fixed text-center font-code-sm text-code-sm pt-0.5 font-bold">LA</span>
+</div>
+<span class="font-code-sm text-code-sm text-secondary font-semibold">3/5 etapas prontas</span>
+</div>
+</div>
+<!-- Deadline 3: Apresentação -->
+<div class="p-space-md rounded-xl bg-surface-container-low flex flex-col gap-2 hover:bg-surface-container transition-colors">
+<div class="flex items-center justify-between">
+<span class="px-2 py-0.5 rounded font-label-sm text-label-sm bg-surface-container text-on-surface-variant font-semibold">
+                  Seminário Prático
+                </span>
+<span class="font-code-sm text-code-sm text-on-surface-variant font-medium">Sex, 19:00</span>
+</div>
+<h4 class="font-title text-title text-on-surface font-semibold">
+                Apresentação: Interação Humano-Computador
+              </h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+                Defesa dos testes de usabilidade com protótipo em alta fidelidade.
+              </p>
+<div class="flex items-center gap-1 text-on-surface-variant font-body-sm text-body-sm pt-1">
+<span class="material-symbols-outlined text-sm">videocam</span>
+<span>Laboratório de Mídia 02 ou Sala Virtual</span>
+</div>
+</div>
+</div>
+<!-- Academic Performance Mini Gauge (Inline SVG Chart) -->
+<div class="p-space-md bg-surface-container rounded-xl flex items-center justify-between gap-space-md">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase font-semibold">IRA Estimado</span>
+<span class="font-headline-sm text-headline-sm text-on-surface font-bold">8.74 / 10.0</span>
+<span class="font-code-sm text-code-sm text-secondary font-medium">Top 5% da turma de 2022</span>
+</div>
+<!-- SVG Progress Ring Gauge -->
+<div class="relative w-16 h-16 shrink-0 flex items-center justify-center">
+<svg class="w-full h-full transform -rotate-90" viewbox="0 0 36 36">
+<path class="text-surface-container-highest" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-width="3.5"></path>
+<path class="text-secondary" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-dasharray="87.4, 100" stroke-linecap="round" stroke-width="3.5"></path>
+</svg>
+<span class="material-symbols-outlined absolute text-secondary text-lg">military_tech</span>
+</div>
+</div>
+</div>
+<!-- Campus Quick Notice -->
+<div class="p-space-md rounded-2xl bg-surface-container-lowest shadow-sm flex items-center gap-space-md">
+<div class="w-10 h-10 rounded-xl bg-surface-container flex items-center justify-center text-on-surface shrink-0">
+<span class="material-symbols-outlined text-xl">campaign</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-sm text-label-sm font-semibold text-on-surface truncate">Aviso da Secretaria Geral</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant truncate">Inscrições abertas para monitoria bolsista até 25/03.</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<script>
+  // Dynamic interaction handling for checkbox states and AI insight dismiss
+  document.querySelectorAll('.task-checkbox').forEach(btn => {
+    btn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      const isChecked = this.getAttribute('data-checked') === 'true';
+      if (!isChecked) {
+        this.setAttribute('data-checked', 'true');
+        this.classList.remove('bg-surface-container', 'text-transparent');
+        this.classList.add('bg-secondary', 'text-on-secondary');
+        const titleEl = this.closest('.group').querySelector('h3');
+        if (titleEl) {
+          titleEl.classList.add('line-through', 'opacity-50');
+        }
+      } else {
+        this.setAttribute('data-checked', 'false');
+        this.classList.remove('bg-secondary', 'text-on-secondary');
+        this.classList.add('bg-surface-container', 'text-transparent');
+        const titleEl = this.closest('.group').querySelector('h3');
+        if (titleEl) {
+          titleEl.classList.remove('line-through', 'opacity-50');
+        }
+      }
+    });
+  });
+
+  const dismissBtn = document.getElementById('dismiss-ai-btn');
+  if (dismissBtn) {
+    dismissBtn.addEventListener('click', function() {
+      const banner = this.closest('.relative.w-full.rounded-2xl');
+      if (banner) {
+        banner.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+        banner.style.opacity = '0';
+        banner.style.transform = 'translateY(-10px)';
+        setTimeout(() => banner.remove(), 300);
+      }
+    });
+  }
+
+  const optimizeBtn = document.getElementById('optimize-ai-btn');
+  if (optimizeBtn) {
+    optimizeBtn.addEventListener('click', function() {
+      this.innerHTML = '<span class="material-symbols-outlined text-base animate-spin">progress_activity</span><span>Reestruturando tarefas...</span>';
+      setTimeout(() => {
+        this.innerHTML = '<span class="material-symbols-outlined text-base">check</span><span>Cronograma Otimizado!</span>';
+        this.classList.remove('bg-secondary');
+        this.classList.add('bg-surface-container-highest', 'text-on-surface');
+      }, 900);
+    });
+  }
+</script></main></div></body></html>

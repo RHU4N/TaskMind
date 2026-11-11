@@ -1,0 +1,6 @@
+{
+  "name": "TaskMind — Academic Intelligence",
+  "description": "Sistema de inteligência acadêmica para gestão de tarefas, prazos, disciplinas, frequência e simulador de aprovação.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

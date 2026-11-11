@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={"darkMode":"class","theme":{"extend":{"colors":{"tertiary-fixed":"#cce5ff","surface-container-highest":"#d3e4fe","error-container":"#ffdad6","on-secondary-fixed":"#25005a","on-surface-variant":"#45464d","on-secondary-fixed-variant":"#5a00c6","on-tertiary-fixed":"#001d31","error":"#ba1a1a","on-primary-fixed":"#131b2e","inverse-primary":"#bec6e0","on-background":"#0b1c30","on-error":"#ffffff","on-primary-container":"#7c839b","tertiary-container":"#001d31","secondary-fixed":"#eaddff","surface-container":"#e5eeff","primary-container":"#131b2e","on-primary":"#ffffff","primary-fixed":"#dae2fd","surface":"#f8f9ff","on-tertiary-fixed-variant":"#004b73","surface-container-lowest":"#ffffff","tertiary-fixed-dim":"#93ccff","on-surface":"#0b1c30","surface-bright":"#f8f9ff","on-tertiary-container":"#188ace","on-secondary":"#ffffff","primary-fixed-dim":"#bec6e0","surface-tint":"#565e74","surface-container-low":"#eff4ff","primary":"#000000","inverse-on-surface":"#eaf1ff","on-primary-fixed-variant":"#3f465c","on-secondary-container":"#fffbff","outline":"#76777d","surface-variant":"#d3e4fe","tertiary":"#000000","secondary-fixed-dim":"#d2bbff","secondary-container":"#8a4cfc","on-error-container":"#93000a","outline-variant":"#c6c6cd","surface-dim":"#cbdbf5","background":"#f8f9ff","surface-container-high":"#dce9ff","on-tertiary":"#ffffff","inverse-surface":"#213145","secondary":"#712ae2"},"borderRadius":{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},"spacing":{"space-lg":"1.5rem","space-xs":"0.25rem","space-sm":"0.5rem","margin-mobile":"1rem","space-2xl":"3rem","space-xl":"2rem","margin":"2rem","space-md":"1rem","gutter":"1.5rem","gutter-mobile":"1rem"},"fontFamily":{"display-mobile":["Plus Jakarta Sans"],"code-sm":["JetBrains Mono"],"label-sm":["Inter"],"body-lg":["Inter"],"headline-sm":["Plus Jakarta Sans"],"body-sm":["Inter"],"label-md":["Inter"],"body-md":["Inter"],"title":["Plus Jakarta Sans"],"display":["Plus Jakarta Sans"],"headline-lg-mobile":["Plus Jakarta Sans"],"headline-lg":["Plus Jakarta Sans"],"headline-md":["Plus Jakarta Sans"]},"fontSize":{"display-mobile":["1.75rem",{"lineHeight":"2.25rem","letterSpacing":"-0.02em","fontWeight":"700"}],"code-sm":["0.75rem",{"lineHeight":"1rem","fontWeight":"400"}],"label-sm":["0.75rem",{"lineHeight":"1rem","letterSpacing":"0.01em","fontWeight":"600"}],"body-lg":["1rem",{"lineHeight":"1.625rem","fontWeight":"400"}],"headline-sm":["1.125rem",{"lineHeight":"1.625rem","letterSpacing":"-0.01em","fontWeight":"600"}],"body-sm":["0.75rem",{"lineHeight":"1.125rem","fontWeight":"400"}],"label-md":["0.875rem",{"lineHeight":"1.25rem","fontWeight":"500"}],"body-md":["0.875rem",{"lineHeight":"1.375rem","fontWeight":"400"}],"title":["1rem",{"lineHeight":"1.5rem","letterSpacing":"-0.005em","fontWeight":"600"}],"display":["2.25rem",{"lineHeight":"2.75rem","letterSpacing":"-0.025em","fontWeight":"700"}],"headline-lg-mobile":["1.375rem",{"lineHeight":"1.875rem","letterSpacing":"-0.015em","fontWeight":"600"}],"headline-lg":["1.75rem",{"lineHeight":"2.25rem","letterSpacing":"-0.02em","fontWeight":"600"}],"headline-md":["1.25rem",{"lineHeight":"1.75rem","letterSpacing":"-0.015em","fontWeight":"600"}]}}}}</script></head><body class="bg-surface font-body-md text-on-surface antialiased min-h-screen"><aside class="hidden lg:flex fixed left-0 top-0 h-full w-64 bg-surface-container-lowest shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-50 flex-col justify-between"><div class="flex flex-col"><div class="h-16 px-space-md flex items-center gap-space-sm"><img alt="TaskMind Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/ALJJyrCHzmE-pEaVLvgUCVwRIHjfSQiaUs68soDTJJAOQzRdiYcRl5NlppQMKbw41TAZLgsdDD38rIq1dGwQotUkoROBqh7B67ht6HebgFTtz-fjJLALHO7VMgYI_7rponmQW67tVzec8p7Ry4OrJMphYfKxwC8Zv4LGsdK2v7fqwMjwHVYJIbQVWE6DhPCnxrXyjK6X-Y4E85cz_ogfL8fZjSIKxyFG5GwwBfPx7zhXWfvL"/><div class="flex flex-col"><span class="font-title text-title text-on-surface leading-tight">TaskMind</span><span class="font-code-sm text-code-sm text-secondary font-medium tracking-wide uppercase">Acadêmico IA</span></div></div><div class="px-space-md py-space-sm"><span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant">Menu Principal</span></div><nav class="flex flex-col gap-space-xs px-space-sm" data-active-classes="bg-surface-container text-on-surface font-semibold"><a class="flex items-center px-space-md py-2.5 rounded-lg font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="dashboard-visao-geral" href="#">Visão Geral</a><a class="flex items-center px-space-md py-2.5 rounded-lg font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="minhas-tarefas-e-modal" href="#">Minhas Tarefas</a><a class="flex items-center px-space-md py-2.5 rounded-lg font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="assistente-ia-academico" href="#">Assistente IA</a><a aria-current="page" class="flex items-center px-space-md py-2.5 rounded-lg transition-colors bg-surface-container text-on-surface font-semibold" data-path="disciplinas" href="#">Disciplinas</a><a class="flex items-center px-space-md py-2.5 rounded-lg font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="calendario-e-cronograma-de-provas" href="#">Calendário</a></nav></div><div class="p-space-md flex flex-col gap-space-sm"><div class="p-space-md bg-surface-container-low rounded-xl flex flex-col gap-space-xs"><div class="flex items-center justify-between"><span class="font-label-sm text-label-sm text-on-surface font-semibold">Semestre 2025.1</span><span class="font-code-sm text-code-sm text-secondary font-semibold">68%</span></div><div class="w-full bg-surface-container-high rounded-full h-1.5 overflow-hidden"><div class="bg-secondary h-1.5 rounded-full" style="width: 68%"></div></div><p class="font-body-sm text-body-sm text-on-surface-variant">Faltam 42 dias para o término do período letivo.</p></div><div class="flex items-center gap-space-sm pt-space-xs"><img alt="Profile" class="w-8 h-8 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBtpY6lyXcYJa5d4GdtYugyp36tKBpmibILjqM05LXN_vj6kzucxmxyLHGPuov37c2zJZsQwY4aEcnVWAtMW0gok7UpyxXMn9o1UhjtsV_0T3PKHqgNONpnMa2qkmRNfdnInXGVfb0n3GUfXZE921YfqbvWKBN_NDDD7NC44FGW7jeQtcaL7hkOHidBJky237zD5fBftBgr4q3Hd0-aHG_juKtC_N8Diqdv16LS20o"/><div class="flex flex-col min-w-0 flex-1"><span class="font-label-md text-label-md text-on-surface truncate font-semibold">Mariana Silva</span><span class="font-body-sm text-body-sm text-on-surface-variant truncate">Eng. de Software</span></div><span class="w-2.5 h-2.5 rounded-full bg-secondary" title="Status Ativo"></span></div></div></aside><div class="lg:pl-64 flex flex-col min-h-screen"><header class="fixed top-0 left-0 lg:left-64 right-0 z-40 bg-surface/85 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-16 w-full px-space-md lg:px-gutter flex items-center justify-between gap-space-md"><div class="flex items-center gap-space-sm flex-1 max-w-xl"><div class="relative w-full"><span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-xl pointer-events-none">search</span><input class="w-full h-10 pl-10 pr-4 bg-surface-container-lowest rounded-lg font-body-md text-body-md text-on-surface placeholder:text-on-surface-variant/70 focus:outline-none focus:ring-2 focus:ring-secondary/40 transition-all shadow-[0_1px_3px_rgba(15,23,42,0.04)]" placeholder="Buscar tarefas, disciplinas, resumos... (Ctrl + K)" type="text"/></div></div><div class="flex items-center gap-space-sm"><button class="inline-flex items-center gap-space-xs h-10 px-4 bg-primary text-on-primary rounded-lg font-label-md text-label-md hover:bg-primary-container hover:text-on-primary-container transition-colors shadow-sm" type="button"><span class="material-symbols-outlined text-lg">add</span><span class="hidden sm:inline">Nova Tarefa</span></button><button aria-label="Notificações de prazos" class="relative p-2 rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" type="button"><span class="material-symbols-outlined text-2xl">notifications</span><span class="absolute top-1.5 right-1.5 flex h-4 w-4 items-center justify-center rounded-full bg-error text-on-error font-code-sm text-code-sm">3</span></button><div class="hidden sm:flex items-center gap-space-xs pl-space-xs"><img alt="Profile" class="w-8 h-8 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBtpY6lyXcYJa5d4GdtYugyp36tKBpmibILjqM05LXN_vj6kzucxmxyLHGPuov37c2zJZsQwY4aEcnVWAtMW0gok7UpyxXMn9o1UhjtsV_0T3PKHqgNONpnMa2qkmRNfdnInXGVfb0n3GUfXZE921YfqbvWKBN_NDDD7NC44FGW7jeQtcaL7hkOHidBJky237zD5fBftBgr4q3Hd0-aHG_juKtC_N8Diqdv16LS20o"/><div class="hidden xl:flex flex-col text-left"><span class="font-label-md text-label-md text-on-surface font-semibold leading-tight">Mariana Silva</span><span class="font-body-sm text-body-sm text-on-surface-variant leading-tight">Discente Ativa</span></div></div></div></div></header><main class="w-full pt-16 bg-surface flex-1"><div class="flex flex-col w-full">
+<!-- Interactive Script to Sync Sidebar Active State -->
+<script>
+    (function() {
+      const activeLink = document.querySelector('nav a[data-path="disciplinas"]');
+      if (activeLink) {
+        document.querySelectorAll('nav a').forEach(el => {
+          el.classList.remove('bg-surface-container', 'text-on-surface', 'font-semibold');
+          el.classList.add('text-on-surface-variant');
+        });
+        activeLink.classList.add('bg-surface-container', 'text-on-surface', 'font-semibold');
+        activeLink.classList.remove('text-on-surface-variant');
+      }
+    })();
+  </script>
+<div class="px-space-md lg:px-margin py-space-lg flex flex-col gap-space-xl max-w-[1600px] mx-auto w-full">
+<!-- 1. Page Header Section -->
+<header class="flex flex-col xl:flex-row xl:items-center xl:justify-between gap-space-md pb-space-xs">
+<div class="flex flex-col gap-space-xs">
+<div class="flex flex-wrap items-center gap-space-xs sm:gap-space-sm">
+<h1 class="font-headline-lg text-headline-lg text-on-surface tracking-tight">Minhas Disciplinas</h1>
+<span class="inline-flex items-center gap-1.5 px-3 py-1 bg-surface-container-high text-on-surface rounded-full font-label-sm text-label-sm shadow-sm">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+            Semestre Letivo 2025.1 • 5 Disciplinas Matriculadas (28 créditos)
+          </span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-3xl">
+          Acompanhamento acadêmico de ementas, desempenho em notas, controle de frequência e previsão de aprovação orientada por IA.
+        </p>
+</div>
+<!-- Header Quick Actions -->
+<div class="flex flex-wrap items-center gap-space-sm">
+<div class="flex items-center gap-space-xs px-3 py-1.5 bg-surface-container-lowest rounded-lg shadow-sm">
+<span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Sincronizado há 15 min</span>
+<button class="ml-1 inline-flex items-center gap-1 text-on-surface font-label-sm text-label-sm hover:text-secondary transition-colors" title="Atualizar dados do portal acadêmico" type="button">
+<span class="material-symbols-outlined text-base">sync</span>
+<span>SIGA / Moodle</span>
+</button>
+</div>
+<button class="inline-flex items-center gap-space-xs h-10 px-4 bg-primary text-on-primary rounded-lg font-label-md text-label-md hover:bg-primary-container hover:text-on-primary-container shadow-sm transition-all" type="button">
+<span class="material-symbols-outlined text-lg">download</span>
+<span>Boletim &amp; Relatório Semestral</span>
+</button>
+</div>
+</header>
+<!-- 2. Performance Metrics Bar (4 Academic KPIs) -->
+<section aria-label="Indicadores Acadêmicos Gerais" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-space-md">
+<!-- KPI 1: IRA -->
+<div class="p-space-lg bg-surface-container-lowest rounded-2xl shadow-sm flex flex-col justify-between gap-space-sm relative overflow-hidden group hover:shadow-md transition-shadow">
+<div class="flex items-start justify-between">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Média Geral Ponderada (IRA)</span>
+<div class="flex items-baseline gap-2 mt-1">
+<span class="font-display text-display text-on-surface">8.74</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">/ 10.0</span>
+</div>
+</div>
+<div class="p-2.5 rounded-xl bg-surface-container text-secondary">
+<span class="material-symbols-outlined text-2xl">grade</span>
+</div>
+</div>
+<div class="flex items-center justify-between pt-space-xs">
+<span class="inline-flex items-center gap-1 font-code-sm text-code-sm text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md font-semibold">
+<span class="material-symbols-outlined text-sm">trending_up</span> +0.4 vs 2024.2
+          </span>
+<span class="inline-flex items-center px-2 py-0.5 bg-secondary-fixed text-on-secondary-fixed rounded-md font-label-sm text-label-sm font-semibold">
+            Top 5% da Turma
+          </span>
+</div>
+</div>
+<!-- KPI 2: Frequência -->
+<div class="p-space-lg bg-surface-container-lowest rounded-2xl shadow-sm flex flex-col justify-between gap-space-sm relative overflow-hidden group hover:shadow-md transition-shadow">
+<div class="flex items-start justify-between">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Frequência Média Geral</span>
+<div class="flex items-baseline gap-2 mt-1">
+<span class="font-display text-display text-on-surface">92.4%</span>
+</div>
+</div>
+<div class="p-2.5 rounded-xl bg-surface-container text-on-surface">
+<span class="material-symbols-outlined text-2xl">event_available</span>
+</div>
+</div>
+<div class="flex flex-col gap-1.5 pt-space-xs">
+<div class="w-full bg-surface-container rounded-full h-1.5 overflow-hidden">
+<div class="bg-emerald-600 h-1.5 rounded-full" style="width: 92.4%"></div>
+</div>
+<div class="flex justify-between font-body-sm text-body-sm text-on-surface-variant">
+<span>Zona Segura</span>
+<span>Mínimo institucional: 75%</span>
+</div>
+</div>
+</div>
+<!-- KPI 3: Carga Horária -->
+<div class="p-space-lg bg-surface-container-lowest rounded-2xl shadow-sm flex flex-col justify-between gap-space-sm relative overflow-hidden group hover:shadow-md transition-shadow">
+<div class="flex items-start justify-between">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Carga Horária do Semestre</span>
+<div class="flex items-baseline gap-2 mt-1">
+<span class="font-display text-display text-on-surface">420h</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">/ 480h totais</span>
+</div>
+</div>
+<div class="p-2.5 rounded-xl bg-surface-container text-on-surface">
+<span class="material-symbols-outlined text-2xl">schedule</span>
+</div>
+</div>
+<div class="flex items-center justify-between pt-space-xs">
+<div class="w-full bg-surface-container rounded-full h-1.5 overflow-hidden mr-3">
+<div class="bg-secondary h-1.5 rounded-full" style="width: 87.5%"></div>
+</div>
+<span class="font-code-sm text-code-sm text-secondary font-semibold shrink-0">87.5%</span>
+</div>
+</div>
+<!-- KPI 4: Previsão IA -->
+<div class="p-space-lg bg-surface-container-lowest rounded-2xl shadow-sm flex flex-col justify-between gap-space-sm relative overflow-hidden group hover:shadow-md transition-shadow">
+<div class="flex items-start justify-between">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-secondary uppercase tracking-wider font-semibold flex items-center gap-1">
+<span class="material-symbols-outlined text-sm">auto_awesome</span> Previsão TaskMind IA
+            </span>
+<div class="flex items-baseline gap-2 mt-1">
+<span class="font-display text-display text-on-surface">5 / 5</span>
+<span class="font-body-sm text-body-sm text-emerald-700 font-semibold">&gt; 90% chance</span>
+</div>
+</div>
+<div class="p-2.5 rounded-xl bg-secondary-fixed text-on-secondary-fixed">
+<span class="material-symbols-outlined text-2xl">verified</span>
+</div>
+</div>
+<div class="pt-space-xs">
+<span class="inline-flex items-center gap-1 font-body-sm text-body-sm text-on-surface-variant">
+<span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+            Zero risco crítico de reprovação por falta
+          </span>
+</div>
+</div>
+</section>
+<!-- 3. Controls & Filter Bar -->
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-space-md bg-surface-container-lowest p-space-md rounded-2xl shadow-sm">
+<!-- Search Input -->
+<div class="relative flex-1 max-w-md">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-xl pointer-events-none">search</span>
+<input class="w-full h-10 pl-10 pr-4 bg-surface-container-low rounded-lg font-body-md text-body-md text-on-surface placeholder:text-on-surface-variant/60 focus:outline-none focus:bg-surface-container-lowest transition-colors" placeholder="Filtrar por nome da disciplina, código ou docente..." type="text"/>
+</div>
+<!-- Category Filter Tabs & View Toggle -->
+<div class="flex flex-wrap items-center gap-space-sm justify-between md:justify-end">
+<div class="inline-flex p-1 bg-surface-container-low rounded-xl">
+<button class="px-3 py-1.5 bg-surface-container-lowest text-on-surface font-label-md text-label-md rounded-lg shadow-sm font-semibold" type="button">Todas (5)</button>
+<button class="px-3 py-1.5 text-on-surface-variant hover:text-on-surface font-label-md text-label-md rounded-lg transition-colors" type="button">Exatas &amp; Comp (4)</button>
+<button class="px-3 py-1.5 text-on-surface-variant hover:text-on-surface font-label-md text-label-md rounded-lg transition-colors" type="button">Humanidades (1)</button>
+<button class="px-3 py-1.5 text-on-surface-variant hover:text-on-surface font-label-md text-label-md rounded-lg transition-colors flex items-center gap-1" type="button">
+<span>Pendentes</span>
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+</button>
+</div>
+<!-- View Switcher -->
+<div class="inline-flex p-1 bg-surface-container-low rounded-xl">
+<button class="p-1.5 bg-surface-container-lowest text-on-surface rounded-lg shadow-sm" title="Visualização em Grade" type="button">
+<span class="material-symbols-outlined text-lg">grid_view</span>
+</button>
+<button class="p-1.5 text-on-surface-variant hover:text-on-surface rounded-lg transition-colors" title="Visualização em Tabela" type="button">
+<span class="material-symbols-outlined text-lg">table_rows</span>
+</button>
+</div>
+</div>
+</div>
+<!-- 4. Disciplines Grid Layout (Cards Ricos e Interativos) -->
+<div class="grid grid-cols-1 xl:grid-cols-2 gap-space-lg">
+<!-- CARD 1: BANCO DE DADOS II (CC320) -->
+<article class="bg-surface-container-lowest rounded-2xl p-space-lg shadow-sm flex flex-col justify-between gap-space-md hover:shadow-md transition-shadow">
+<div class="flex flex-col gap-space-md">
+<!-- Card Header -->
+<div class="flex items-start justify-between gap-space-sm">
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-2">
+<span class="px-2.5 py-0.5 rounded-md bg-blue-100 text-blue-800 font-code-sm text-code-sm font-semibold">CC320</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">4 créditos • 60h</span>
+</div>
+<h2 class="font-headline-md text-headline-md text-on-surface tracking-tight">Banco de Dados II</h2>
+<div class="flex flex-wrap items-center gap-x-3 gap-y-1 font-body-sm text-body-sm text-on-surface-variant">
+<span class="inline-flex items-center gap-1"><span class="material-symbols-outlined text-sm">person</span> Prof. Carlos Eduardo (DComp)</span>
+<span class="inline-flex items-center gap-1"><span class="material-symbols-outlined text-sm">location_on</span> Lab 04 Bloco B</span>
+</div>
+</div>
+<span class="inline-flex items-center px-3 py-1 rounded-full bg-emerald-50 text-emerald-800 font-label-sm text-label-sm font-semibold shrink-0">
+              Média Atual: 8.2 • Em Andamento
+            </span>
+</div>
+<!-- Attendance & Absence Control -->
+<div class="p-space-md bg-surface-container-low rounded-xl flex flex-col gap-space-xs">
+<div class="flex items-center justify-between font-label-md text-label-md">
+<span class="text-on-surface font-semibold flex items-center gap-1.5">
+<span class="material-symbols-outlined text-secondary text-base">checklist</span> Controle de Frequência
+              </span>
+<span class="font-code-sm text-code-sm text-emerald-700 font-semibold">93.3% (28 de 30 presenças)</span>
+</div>
+<div class="w-full bg-surface-container-high rounded-full h-2 overflow-hidden">
+<div class="bg-emerald-600 h-2 rounded-full" style="width: 93.3%"></div>
+</div>
+<div class="flex items-center justify-between font-body-sm text-body-sm text-on-surface-variant">
+<span>2 faltas computadas (limite: 15)</span>
+<span class="text-emerald-700 font-medium">Margem segura: restam 13 faltas</span>
+</div>
+</div>
+<!-- Grade Breakdown -->
+<div class="flex flex-col gap-space-xs">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant">Composição de Notas &amp; Entregas</span>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+<div class="p-2.5 bg-surface-container rounded-lg flex items-center justify-between">
+<div class="flex flex-col min-w-0 pr-2">
+<span class="font-label-md text-label-md text-on-surface truncate">P1: Modelo Relacional &amp; SQL</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Peso 40% • 22/05</span>
+</div>
+<span class="px-2 py-0.5 bg-surface-container-highest text-on-surface font-code-sm text-code-sm rounded shrink-0">Aguardando</span>
+</div>
+<div class="p-2.5 bg-surface-container rounded-lg flex items-center justify-between">
+<div class="flex flex-col min-w-0 pr-2">
+<span class="font-label-md text-label-md text-on-surface truncate">TP1: Modelagem Normalizada</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Peso 25%</span>
+</div>
+<span class="px-2 py-0.5 bg-emerald-100 text-emerald-900 font-code-sm text-code-sm font-semibold rounded shrink-0">8.8 / 10.0</span>
+</div>
+<div class="p-2.5 bg-surface-container rounded-lg flex items-center justify-between">
+<div class="flex flex-col min-w-0 pr-2">
+<span class="font-label-md text-label-md text-on-surface truncate">Exercícios Contínuos</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Peso 15%</span>
+</div>
+<span class="px-2 py-0.5 bg-emerald-100 text-emerald-900 font-code-sm text-code-sm font-semibold rounded shrink-0">9.5 / 10.0</span>
+</div>
+<div class="p-2.5 bg-surface-container rounded-lg flex items-center justify-between">
+<div class="flex flex-col min-w-0 pr-2">
+<span class="font-label-md text-label-md text-on-surface truncate">P2: Otimização &amp; NoSQL</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Peso 20%</span>
+</div>
+<span class="px-2 py-0.5 bg-surface-container-highest text-on-surface-variant font-code-sm text-code-sm rounded shrink-0">Não realizada</span>
+</div>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant pt-1">
+              Nota mínima necessária na P1 para aprovação direta: <strong class="text-on-surface font-semibold">5.4</strong>
+</p>
+</div>
+<!-- Syllabus Accordion -->
+<details class="group bg-surface-container-low rounded-xl overflow-hidden">
+<summary class="flex items-center justify-between p-3 font-label-md text-label-md text-on-surface font-semibold cursor-pointer select-none">
+<span class="flex items-center gap-2">
+<span class="material-symbols-outlined text-base text-secondary">menu_book</span>
+                Ementa &amp; Conteúdo Programático
+              </span>
+<span class="material-symbols-outlined text-lg transition-transform group-open:rotate-180">expand_more</span>
+</summary>
+<div class="px-3 pb-3 flex flex-col gap-2 font-body-sm text-body-sm text-on-surface-variant">
+<div class="flex flex-wrap gap-1.5">
+<span class="px-2 py-1 bg-surface-container-lowest rounded text-on-surface">Álgebra Relacional</span>
+<span class="px-2 py-1 bg-surface-container-lowest rounded text-on-surface">Subqueries &amp; Joins Avançados</span>
+<span class="px-2 py-1 bg-surface-container-lowest rounded text-on-surface">Índices B+ e Árvores Hash</span>
+<span class="px-2 py-1 bg-surface-container-lowest rounded text-on-surface">Transações ACID e Concorrência</span>
+</div>
+<a class="inline-flex items-center gap-1 text-secondary font-label-sm text-label-sm font-semibold hover:underline mt-1" href="#">
+<span class="material-symbols-outlined text-base">picture_as_pdf</span>
+                Baixar Plano de Ensino Oficial (.PDF)
+              </a>
+</div>
+</details>
+<!-- AI Insight Box -->
+<div class="p-3 bg-secondary-fixed/40 rounded-xl flex items-start gap-2.5">
+<span class="material-symbols-outlined text-secondary text-lg mt-0.5 shrink-0">lightbulb</span>
+<div class="flex flex-col gap-1">
+<p class="font-body-sm text-body-sm text-on-surface font-medium leading-relaxed">
+                A prova P1 vale 40% da nota final. Recomendado revisar o módulo de Índices B+ e Otimização antes de 22/05.
+              </p>
+<div class="flex items-center gap-3 pt-0.5">
+<button class="font-label-sm text-label-sm text-secondary font-bold hover:underline inline-flex items-center gap-1" type="button">
+<span class="material-symbols-outlined text-xs">auto_awesome</span> Gerar Simulado com IA
+                </button>
+<span class="text-on-surface-variant">•</span>
+<button class="font-label-sm text-label-sm text-on-surface-variant hover:text-on-surface font-medium" type="button">Ver 3 tarefas da matéria</button>
+</div>
+</div>
+</div>
+</div>
+</article>
+<!-- CARD 2: INTELIGÊNCIA ARTIFICIAL (CC510) -->
+<article class="bg-surface-container-lowest rounded-2xl p-space-lg shadow-sm flex flex-col justify-between gap-space-md hover:shadow-md transition-shadow">
+<div class="flex flex-col gap-space-md">
+<!-- Card Header -->
+<div class="flex items-start justify-between gap-space-sm">
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-2">
+<span class="px-2.5 py-0.5 rounded-md bg-purple-100 text-purple-900 font-code-sm text-code-sm font-semibold">CC510</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">4 créditos • 60h</span>
+</div>
+<h2 class="font-headline-md text-headline-md text-on-surface tracking-tight">Inteligência Artificial</h2>
+<div class="flex flex-wrap items-center gap-x-3 gap-y-1 font-body-sm text-body-sm text-on-surface-variant">
+<span class="inline-flex items-center gap-1"><span class="material-symbols-outlined text-sm">person</span> Prof. Marcos Vinicius</span>
+<span class="inline-flex items-center gap-1"><span class="material-symbols-outlined text-sm">location_on</span> Auditório Computação</span>
+</div>
+</div>
+<span class="inline-flex items-center px-3 py-1 rounded-full bg-secondary-fixed text-on-secondary-fixed font-label-sm text-label-sm font-semibold shrink-0">
+              Média Atual: 9.0 • Destaque
+            </span>
+</div>
+<!-- Attendance -->
+<div class="p-space-md bg-surface-container-low rounded-xl flex flex-col gap-space-xs">
+<div class="flex items-center justify-between font-label-md text-label-md">
+<span class="text-on-surface font-semibold flex items-center gap-1.5">
+<span class="material-symbols-outlined text-secondary text-base">checklist</span> Controle de Frequência
+              </span>
+<span class="font-code-sm text-code-sm text-emerald-700 font-semibold">96.6% (29 de 30 presenças)</span>
+</div>
+<div class="w-full bg-surface-container-high rounded-full h-2 overflow-hidden">
+<div class="bg-emerald-600 h-2 rounded-full" style="width: 96.6%"></div>
+</div>
+<div class="flex items-center justify-between font-body-sm text-body-sm text-on-surface-variant">
+<span>1 falta computada (limite: 15)</span>
+<span class="text-emerald-700 font-medium">Margem segura: restam 14 faltas</span>
+</div>
+</div>
+<!-- Grade Breakdown -->
+<div class="flex flex-col gap-space-xs">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant">Composição de Notas &amp; Entregas</span>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+<div class="p-2.5 bg-surface-container rounded-lg flex items-center justify-between">
+<div class="flex flex-col min-w-0 pr-2">
+<span class="font-label-md text-label-md text-on-surface truncate">P1: Busca Heurística &amp; Agentes</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Peso 35% • 28/05</span>
+</div>
+<span class="px-2 py-0.5 bg-surface-container-highest text-on-surface font-code-sm text-code-sm rounded shrink-0">Prevista</span>
+</div>
+<div class="p-2.5 bg-surface-container rounded-lg flex items-center justify-between">
+<div class="flex flex-col min-w-0 pr-2">
+<span class="font-label-md text-label-md text-on-surface truncate">Lista de Exercícios 1 &amp; 2</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Peso 25%</span>
+</div>
+<span class="px-2 py-0.5 bg-emerald-100 text-emerald-900 font-code-sm text-code-sm font-semibold rounded shrink-0">9.8 / 10.0</span>
+</div>
+<div class="p-2.5 bg-surface-container rounded-lg flex items-center justify-between">
+<div class="flex flex-col min-w-0 pr-2">
+<span class="font-label-md text-label-md text-on-surface truncate">Projeto: Algoritmo A* em Rust</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Peso 40%</span>
+</div>
+<span class="px-2 py-0.5 bg-emerald-100 text-emerald-900 font-code-sm text-code-sm font-semibold rounded shrink-0">9.2 / 10.0</span>
+</div>
+<div class="p-2.5 bg-surface-container rounded-lg flex items-center justify-between">
+<div class="flex flex-col min-w-0 pr-2">
+<span class="font-label-md text-label-md text-on-surface truncate">Participação em Seminários</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Bônus</span>
+</div>
+<span class="px-2 py-0.5 bg-emerald-100 text-emerald-900 font-code-sm text-code-sm font-semibold rounded shrink-0">+0.5 pt</span>
+</div>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant pt-1">
+              Probabilidade de aprovação com distinção (A+): <strong class="text-emerald-700 font-semibold">94%</strong>
+</p>
+</div>
+<!-- Syllabus Accordion -->
+<details class="group bg-surface-container-low rounded-xl overflow-hidden">
+<summary class="flex items-center justify-between p-3 font-label-md text-label-md text-on-surface font-semibold cursor-pointer select-none">
+<span class="flex items-center gap-2">
+<span class="material-symbols-outlined text-base text-secondary">menu_book</span>
+                Ementa &amp; Conteúdo Programático
+              </span>
+<span class="material-symbols-outlined text-lg transition-transform group-open:rotate-180">expand_more</span>
+</summary>
+<div class="px-3 pb-3 flex flex-col gap-2 font-body-sm text-body-sm text-on-surface-variant">
+<div class="flex flex-wrap gap-1.5">
+<span class="px-2 py-1 bg-surface-container-lowest rounded text-on-surface">Agentes Inteligentes</span>
+<span class="px-2 py-1 bg-surface-container-lowest rounded text-on-surface">Busca Não-Informada e A*</span>
+<span class="px-2 py-1 bg-surface-container-lowest rounded text-on-surface">Algoritmos Genéticos</span>
+<span class="px-2 py-1 bg-surface-container-lowest rounded text-on-surface">Redes Neurais &amp; LLMs</span>
+</div>
+<a class="inline-flex items-center gap-1 text-secondary font-label-sm text-label-sm font-semibold hover:underline mt-1" href="#">
+<span class="material-symbols-outlined text-base">picture_as_pdf</span>
+                Baixar Plano de Ensino Oficial (.PDF)
+              </a>
+</div>
+</details>
+<!-- AI Insight Box -->
+<div class="p-3 bg-secondary-fixed/40 rounded-xl flex items-start gap-2.5">
+<span class="material-symbols-outlined text-secondary text-lg mt-0.5 shrink-0">auto_awesome</span>
+<div class="flex flex-col gap-1">
+<p class="font-body-sm text-body-sm text-on-surface font-medium leading-relaxed">
+                Prontidão de conteúdo avaliada em 78%. Seu código do algoritmo A* recebeu pontuação máxima de complexidade assintótica.
+              </p>
+<div class="flex items-center gap-3 pt-0.5">
+<button class="font-label-sm text-label-sm text-secondary font-bold hover:underline inline-flex items-center gap-1" type="button">
+<span class="material-symbols-outlined text-xs">quiz</span> Praticar com Flashcards IA
+                </button>
+<span class="text-on-surface-variant">•</span>
+<button class="font-label-sm text-label-sm text-on-surface-variant hover:text-on-surface font-medium" type="button">Ver 2 tarefas</button>
+</div>
+</div>
+</div>
+</div>
+</article>
+<!-- CARD 3: SISTEMAS DISTRIBUÍDOS (CC440) -->
+<article class="bg-surface-container-lowest rounded-2xl p-space-lg shadow-sm flex flex-col justify-between gap-space-md hover:shadow-md transition-shadow">
+<div class="flex flex-col gap-space-md">
+<!-- Card Header -->
+<div class="flex items-start justify-between gap-space-sm">
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-2">
+<span class="px-2.5 py-0.5 rounded-md bg-amber-100 text-amber-900 font-code-sm text-code-sm font-semibold">CC440</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">4 créditos • 60h</span>
+</div>
+<h2 class="font-headline-md text-headline-md text-on-surface tracking-tight">Sistemas Distribuídos</h2>
+<div class="flex flex-wrap items-center gap-x-3 gap-y-1 font-body-sm text-body-sm text-on-surface-variant">
+<span class="inline-flex items-center gap-1"><span class="material-symbols-outlined text-sm">person</span> Profª. Dra. Helena Siqueira</span>
+<span class="inline-flex items-center gap-1"><span class="material-symbols-outlined text-sm">location_on</span> Lab 02 Redes</span>
+</div>
+</div>
+<span class="inline-flex items-center px-3 py-1 rounded-full bg-amber-50 text-amber-800 font-label-sm text-label-sm font-semibold shrink-0">
+              Média Atual: 7.8 • Regular
+            </span>
+</div>
+<!-- Attendance With Alert Warning -->
+<div class="p-space-md bg-amber-50/70 rounded-xl flex flex-col gap-space-xs">
+<div class="flex items-center justify-between font-label-md text-label-md">
+<span class="text-amber-950 font-semibold flex items-center gap-1.5">
+<span class="material-symbols-outlined text-amber-700 text-base">warning</span> Atenção ao Limite de Faltas
+              </span>
+<span class="font-code-sm text-code-sm text-amber-900 font-semibold">86.6% (26 de 30 presenças)</span>
+</div>
+<div class="w-full bg-amber-200 rounded-full h-2 overflow-hidden">
+<div class="bg-amber-600 h-2 rounded-full" style="width: 86.6%"></div>
+</div>
+<div class="flex items-center justify-between font-body-sm text-body-sm text-amber-900">
+<span>4 faltas computadas (máx: 15)</span>
+<span class="font-medium text-amber-950">Restam 11 faltas permitidas</span>
+</div>
+</div>
+<!-- Grade Breakdown -->
+<div class="flex flex-col gap-space-xs">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant">Composição de Notas &amp; Entregas</span>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+<div class="p-2.5 bg-surface-container rounded-lg flex items-center justify-between">
+<div class="flex flex-col min-w-0 pr-2">
+<span class="font-label-md text-label-md text-on-surface truncate">Relatório Cluster Raft</span>
+<span class="font-body-sm text-body-sm text-rose-700 font-medium">Prazo próximo (2 dias)</span>
+</div>
+<span class="px-2 py-0.5 bg-rose-100 text-rose-800 font-code-sm text-code-sm font-semibold rounded shrink-0">Pendente</span>
+</div>
+<div class="p-2.5 bg-surface-container rounded-lg flex items-center justify-between">
+<div class="flex flex-col min-w-0 pr-2">
+<span class="font-label-md text-label-md text-on-surface truncate">Lab Sockets &amp; gRPC</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Peso 35%</span>
+</div>
+<span class="px-2 py-0.5 bg-surface-container-highest text-on-surface font-code-sm text-code-sm font-semibold rounded shrink-0">7.5 / 10.0</span>
+</div>
+<div class="p-2.5 bg-surface-container rounded-lg flex items-center justify-between">
+<div class="flex flex-col min-w-0 pr-2">
+<span class="font-label-md text-label-md text-on-surface truncate">Seminário Final</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Peso 25% • 03/06</span>
+</div>
+<span class="px-2 py-0.5 bg-surface-container-highest text-on-surface font-code-sm text-code-sm rounded shrink-0">Agendado</span>
+</div>
+<div class="p-2.5 bg-surface-container rounded-lg flex items-center justify-between">
+<div class="flex flex-col min-w-0 pr-2">
+<span class="font-label-md text-label-md text-on-surface truncate">Quiz Semanal de Leitura</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Peso 15%</span>
+</div>
+<span class="px-2 py-0.5 bg-emerald-100 text-emerald-900 font-code-sm text-code-sm font-semibold rounded shrink-0">8.5 / 10.0</span>
+</div>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant pt-1">
+              Nota mínima no relatório para manter média &gt; 8.0: <strong class="text-on-surface font-semibold">8.2</strong>
+</p>
+</div>
+<!-- Syllabus Accordion -->
+<details class="group bg-surface-container-low rounded-xl overflow-hidden">
+<summary class="flex items-center justify-between p-3 font-label-md text-label-md text-on-surface font-semibold cursor-pointer select-none">
+<span class="flex items-center gap-2">
+<span class="material-symbols-outlined text-base text-secondary">menu_book</span>
+                Ementa &amp; Conteúdo Programático
+              </span>
+<span class="material-symbols-outlined text-lg transition-transform group-open:rotate-180">expand_more</span>
+</summary>
+<div class="px-3 pb-3 flex flex-col gap-2 font-body-sm text-body-sm text-on-surface-variant">
+<div class="flex flex-wrap gap-1.5">
+<span class="px-2 py-1 bg-surface-container-lowest rounded text-on-surface">Modelos de Consistência</span>
+<span class="px-2 py-1 bg-surface-container-lowest rounded text-on-surface">Algoritmos de Eleição (Bully, Raft)</span>
+<span class="px-2 py-1 bg-surface-container-lowest rounded text-on-surface">Comunicação RPC e Mensageria</span>
+<span class="px-2 py-1 bg-surface-container-lowest rounded text-on-surface">Tolerância a Falhas</span>
+</div>
+<a class="inline-flex items-center gap-1 text-secondary font-label-sm text-label-sm font-semibold hover:underline mt-1" href="#">
+<span class="material-symbols-outlined text-base">picture_as_pdf</span>
+                Baixar Plano de Ensino Oficial (.PDF)
+              </a>
+</div>
+</details>
+<!-- AI Insight Box -->
+<div class="p-3 bg-secondary-fixed/40 rounded-xl flex items-start gap-2.5">
+<span class="material-symbols-outlined text-secondary text-lg mt-0.5 shrink-0">alarm</span>
+<div class="flex flex-col gap-1">
+<p class="font-body-sm text-body-sm text-on-surface font-medium leading-relaxed">
+                Margem de faltas reduzida (restam 11). Evite faltar às quintas-feiras de laboratório para não comprometer presença mínima.
+              </p>
+<div class="flex items-center gap-3 pt-0.5">
+<button class="font-label-sm text-label-sm text-secondary font-bold hover:underline inline-flex items-center gap-1" type="button">
+<span class="material-symbols-outlined text-xs">schedule</span> Sincronizar Alertas no Google Agenda
+                </button>
+</div>
+</div>
+</div>
+</div>
+</article>
+<!-- CARD 4: ENGENHARIA DE SOFTWARE II (ES301) -->
+<article class="bg-surface-container-lowest rounded-2xl p-space-lg shadow-sm flex flex-col justify-between gap-space-md hover:shadow-md transition-shadow">
+<div class="flex flex-col gap-space-md">
+<!-- Card Header -->
+<div class="flex items-start justify-between gap-space-sm">
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-2">
+<span class="px-2.5 py-0.5 rounded-md bg-emerald-100 text-emerald-900 font-code-sm text-code-sm font-semibold">ES301</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">4 créditos • 60h</span>
+</div>
+<h2 class="font-headline-md text-headline-md text-on-surface tracking-tight">Engenharia de Software II</h2>
+<div class="flex flex-wrap items-center gap-x-3 gap-y-1 font-body-sm text-body-sm text-on-surface-variant">
+<span class="inline-flex items-center gap-1"><span class="material-symbols-outlined text-sm">person</span> Prof. Roberto Mendes</span>
+<span class="inline-flex items-center gap-1"><span class="material-symbols-outlined text-sm">location_on</span> Sala 304</span>
+</div>
+</div>
+<span class="inline-flex items-center px-3 py-1 rounded-full bg-emerald-50 text-emerald-800 font-label-sm text-label-sm font-semibold shrink-0">
+              Média Atual: 9.4 • Excelente
+            </span>
+</div>
+<!-- Attendance -->
+<div class="p-space-md bg-surface-container-low rounded-xl flex flex-col gap-space-xs">
+<div class="flex items-center justify-between font-label-md text-label-md">
+<span class="text-on-surface font-semibold flex items-center gap-1.5">
+<span class="material-symbols-outlined text-secondary text-base">checklist</span> Controle de Frequência
+              </span>
+<span class="font-code-sm text-code-sm text-emerald-700 font-semibold">100.0% (30 de 30 presenças)</span>
+</div>
+<div class="w-full bg-surface-container-high rounded-full h-2 overflow-hidden">
+<div class="bg-emerald-600 h-2 rounded-full" style="width: 100%"></div>
+</div>
+<div class="flex items-center justify-between font-body-sm text-body-sm text-on-surface-variant">
+<span>0 faltas computadas (limite: 15)</span>
+<span class="text-emerald-700 font-medium">Frequência Impecável</span>
+</div>
+</div>
+<!-- Grade Breakdown -->
+<div class="flex flex-col gap-space-xs">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant">Composição de Notas &amp; Entregas</span>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+<div class="p-2.5 bg-surface-container rounded-lg flex items-center justify-between">
+<div class="flex flex-col min-w-0 pr-2">
+<span class="font-label-md text-label-md text-on-surface truncate">Sprint 1 (Scrum &amp; Req)</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Peso 20%</span>
+</div>
+<span class="px-2 py-0.5 bg-emerald-100 text-emerald-900 font-code-sm text-code-sm font-semibold rounded shrink-0">9.5 / 10.0</span>
+</div>
+<div class="p-2.5 bg-surface-container rounded-lg flex items-center justify-between">
+<div class="flex flex-col min-w-0 pr-2">
+<span class="font-label-md text-label-md text-on-surface truncate">Sprint 2 (Hexagonal &amp; CI/CD)</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Peso 25%</span>
+</div>
+<span class="px-2 py-0.5 bg-emerald-100 text-emerald-900 font-code-sm text-code-sm font-semibold rounded shrink-0">9.8 / 10.0</span>
+</div>
+<div class="p-2.5 bg-surface-container rounded-lg flex items-center justify-between">
+<div class="flex flex-col min-w-0 pr-2">
+<span class="font-label-md text-label-md text-on-surface truncate">Sprint 3 (Testes &amp; QA)</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Peso 25%</span>
+</div>
+<span class="px-2 py-0.5 bg-emerald-100 text-emerald-900 font-code-sm text-code-sm font-semibold rounded shrink-0">9.0 / 10.0</span>
+</div>
+<div class="p-2.5 bg-surface-container rounded-lg flex items-center justify-between">
+<div class="flex flex-col min-w-0 pr-2">
+<span class="font-label-md text-label-md text-on-surface truncate">Avaliação de Arquitetura</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Peso 30%</span>
+</div>
+<span class="px-2 py-0.5 bg-surface-container-highest text-on-surface font-code-sm text-code-sm rounded shrink-0">Em breve</span>
+</div>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant pt-1">
+              Status atual: <strong class="text-emerald-700 font-semibold">Aprovação matemática garantida</strong>
+</p>
+</div>
+<!-- Syllabus Accordion -->
+<details class="group bg-surface-container-low rounded-xl overflow-hidden">
+<summary class="flex items-center justify-between p-3 font-label-md text-label-md text-on-surface font-semibold cursor-pointer select-none">
+<span class="flex items-center gap-2">
+<span class="material-symbols-outlined text-base text-secondary">menu_book</span>
+                Ementa &amp; Conteúdo Programático
+              </span>
+<span class="material-symbols-outlined text-lg transition-transform group-open:rotate-180">expand_more</span>
+</summary>
+<div class="px-3 pb-3 flex flex-col gap-2 font-body-sm text-body-sm text-on-surface-variant">
+<div class="flex flex-wrap gap-1.5">
+<span class="px-2 py-1 bg-surface-container-lowest rounded text-on-surface">Metodologias Ágeis</span>
+<span class="px-2 py-1 bg-surface-container-lowest rounded text-on-surface">Arquiteturas Limpas &amp; DDD</span>
+<span class="px-2 py-1 bg-surface-container-lowest rounded text-on-surface">Test-Driven Development (TDD)</span>
+<span class="px-2 py-1 bg-surface-container-lowest rounded text-on-surface">DevOps &amp; CI/CD Pipelines</span>
+</div>
+<a class="inline-flex items-center gap-1 text-secondary font-label-sm text-label-sm font-semibold hover:underline mt-1" href="#">
+<span class="material-symbols-outlined text-base">picture_as_pdf</span>
+                Baixar Plano de Ensino Oficial (.PDF)
+              </a>
+</div>
+</details>
+<!-- AI Insight Box -->
+<div class="p-3 bg-secondary-fixed/40 rounded-xl flex items-start gap-2.5">
+<span class="material-symbols-outlined text-secondary text-lg mt-0.5 shrink-0">psychology</span>
+<div class="flex flex-col gap-1">
+<p class="font-body-sm text-body-sm text-on-surface font-medium leading-relaxed">
+                Excelente consistência. Seu pipeline no repositório de QA cobriu 94% dos cenários de testes unitários.
+              </p>
+<div class="flex items-center gap-3 pt-0.5">
+<button class="font-label-sm text-label-sm text-secondary font-bold hover:underline inline-flex items-center gap-1" type="button">
+<span class="material-symbols-outlined text-xs">visibility</span> Visualizar Repositório de Entregas
+                </button>
+</div>
+</div>
+</div>
+</div>
+</article>
+<!-- CARD 5: CÁLCULO NUMÉRICO (MAT204) -->
+<article class="bg-surface-container-lowest rounded-2xl p-space-lg shadow-sm flex flex-col justify-between gap-space-md hover:shadow-md transition-shadow xl:col-span-2">
+<div class="flex flex-col gap-space-md">
+<!-- Card Header -->
+<div class="flex flex-col sm:flex-row sm:items-start justify-between gap-space-sm">
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-2">
+<span class="px-2.5 py-0.5 rounded-md bg-cyan-100 text-cyan-900 font-code-sm text-code-sm font-semibold">MAT204</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">4 créditos • 60h</span>
+</div>
+<h2 class="font-headline-md text-headline-md text-on-surface tracking-tight">Cálculo Numérico</h2>
+<div class="flex flex-wrap items-center gap-x-3 gap-y-1 font-body-sm text-body-sm text-on-surface-variant">
+<span class="inline-flex items-center gap-1"><span class="material-symbols-outlined text-sm">person</span> Prof. André Valente</span>
+<span class="inline-flex items-center gap-1"><span class="material-symbols-outlined text-sm">location_on</span> Anfiteatro B</span>
+</div>
+</div>
+<span class="inline-flex items-center px-3 py-1 rounded-full bg-emerald-50 text-emerald-800 font-label-sm text-label-sm font-semibold self-start shrink-0">
+              Média Atual: 8.5 • Estável
+            </span>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-space-md">
+<!-- Attendance -->
+<div class="p-space-md bg-surface-container-low rounded-xl flex flex-col gap-space-xs justify-center">
+<div class="flex items-center justify-between font-label-md text-label-md">
+<span class="text-on-surface font-semibold flex items-center gap-1.5">
+<span class="material-symbols-outlined text-secondary text-base">checklist</span> Controle de Frequência
+                </span>
+<span class="font-code-sm text-code-sm text-emerald-700 font-semibold">90.0% (27 de 30 presenças)</span>
+</div>
+<div class="w-full bg-surface-container-high rounded-full h-2 overflow-hidden">
+<div class="bg-emerald-600 h-2 rounded-full" style="width: 90.0%"></div>
+</div>
+<div class="flex items-center justify-between font-body-sm text-body-sm text-on-surface-variant">
+<span>3 faltas computadas (limite: 15)</span>
+<span class="text-emerald-700 font-medium">Margem segura: restam 12 faltas</span>
+</div>
+</div>
+<!-- Grade Breakdown -->
+<div class="flex flex-col gap-space-xs">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant">Composição de Notas &amp; Entregas</span>
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+<div class="p-2.5 bg-surface-container rounded-lg flex flex-col justify-between">
+<span class="font-label-md text-label-md text-on-surface truncate">Prova 1: Zeros</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Peso 40%</span>
+<span class="font-code-sm text-code-sm font-semibold text-emerald-800 mt-1">8.2 / 10.0</span>
+</div>
+<div class="p-2.5 bg-surface-container rounded-lg flex flex-col justify-between">
+<span class="font-label-md text-label-md text-on-surface truncate">Lista 4: Interpolação</span>
+<span class="font-body-sm text-body-sm text-rose-700 font-medium">Hoje às 23:59</span>
+<span class="font-code-sm text-code-sm font-semibold text-amber-800 mt-1">Pendente</span>
+</div>
+<div class="p-2.5 bg-surface-container rounded-lg flex flex-col justify-between">
+<span class="font-label-md text-label-md text-on-surface truncate">Prova 2: Sistemas</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Peso 40%</span>
+<span class="font-code-sm text-code-sm text-on-surface-variant mt-1">A realizar</span>
+</div>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-space-md">
+<!-- Syllabus Accordion -->
+<details class="group bg-surface-container-low rounded-xl overflow-hidden self-start">
+<summary class="flex items-center justify-between p-3 font-label-md text-label-md text-on-surface font-semibold cursor-pointer select-none">
+<span class="flex items-center gap-2">
+<span class="material-symbols-outlined text-base text-secondary">menu_book</span>
+                  Ementa &amp; Conteúdo Programático
+                </span>
+<span class="material-symbols-outlined text-lg transition-transform group-open:rotate-180">expand_more</span>
+</summary>
+<div class="px-3 pb-3 flex flex-col gap-2 font-body-sm text-body-sm text-on-surface-variant">
+<div class="flex flex-wrap gap-1.5">
+<span class="px-2 py-1 bg-surface-container-lowest rounded text-on-surface">Métodos de Bisseção &amp; Newton</span>
+<span class="px-2 py-1 bg-surface-container-lowest rounded text-on-surface">Fatoração LU &amp; Gauss</span>
+<span class="px-2 py-1 bg-surface-container-lowest rounded text-on-surface">Interpolação Lagrange</span>
+<span class="px-2 py-1 bg-surface-container-lowest rounded text-on-surface">Integração Numérica</span>
+</div>
+<a class="inline-flex items-center gap-1 text-secondary font-label-sm text-label-sm font-semibold hover:underline mt-1" href="#">
+<span class="material-symbols-outlined text-base">picture_as_pdf</span>
+                  Baixar Plano de Ensino Oficial (.PDF)
+                </a>
+</div>
+</details>
+<!-- AI Insight Box -->
+<div class="p-3 bg-secondary-fixed/40 rounded-xl flex items-start gap-2.5">
+<span class="material-symbols-outlined text-secondary text-lg mt-0.5 shrink-0">assignment_late</span>
+<div class="flex flex-col gap-1">
+<p class="font-body-sm text-body-sm text-on-surface font-medium leading-relaxed">
+                  A Lista de Exercícios 4 encerra hoje às 23:59. Faltam 2 exercícios sobre polinômios interpoladores para envio.
+                </p>
+<div class="flex items-center gap-3 pt-0.5">
+<button class="font-label-sm text-label-sm text-secondary font-bold hover:underline inline-flex items-center gap-1" type="button">
+<span class="material-symbols-outlined text-xs">edit_document</span> Abrir Lista no Moodle
+                  </button>
+<span class="text-on-surface-variant">•</span>
+<button class="font-label-sm text-label-sm text-on-surface-variant hover:text-on-surface font-medium" type="button">Tirar dúvida com TaskMind IA</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</article>
+</div>
+<!-- 5. Simulation & Academic Quick Tools Banner -->
+<section class="bg-gradient-to-r from-surface-container-low via-surface-container-lowest to-surface-container-low p-space-lg rounded-2xl shadow-sm flex flex-col lg:flex-row items-center justify-between gap-space-lg">
+<div class="flex items-center gap-space-md">
+<div class="p-3.5 bg-secondary text-on-secondary rounded-2xl shadow-sm shrink-0">
+<span class="material-symbols-outlined text-3xl">calculate</span>
+</div>
+<div class="flex flex-col gap-1">
+<h3 class="font-title text-title text-on-surface">Simulador de Média &amp; Aprovação com IA</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant max-w-2xl">
+            Descubra a pontuação exata necessária nas provas finais para garantir sua meta acadêmica (Média 7.0 de corte ou Distinção 9.0 para intercâmbio).
+          </p>
+</div>
+</div>
+<div class="flex flex-wrap items-center gap-space-sm w-full lg:w-auto justify-end">
+<button class="h-10 px-4 bg-surface-container text-on-surface rounded-lg font-label-md text-label-md hover:bg-surface-container-high transition-colors inline-flex items-center gap-2" onclick="document.getElementById('simulador-modal').classList.remove('hidden')" type="button">
+<span class="material-symbols-outlined text-lg">tune</span>
+<span>Abrir Simulador de Notas</span>
+</button>
+<button class="h-10 px-4 bg-secondary text-on-secondary rounded-lg font-label-md text-label-md hover:bg-secondary-container transition-all shadow-sm inline-flex items-center gap-2" type="button">
+<span class="material-symbols-outlined text-lg">auto_awesome</span>
+<span>Resumo Inteligente das Ementas</span>
+</button>
+</div>
+</section>
+</div>
+<!-- Modal / Floating Drawer: Simulador de Média e Aprovação -->
+<div class="fixed inset-0 z-50 flex items-center justify-center p-space-sm sm:p-space-md lg:p-gutter overflow-y-auto" id="simulador-modal"><div class="fixed inset-0 bg-primary-container/60 backdrop-blur-sm transition-opacity" onclick="document.getElementById('simulador-modal').classList.add('hidden')"></div><div class="relative w-full max-w-2xl bg-surface-container-lowest rounded-3xl shadow-2xl overflow-hidden z-10 my-auto animate-in fade-in zoom-in-95 duration-200"><div class="h-1.5 w-full bg-gradient-to-r from-primary via-secondary to-secondary-container"></div><div class="px-space-lg pt-space-lg pb-space-sm flex items-start justify-between gap-space-md"><div class="flex flex-col gap-1"><div class="flex items-center gap-2"><span class="p-2.5 rounded-xl bg-secondary-fixed text-on-secondary-fixed"><span class="material-symbols-outlined text-xl">calculate</span></span><div><div class="flex items-center gap-2"><h2 class="font-headline-md text-headline-md font-bold text-on-surface">Simulador de Média &amp; Aprovação IA</h2><span class="px-2 py-0.5 rounded-full font-code-sm text-code-sm bg-secondary-fixed text-on-secondary-fixed font-semibold">TaskMind IA</span></div><p class="font-body-md text-body-md text-on-surface-variant">Calcule a nota necessária nas próximas avaliações e preveja seu IRA com inteligência artificial.</p></div></div></div><button aria-label="Fechar modal" class="p-2 rounded-xl text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors" onclick="document.getElementById('simulador-modal').classList.add('hidden')" type="button"><span class="material-symbols-outlined text-2xl">close</span></button></div><div class="px-space-lg py-space-sm flex flex-col gap-space-md max-h-[75vh] overflow-y-auto"><div class="flex flex-col gap-1.5"><label class="font-label-md text-label-md font-semibold text-on-surface flex items-center justify-between"><span>Disciplina Selecionada</span><span class="font-code-sm text-code-sm text-emerald-700 font-semibold">Média Atual: 8.2 • Em Andamento</span></label><div class="relative"><select class="w-full h-11 pl-4 pr-10 bg-surface-container-low rounded-xl font-body-md text-body-md text-on-surface appearance-none focus:outline-none focus:bg-surface-container-lowest focus:ring-2 focus:ring-secondary/50 cursor-pointer"><option selected="">CC320 • Banco de Dados II (Prof. Carlos Eduardo)</option><option>CC510 • Inteligência Artificial (Prof. Marcos Vinicius)</option><option>CC440 • Sistemas Distribuídos (Profª. Dra. Helena Siqueira)</option><option>ES301 • Engenharia de Software II (Prof. Roberto Mendes)</option><option>MAT204 • Cálculo Numérico (Prof. André Valente)</option></select><span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none text-xl">unfold_more</span></div></div><div class="flex flex-col gap-1.5"><label class="font-label-md text-label-md font-semibold text-on-surface">Meta de Desempenho Desejada</label><div class="grid grid-cols-2 sm:grid-cols-4 gap-space-xs"><button class="p-2.5 rounded-xl bg-surface-container-low hover:bg-surface-container text-on-surface-variant font-label-md text-label-md transition-colors text-center" type="button">Aprovação (7.0)</button><button class="p-2.5 rounded-xl bg-secondary-fixed text-on-secondary-fixed font-label-md text-label-md font-semibold shadow-xs text-center border-2 border-secondary" type="button">Bolsa / Intercâmbio (8.5)</button><button class="p-2.5 rounded-xl bg-surface-container-low hover:bg-surface-container text-on-surface-variant font-label-md text-label-md transition-colors text-center" type="button">Láurea (9.0)</button><button class="p-2.5 rounded-xl bg-surface-container-low hover:bg-surface-container text-on-surface-variant font-label-md text-label-md transition-colors text-center" type="button">Personalizada</button></div></div><div class="flex flex-col gap-2 p-space-md bg-surface-container-low rounded-2xl"><span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant font-semibold">Composição e Simulação de Notas</span><div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5"><div class="p-3 bg-surface-container-lowest rounded-xl flex items-center justify-between border border-surface-container-high"><div class="flex flex-col"><span class="font-label-md text-label-md text-on-surface font-semibold">TP1: Modelagem</span><span class="font-body-sm text-body-sm text-on-surface-variant">Peso 25% • Concluído</span></div><span class="px-2.5 py-1 bg-emerald-100 text-emerald-900 rounded font-code-sm text-code-sm font-bold">8.8 / 10.0</span></div><div class="p-3 bg-surface-container-lowest rounded-xl flex items-center justify-between border border-surface-container-high"><div class="flex flex-col"><span class="font-label-md text-label-md text-on-surface font-semibold">Exercícios Contínuos</span><span class="font-body-sm text-body-sm text-on-surface-variant">Peso 15% • Concluído</span></div><span class="px-2.5 py-1 bg-emerald-100 text-emerald-900 rounded font-code-sm text-code-sm font-bold">9.5 / 10.0</span></div><div class="p-3 bg-secondary-fixed/20 rounded-xl flex flex-col gap-2 border border-secondary/30 sm:col-span-2"><div class="flex items-center justify-between"><div class="flex flex-col"><div class="flex items-center gap-1.5"><span class="font-label-md text-label-md text-on-surface font-bold">P1: Modelo Relacional &amp; SQL</span><span class="px-1.5 py-0.5 rounded font-code-sm text-code-sm bg-secondary text-on-secondary font-semibold">Simulando</span></div><span class="font-body-sm text-body-sm text-on-surface-variant">Peso 40% • 22/05</span></div><div class="flex items-center gap-2"><span class="font-headline-sm text-headline-sm font-bold text-secondary">6.5</span><span class="font-body-sm text-body-sm text-on-surface-variant">/ 10.0</span></div></div><div class="w-full flex items-center gap-3"><span class="font-code-sm text-code-sm text-on-surface-variant">0.0</span><input class="w-full accent-secondary cursor-pointer h-2 bg-surface-container-highest rounded-lg" max="10" min="0" step="0.1" type="range" value="6.5"/><span class="font-code-sm text-code-sm text-on-surface-variant">10.0</span></div></div><div class="p-3 bg-surface-container-lowest rounded-xl flex items-center justify-between border border-surface-container-high sm:col-span-2"><div class="flex flex-col"><span class="font-label-md text-label-md text-on-surface font-semibold">P2: Otimização &amp; NoSQL (Necessária para Meta 8.5)</span><span class="font-body-sm text-body-sm text-on-surface-variant">Peso 20% • Calculado dinamicamente</span></div><div class="text-right"><span class="font-headline-sm text-headline-sm font-bold text-on-surface">4.8</span><span class="font-body-sm text-body-sm text-on-surface-variant"> / 10.0</span></div></div></div></div><div class="p-space-md bg-secondary-fixed/30 rounded-2xl flex flex-col gap-space-sm border border-secondary/20"><div class="flex items-center justify-between flex-wrap gap-2"><div class="flex items-center gap-2"><span class="material-symbols-outlined text-secondary text-2xl">auto_awesome</span><div class="flex flex-col"><span class="font-label-sm text-label-sm uppercase tracking-wider text-secondary font-bold">Projeção IA &amp; Cenário Simulador</span><span class="font-headline-sm text-headline-sm font-bold text-on-surface">Média Final Projetada: 7.6 / 10.0</span></div></div><span class="px-3 py-1 rounded-full bg-emerald-100 text-emerald-900 font-label-sm text-label-sm font-bold">Aprovado com Folga</span></div><div class="w-full bg-surface-container-high rounded-full h-2.5 overflow-hidden"><div class="bg-secondary h-2.5 rounded-full" style="width: 76%"></div></div><div class="p-3 bg-surface-container-lowest rounded-xl flex items-start gap-2.5 shadow-xs"><span class="material-symbols-outlined text-secondary text-lg mt-0.5 shrink-0">psychology</span><p class="font-body-sm text-body-sm text-on-surface leading-relaxed">Com uma nota de <strong>5.4 na P1</strong>, você já garante aprovação direta sem necessidade de exame final. Dedicando 3h adicionais nos tópicos de <em>Álgebra Relacional</em> e <em>Índices B+</em>, a probabilidade de nota ≥ 8.5 na P1 sobe para <strong>88%</strong>.</p></div><div class="flex items-center justify-between pt-1 border-t border-secondary/20 text-on-surface-variant font-label-sm text-label-sm flex-wrap gap-2"><span>Nível de Esforço Recomendado: <strong class="text-on-surface">Moderado (4h/sem)</strong></span><span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-emerald-500"></span> Risco de Reprovação: <strong class="text-emerald-700">Baixo (4%)</strong></span></div></div></div><div class="px-space-lg py-space-md bg-surface-container-low flex items-center justify-between gap-space-sm flex-wrap"><button class="font-label-md text-label-md text-on-surface-variant hover:text-secondary transition-colors flex items-center gap-1" type="button"><span class="material-symbols-outlined text-base">cached</span><span>Recalcular Cenários</span></button><div class="flex items-center gap-space-sm"><button class="px-4 py-2.5 rounded-xl font-label-md text-label-md text-on-surface hover:bg-surface-container transition-colors" onclick="document.getElementById('simulador-modal').classList.add('hidden')" type="button">Cancelar</button><button class="px-6 py-2.5 rounded-xl font-label-md text-label-md bg-secondary text-on-secondary hover:bg-secondary-container font-semibold shadow-md transition-all hover:scale-[1.02] flex items-center gap-2" onclick="document.getElementById('simulador-modal').classList.add('hidden')" type="button"><span class="material-symbols-outlined text-lg">event_available</span><span>Criar Meta no Calendário</span></button></div></div></div></div>
+</div></main></div></body></html>

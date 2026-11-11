@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={"darkMode":"class","theme":{"extend":{"colors":{"tertiary-fixed":"#cce5ff","surface-container-highest":"#d3e4fe","error-container":"#ffdad6","on-secondary-fixed":"#25005a","on-surface-variant":"#45464d","on-secondary-fixed-variant":"#5a00c6","on-tertiary-fixed":"#001d31","error":"#ba1a1a","on-primary-fixed":"#131b2e","inverse-primary":"#bec6e0","on-background":"#0b1c30","on-error":"#ffffff","on-primary-container":"#7c839b","tertiary-container":"#001d31","secondary-fixed":"#eaddff","surface-container":"#e5eeff","primary-container":"#131b2e","on-primary":"#ffffff","primary-fixed":"#dae2fd","surface":"#f8f9ff","on-tertiary-fixed-variant":"#004b73","surface-container-lowest":"#ffffff","tertiary-fixed-dim":"#93ccff","on-surface":"#0b1c30","surface-bright":"#f8f9ff","on-tertiary-container":"#188ace","on-secondary":"#ffffff","primary-fixed-dim":"#bec6e0","surface-tint":"#565e74","surface-container-low":"#eff4ff","primary":"#000000","inverse-on-surface":"#eaf1ff","on-primary-fixed-variant":"#3f465c","on-secondary-container":"#fffbff","outline":"#76777d","surface-variant":"#d3e4fe","tertiary":"#000000","secondary-fixed-dim":"#d2bbff","secondary-container":"#8a4cfc","on-error-container":"#93000a","outline-variant":"#c6c6cd","surface-dim":"#cbdbf5","background":"#f8f9ff","surface-container-high":"#dce9ff","on-tertiary":"#ffffff","inverse-surface":"#213145","secondary":"#712ae2"},"borderRadius":{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},"spacing":{"space-lg":"1.5rem","space-xs":"0.25rem","space-sm":"0.5rem","margin-mobile":"1rem","space-2xl":"3rem","space-xl":"2rem","margin":"2rem","space-md":"1rem","gutter":"1.5rem","gutter-mobile":"1rem"},"fontFamily":{"display-mobile":["Plus Jakarta Sans"],"code-sm":["JetBrains Mono"],"label-sm":["Inter"],"body-lg":["Inter"],"headline-sm":["Plus Jakarta Sans"],"body-sm":["Inter"],"label-md":["Inter"],"body-md":["Inter"],"title":["Plus Jakarta Sans"],"display":["Plus Jakarta Sans"],"headline-lg-mobile":["Plus Jakarta Sans"],"headline-lg":["Plus Jakarta Sans"],"headline-md":["Plus Jakarta Sans"]},"fontSize":{"display-mobile":["1.75rem",{"lineHeight":"2.25rem","letterSpacing":"-0.02em","fontWeight":"700"}],"code-sm":["0.75rem",{"lineHeight":"1rem","fontWeight":"400"}],"label-sm":["0.75rem",{"lineHeight":"1rem","letterSpacing":"0.01em","fontWeight":"600"}],"body-lg":["1rem",{"lineHeight":"1.625rem","fontWeight":"400"}],"headline-sm":["1.125rem",{"lineHeight":"1.625rem","letterSpacing":"-0.01em","fontWeight":"600"}],"body-sm":["0.75rem",{"lineHeight":"1.125rem","fontWeight":"400"}],"label-md":["0.875rem",{"lineHeight":"1.25rem","fontWeight":"500"}],"body-md":["0.875rem",{"lineHeight":"1.375rem","fontWeight":"400"}],"title":["1rem",{"lineHeight":"1.5rem","letterSpacing":"-0.005em","fontWeight":"600"}],"display":["2.25rem",{"lineHeight":"2.75rem","letterSpacing":"-0.025em","fontWeight":"700"}],"headline-lg-mobile":["1.375rem",{"lineHeight":"1.875rem","letterSpacing":"-0.015em","fontWeight":"600"}],"headline-lg":["1.75rem",{"lineHeight":"2.25rem","letterSpacing":"-0.02em","fontWeight":"600"}],"headline-md":["1.25rem",{"lineHeight":"1.75rem","letterSpacing":"-0.015em","fontWeight":"600"}]}}}}</script></head><body class="bg-surface font-body-md text-on-surface antialiased min-h-screen"><aside class="hidden lg:flex fixed left-0 top-0 h-full w-64 bg-surface-container-lowest shadow-[0_1px_8px_rgba(0,0,0,0.04)] z-50 flex-col justify-between"><div class="flex flex-col"><div class="h-16 px-space-md flex items-center gap-space-sm"><img alt="TaskMind Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida/ALJJyrCHzmE-pEaVLvgUCVwRIHjfSQiaUs68soDTJJAOQzRdiYcRl5NlppQMKbw41TAZLgsdDD38rIq1dGwQotUkoROBqh7B67ht6HebgFTtz-fjJLALHO7VMgYI_7rponmQW67tVzec8p7Ry4OrJMphYfKxwC8Zv4LGsdK2v7fqwMjwHVYJIbQVWE6DhPCnxrXyjK6X-Y4E85cz_ogfL8fZjSIKxyFG5GwwBfPx7zhXWfvL"/><div class="flex flex-col"><span class="font-title text-title text-on-surface leading-tight">TaskMind</span><span class="font-code-sm text-code-sm text-secondary font-medium tracking-wide uppercase">Acadêmico IA</span></div></div><div class="px-space-md py-space-sm"><span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant">Menu Principal</span></div><nav class="flex flex-col gap-space-xs px-space-sm" data-active-classes="bg-surface-container text-on-surface font-semibold"><a class="flex items-center gap-space-sm px-space-md py-2.5 rounded-lg font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="visao-geral" href="#"><span class="material-symbols-outlined text-xl">dashboard</span><span>Visão Geral</span></a><a aria-current="page" class="flex items-center justify-between px-space-md py-2.5 rounded-lg transition-colors bg-surface-container text-on-surface font-semibold" data-path="minhas-tarefas" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-xl">check_circle</span><span>Minhas Tarefas</span></div><span class="px-1.5 py-0.5 rounded font-code-sm text-code-sm bg-surface-container text-on-surface-variant">12</span></a><a class="flex items-center justify-between px-space-md py-2.5 rounded-lg font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="assistente-ia" href="#"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-xl text-secondary">auto_awesome</span><span>Assistente IA</span></div><span class="px-2 py-0.5 rounded-full font-label-sm text-label-sm bg-secondary-fixed text-on-secondary-fixed font-semibold">Pro/IA</span></a><a class="flex items-center gap-space-sm px-space-md py-2.5 rounded-lg font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="disciplinas" href="#"><span class="material-symbols-outlined text-xl">menu_book</span><span>Disciplinas</span></a><a class="flex items-center gap-space-sm px-space-md py-2.5 rounded-lg font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" data-path="calendario" href="#"><span class="material-symbols-outlined text-xl">calendar_today</span><span>Calendário</span></a></nav></div><div class="p-space-md flex flex-col gap-space-sm"><div class="p-space-md bg-surface-container-low rounded-xl flex flex-col gap-space-xs"><div class="flex items-center justify-between"><span class="font-label-sm text-label-sm text-on-surface font-semibold">Semestre 2025.1</span><span class="font-code-sm text-code-sm text-secondary font-semibold">68%</span></div><div class="w-full bg-surface-container-high rounded-full h-1.5 overflow-hidden"><div class="bg-secondary h-1.5 rounded-full" style="width: 68%"></div></div><p class="font-body-sm text-body-sm text-on-surface-variant">Faltam 42 dias para o término do período letivo.</p></div><div class="flex items-center gap-space-sm pt-space-xs"><img alt="Profile" class="w-8 h-8 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBtpY6lyXcYJa5d4GdtYugyp36tKBpmibILjqM05LXN_vj6kzucxmxyLHGPuov37c2zJZsQwY4aEcnVWAtMW0gok7UpyxXMn9o1UhjtsV_0T3PKHqgNONpnMa2qkmRNfdnInXGVfb0n3GUfXZE921YfqbvWKBN_NDDD7NC44FGW7jeQtcaL7hkOHidBJky237zD5fBftBgr4q3Hd0-aHG_juKtC_N8Diqdv16LS20o"/><div class="flex flex-col min-w-0 flex-1"><span class="font-label-md text-label-md text-on-surface truncate font-semibold">Mariana Silva</span><span class="font-body-sm text-body-sm text-on-surface-variant truncate">Eng. de Software</span></div><span class="w-2.5 h-2.5 rounded-full bg-secondary" title="Status Ativo"></span></div></div></aside><div class="lg:pl-64 flex flex-col min-h-screen"><header class="fixed top-0 left-0 lg:left-64 right-0 z-40 bg-surface/85 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)]"><div class="h-16 w-full px-space-md lg:px-gutter flex items-center justify-between gap-space-md"><div class="flex items-center gap-space-sm flex-1 max-w-xl"><div class="relative w-full"><span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-xl pointer-events-none">search</span><input class="w-full h-10 pl-10 pr-4 bg-surface-container-lowest rounded-lg font-body-md text-body-md text-on-surface placeholder:text-on-surface-variant/70 focus:outline-none focus:ring-2 focus:ring-secondary/40 transition-all shadow-[0_1px_3px_rgba(15,23,42,0.04)]" placeholder="Buscar tarefas, disciplinas, resumos... (Ctrl + K)" type="text"/></div></div><div class="flex items-center gap-space-sm"><button class="inline-flex items-center gap-space-xs h-10 px-4 bg-primary text-on-primary rounded-lg font-label-md text-label-md hover:bg-primary-container hover:text-on-primary-container transition-colors shadow-sm" type="button"><span class="material-symbols-outlined text-lg">add</span><span class="hidden sm:inline">Nova Tarefa</span></button><button aria-label="Notificações de prazos" class="relative p-2 rounded-lg text-on-surface-variant hover:bg-surface-container-low hover:text-on-surface transition-colors" type="button"><span class="material-symbols-outlined text-2xl">notifications</span><span class="absolute top-1.5 right-1.5 flex h-4 w-4 items-center justify-center rounded-full bg-error text-on-error font-code-sm text-code-sm">3</span></button><div class="hidden sm:flex items-center gap-space-xs pl-space-xs"><img alt="Profile" class="w-8 h-8 rounded-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBtpY6lyXcYJa5d4GdtYugyp36tKBpmibILjqM05LXN_vj6kzucxmxyLHGPuov37c2zJZsQwY4aEcnVWAtMW0gok7UpyxXMn9o1UhjtsV_0T3PKHqgNONpnMa2qkmRNfdnInXGVfb0n3GUfXZE921YfqbvWKBN_NDDD7NC44FGW7jeQtcaL7hkOHidBJky237zD5fBftBgr4q3Hd0-aHG_juKtC_N8Diqdv16LS20o"/><div class="hidden xl:flex flex-col text-left"><span class="font-label-md text-label-md text-on-surface font-semibold leading-tight">Mariana Silva</span><span class="font-body-sm text-body-sm text-on-surface-variant leading-tight">Discente Ativa</span></div></div></div></div></header><main class="w-full pt-16 bg-surface flex-1"><div class="flex flex-col w-full relative">
+<!-- Subtle Ambient Glow Orbs -->
+<div class="absolute top-0 right-1/4 w-96 h-96 bg-secondary/5 rounded-full blur-3xl pointer-events-none -z-10"></div>
+<div class="absolute top-48 left-12 w-80 h-80 bg-surface-container-highest/60 rounded-full blur-3xl pointer-events-none -z-10"></div>
+<!-- Main Viewport Container -->
+<div class="w-full max-w-[1520px] mx-auto px-margin-mobile lg:px-gutter py-space-lg flex flex-col gap-space-xl">
+<!-- Header Stage & Metric Snippets -->
+<div class="flex flex-col xl:flex-row xl:items-end justify-between gap-space-md">
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center gap-space-xs">
+<span class="px-2 py-0.5 rounded-full font-code-sm text-code-sm bg-surface-container-high text-on-surface-variant font-medium tracking-wide">
+            SEMESTRE 2025.1 • SEMANA 11
+          </span>
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+<span class="font-code-sm text-code-sm text-secondary font-semibold">Sincronizado via SIGAA</span>
+</div>
+<div class="flex items-baseline gap-space-sm flex-wrap">
+<h1 class="font-display text-display text-on-surface tracking-tight">Minhas Tarefas Acadêmicas</h1>
+<span class="font-body-md text-body-md text-on-surface-variant">34 tarefas catalogadas</span>
+</div>
+</div>
+<!-- Quick Action Controls -->
+<div class="flex items-center gap-space-sm flex-wrap">
+<!-- View Switcher -->
+<div class="flex items-center p-1 bg-surface-container-low rounded-xl shadow-sm">
+<button class="flex items-center gap-1.5 px-3 py-1.5 bg-surface-container-lowest text-on-surface rounded-lg font-label-md text-label-md font-semibold shadow-sm transition-all" type="button">
+<span class="material-symbols-outlined text-lg">table_rows</span>
+<span>Tabela</span>
+</button>
+<button class="flex items-center gap-1.5 px-3 py-1.5 text-on-surface-variant hover:text-on-surface rounded-lg font-label-md text-label-md transition-colors" type="button">
+<span class="material-symbols-outlined text-lg">view_kanban</span>
+<span>Kanban</span>
+</button>
+<button class="flex items-center gap-1.5 px-3 py-1.5 text-on-surface-variant hover:text-on-surface rounded-lg font-label-md text-label-md transition-colors" type="button">
+<span class="material-symbols-outlined text-lg">view_agenda</span>
+<span>Lista</span>
+</button>
+</div>
+<button class="inline-flex items-center gap-space-xs h-10 px-4 bg-secondary text-on-secondary rounded-lg font-label-md text-label-md shadow-md hover:bg-secondary-container transition-all hover:scale-[1.02] active:scale-[0.98]" type="button">
+<span class="material-symbols-outlined text-lg">add_task</span>
+<span>Nova Tarefa</span>
+</button>
+</div>
+</div>
+<!-- Filter & Search Toolbar Panel -->
+<div class="flex flex-col gap-space-md p-space-md bg-surface-container-lowest rounded-2xl shadow-sm">
+<div class="flex flex-col lg:flex-row items-stretch lg:items-center gap-space-sm justify-between">
+<!-- Search Field -->
+<div class="relative flex-1">
+<span class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-on-surface-variant text-xl pointer-events-none">search</span>
+<input class="w-full h-11 pl-11 pr-4 bg-surface-container-low rounded-xl font-body-md text-body-md text-on-surface placeholder:text-on-surface-variant/70 focus:outline-none focus:bg-surface-container-lowest focus:ring-2 focus:ring-secondary/40 transition-all" placeholder="Pesquisar por título, disciplina, etiqueta ou docente..." type="text" value="Algoritmo"/>
+<kbd class="hidden md:inline-flex absolute right-3 top-1/2 -translate-y-1/2 px-2 py-0.5 font-code-sm text-code-sm text-on-surface-variant bg-surface-container rounded">⌘F</kbd>
+</div>
+<!-- Dropdown Selectors -->
+<div class="flex items-center gap-space-xs overflow-x-auto pb-1 lg:pb-0">
+<!-- Disciplina Selector -->
+<div class="relative min-w-[210px]">
+<select class="w-full h-11 pl-3.5 pr-9 bg-surface-container-low text-on-surface font-label-md text-label-md rounded-xl appearance-none cursor-pointer focus:outline-none focus:ring-2 focus:ring-secondary/40">
+<option value="">Todas as Disciplinas (5)</option>
+<option selected="" value="ia">Inteligência Artificial</option>
+<option value="calc">Cálculo Numérico</option>
+<option value="es">Engenharia de Software</option>
+<option value="bd">Banco de Dados II</option>
+<option value="so">Sistemas Operacionais</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none text-xl">expand_more</span>
+</div>
+<!-- Prioridade Selector -->
+<div class="relative min-w-[160px]">
+<select class="w-full h-11 pl-3.5 pr-9 bg-surface-container-low text-on-surface font-label-md text-label-md rounded-xl appearance-none cursor-pointer focus:outline-none focus:ring-2 focus:ring-secondary/40">
+<option value="">Prioridade: Geral</option>
+<option value="urgente">Urgente</option>
+<option value="alta">Alta</option>
+<option value="media">Média</option>
+<option value="baixa">Baixa</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none text-xl">tune</span>
+</div>
+<!-- Quick Sort -->
+<button class="h-11 px-3.5 bg-surface-container-low hover:bg-surface-container text-on-surface-variant hover:text-on-surface rounded-xl flex items-center gap-1 font-label-md text-label-md transition-colors whitespace-nowrap" type="button">
+<span class="material-symbols-outlined text-lg">swap_vert</span>
+<span>Prazo Próximo</span>
+</button>
+</div>
+</div>
+<!-- Quick Status Pills Strip -->
+<div class="flex items-center gap-space-xs overflow-x-auto pt-space-xs">
+<button class="px-3.5 py-1.5 rounded-full font-label-md text-label-md bg-primary text-on-primary font-semibold whitespace-nowrap shadow-sm" type="button">
+          Todas <span class="ml-1 opacity-70">34</span>
+</button>
+<button class="px-3.5 py-1.5 rounded-full font-label-md text-label-md bg-surface-container-low hover:bg-surface-container text-on-surface-variant hover:text-on-surface font-medium whitespace-nowrap transition-colors" type="button">
+          Pendentes <span class="ml-1 px-1.5 py-0.2 bg-surface-container rounded-full font-code-sm text-code-sm">12</span>
+</button>
+<button class="px-3.5 py-1.5 rounded-full font-label-md text-label-md bg-surface-container-low hover:bg-surface-container text-on-surface-variant hover:text-on-surface font-medium whitespace-nowrap transition-colors" type="button">
+          Em Andamento <span class="ml-1 px-1.5 py-0.2 bg-secondary-fixed text-on-secondary-fixed font-semibold rounded-full font-code-sm text-code-sm">6</span>
+</button>
+<button class="px-3.5 py-1.5 rounded-full font-label-md text-label-md bg-surface-container-low hover:bg-surface-container text-on-surface-variant hover:text-on-surface font-medium whitespace-nowrap transition-colors" type="button">
+          Concluídas <span class="ml-1 px-1.5 py-0.2 bg-surface-container rounded-full font-code-sm text-code-sm">14</span>
+</button>
+<button class="px-3.5 py-1.5 rounded-full font-label-md text-label-md bg-error-container text-on-error-container font-semibold whitespace-nowrap" type="button">
+          Atrasadas <span class="ml-1 px-1.5 py-0.2 bg-error text-on-error rounded-full font-code-sm text-code-sm font-bold">2</span>
+</button>
+</div>
+</div>
+<!-- Data Table Container -->
+<div class="bg-surface-container-lowest rounded-2xl shadow-sm overflow-hidden flex flex-col">
+<!-- High Density Table Header -->
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="bg-surface-container-low text-on-surface-variant font-label-sm text-label-sm uppercase tracking-wider">
+<th class="py-3.5 pl-6 pr-3 w-12 text-center" scope="col">
+<input aria-label="Selecionar todas as tarefas" class="w-4 h-4 rounded text-secondary focus:ring-secondary/40 cursor-pointer accent-secondary" type="checkbox"/>
+</th>
+<th class="py-3.5 px-4 font-semibold" scope="col">Tarefa / Atividade</th>
+<th class="py-3.5 px-4 font-semibold" scope="col">Disciplina</th>
+<th class="py-3.5 px-4 font-semibold" scope="col">Prazo de Entrega</th>
+<th class="py-3.5 px-4 font-semibold" scope="col">Prioridade</th>
+<th class="py-3.5 px-4 font-semibold" scope="col">Status</th>
+<th class="py-3.5 pr-6 pl-4 font-semibold text-right" scope="col">Ações</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container-low font-body-md text-body-md text-on-surface">
+<!-- Item 1: Dijkstra em Rust (Destaque Ativo) -->
+<tr class="hover:bg-surface-container-low/70 transition-colors group bg-secondary-fixed/15">
+<td class="py-4 pl-6 pr-3 text-center align-middle">
+<input aria-label="Concluir Implementar Algoritmo de Dijkstra em Rust" class="w-4 h-4 rounded text-secondary focus:ring-secondary/40 cursor-pointer accent-secondary" type="checkbox"/>
+</td>
+<td class="py-4 px-4 align-middle">
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<span class="font-title text-title font-bold text-on-surface group-hover:text-secondary transition-colors">Implementar Algoritmo de Dijkstra em Rust</span>
+<span class="px-2 py-0.5 rounded font-code-sm text-code-sm bg-secondary-fixed text-on-secondary-fixed font-semibold">IA Sugestão</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Heap binário, alocação segura de memória e benchmark com grafos esparsos</span>
+</div>
+</td>
+<td class="py-4 px-4 align-middle whitespace-nowrap">
+<div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-secondary-fixed/50 text-on-secondary-fixed font-label-md text-label-md font-semibold">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+<span>Algoritmos Avançados</span>
+</div>
+</td>
+<td class="py-4 px-4 align-middle whitespace-nowrap">
+<div class="flex items-center gap-1.5">
+<span class="px-2 py-0.5 rounded font-label-sm text-label-sm bg-error-container text-on-error-container font-semibold">Amanhã</span>
+<span class="font-code-sm text-code-sm text-on-surface-variant">às 23:59</span>
+</div>
+</td>
+<td class="py-4 px-4 align-middle whitespace-nowrap">
+<span class="inline-flex items-center gap-1.5 font-label-md text-label-md text-error font-semibold">
+<span class="w-2 h-2 rounded-full bg-error animate-pulse"></span>
+                  Alta
+                </span>
+</td>
+<td class="py-4 px-4 align-middle whitespace-nowrap">
+<span class="inline-flex items-center px-2.5 py-1 rounded-full font-label-sm text-label-sm bg-secondary text-on-secondary font-semibold shadow-xs">
+                  Em Andamento
+                </span>
+</td>
+<td class="py-4 pr-6 pl-4 align-middle text-right whitespace-nowrap">
+<div class="flex items-center justify-end gap-1">
+<button class="p-1.5 rounded-lg text-secondary hover:bg-secondary-fixed/50 transition-colors" title="Plano de Estudo IA" type="button">
+<span class="material-symbols-outlined text-lg">auto_awesome</span>
+</button>
+<button class="p-1.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors" title="Editar" type="button">
+<span class="material-symbols-outlined text-lg">edit</span>
+</button>
+<button class="p-1.5 rounded-lg text-on-surface-variant hover:text-error hover:bg-surface-container transition-colors" title="Excluir" type="button">
+<span class="material-symbols-outlined text-lg">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Item 2: Relatório Lab 3 -->
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="py-4 pl-6 pr-3 text-center align-middle">
+<input aria-label="Concluir Relatório de Laboratório 3" class="w-4 h-4 rounded text-secondary focus:ring-secondary/40 cursor-pointer accent-secondary" type="checkbox"/>
+</td>
+<td class="py-4 px-4 align-middle">
+<div class="flex flex-col">
+<span class="font-title text-title font-semibold text-on-surface group-hover:text-primary transition-colors">Relatório de Laboratório 3: Circuitos Digitais</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Simulação de flip-flops JK e registradores de deslocamento no Logisim</span>
+</div>
+</td>
+<td class="py-4 px-4 align-middle whitespace-nowrap">
+<div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-tertiary-fixed text-on-tertiary-fixed font-label-md text-label-md font-semibold">
+<span class="w-2 h-2 rounded-full bg-on-tertiary-fixed-variant"></span>
+<span>Arq. de Computadores</span>
+</div>
+</td>
+<td class="py-4 px-4 align-middle whitespace-nowrap">
+<div class="flex items-center gap-1.5">
+<span class="font-label-md text-label-md text-on-surface">18 Mai</span>
+<span class="font-code-sm text-code-sm text-on-surface-variant">14:00</span>
+</div>
+</td>
+<td class="py-4 px-4 align-middle whitespace-nowrap">
+<span class="inline-flex items-center gap-1.5 font-label-md text-label-md text-on-surface-variant font-medium">
+<span class="w-2 h-2 rounded-full bg-secondary-container"></span>
+                  Média
+                </span>
+</td>
+<td class="py-4 px-4 align-middle whitespace-nowrap">
+<span class="inline-flex items-center px-2.5 py-1 rounded-full font-label-sm text-label-sm bg-surface-container text-on-surface-variant font-medium">
+                  Pendente
+                </span>
+</td>
+<td class="py-4 pr-6 pl-4 align-middle text-right whitespace-nowrap">
+<div class="flex items-center justify-end gap-1">
+<button class="p-1.5 rounded-lg text-on-surface-variant hover:text-secondary hover:bg-surface-container transition-colors" title="Insights IA" type="button">
+<span class="material-symbols-outlined text-lg">auto_awesome</span>
+</button>
+<button class="p-1.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors" title="Editar" type="button">
+<span class="material-symbols-outlined text-lg">edit</span>
+</button>
+<button class="p-1.5 rounded-lg text-on-surface-variant hover:text-error hover:bg-surface-container transition-colors" title="Excluir" type="button">
+<span class="material-symbols-outlined text-lg">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Item 3: Fichamento Bibliográfico (Atrasada) -->
+<tr class="hover:bg-surface-container-low transition-colors group bg-error-container/20">
+<td class="py-4 pl-6 pr-3 text-center align-middle">
+<input aria-label="Concluir Fichamento Bibliográfico sobre Ética em LLMs" class="w-4 h-4 rounded text-secondary focus:ring-secondary/40 cursor-pointer accent-secondary" type="checkbox"/>
+</td>
+<td class="py-4 px-4 align-middle">
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<span class="font-title text-title font-semibold text-on-surface group-hover:text-error transition-colors">Fichamento Bibliográfico sobre Ética em LLMs</span>
+<span class="px-2 py-0.2 rounded font-code-sm text-code-sm bg-error text-on-error font-bold tracking-tight">VENCIDO</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Síntese de 3 artigos da ACM FAccT sobre viés e alinhamento neural</span>
+</div>
+</td>
+<td class="py-4 px-4 align-middle whitespace-nowrap">
+<div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-secondary-fixed/50 text-on-secondary-fixed font-label-md text-label-md font-semibold">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+<span>Tópicos em IA</span>
+</div>
+</td>
+<td class="py-4 px-4 align-middle whitespace-nowrap">
+<span class="inline-flex items-center gap-1 font-label-sm text-label-sm text-error font-bold">
+<span class="material-symbols-outlined text-base">warning</span>
+                  Atrasado (Ontem)
+                </span>
+</td>
+<td class="py-4 px-4 align-middle whitespace-nowrap">
+<span class="inline-flex items-center gap-1.5 font-label-md text-label-md text-error font-semibold">
+<span class="w-2 h-2 rounded-full bg-error"></span>
+                  Alta
+                </span>
+</td>
+<td class="py-4 px-4 align-middle whitespace-nowrap">
+<span class="inline-flex items-center px-2.5 py-1 rounded-full font-label-sm text-label-sm bg-error-container text-on-error-container font-semibold">
+                  Atrasada
+                </span>
+</td>
+<td class="py-4 pr-6 pl-4 align-middle text-right whitespace-nowrap">
+<div class="flex items-center justify-end gap-1">
+<button class="p-1.5 rounded-lg text-secondary hover:bg-secondary-fixed/50 transition-colors" title="Resumir com IA" type="button">
+<span class="material-symbols-outlined text-lg">auto_awesome</span>
+</button>
+<button class="p-1.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors" title="Editar" type="button">
+<span class="material-symbols-outlined text-lg">edit</span>
+</button>
+<button class="p-1.5 rounded-lg text-on-surface-variant hover:text-error hover:bg-surface-container transition-colors" title="Excluir" type="button">
+<span class="material-symbols-outlined text-lg">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Item 4: Lista de Exercícios Cálculo -->
+<tr class="hover:bg-surface-container-low transition-colors group">
+<td class="py-4 pl-6 pr-3 text-center align-middle">
+<input aria-label="Concluir Resolução da Lista de Exercícios 5" class="w-4 h-4 rounded text-secondary focus:ring-secondary/40 cursor-pointer accent-secondary" type="checkbox"/>
+</td>
+<td class="py-4 px-4 align-middle">
+<div class="flex flex-col">
+<span class="font-title text-title font-semibold text-on-surface group-hover:text-primary transition-colors">Resolução da Lista de Exercícios 5</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Integrais múltiplas, teorema de Green e divergência vetorial</span>
+</div>
+</td>
+<td class="py-4 px-4 align-middle whitespace-nowrap">
+<div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-surface-container-highest text-on-surface font-label-md text-label-md font-semibold">
+<span class="w-2 h-2 rounded-full bg-primary-container"></span>
+<span>Cálculo III</span>
+</div>
+</td>
+<td class="py-4 px-4 align-middle whitespace-nowrap">
+<div class="flex items-center gap-1.5">
+<span class="font-label-md text-label-md text-on-surface">20 Mai</span>
+<span class="font-code-sm text-code-sm text-on-surface-variant">18:00</span>
+</div>
+</td>
+<td class="py-4 px-4 align-middle whitespace-nowrap">
+<span class="inline-flex items-center gap-1.5 font-label-md text-label-md text-on-surface-variant font-medium">
+<span class="w-2 h-2 rounded-full bg-secondary-container"></span>
+                  Média
+                </span>
+</td>
+<td class="py-4 px-4 align-middle whitespace-nowrap">
+<span class="inline-flex items-center px-2.5 py-1 rounded-full font-label-sm text-label-sm bg-surface-container text-on-surface-variant font-medium">
+                  Pendente
+                </span>
+</td>
+<td class="py-4 pr-6 pl-4 align-middle text-right whitespace-nowrap">
+<div class="flex items-center justify-end gap-1">
+<button class="p-1.5 rounded-lg text-on-surface-variant hover:text-secondary hover:bg-surface-container transition-colors" title="Explicar Fórmulas com IA" type="button">
+<span class="material-symbols-outlined text-lg">auto_awesome</span>
+</button>
+<button class="p-1.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors" title="Editar" type="button">
+<span class="material-symbols-outlined text-lg">edit</span>
+</button>
+<button class="p-1.5 rounded-lg text-on-surface-variant hover:text-error hover:bg-surface-container transition-colors" title="Excluir" type="button">
+<span class="material-symbols-outlined text-lg">delete</span>
+</button>
+</div>
+</td>
+</tr>
+<!-- Item 5: Modelagem Diagrama UML (Concluído) -->
+<tr class="hover:bg-surface-container-low transition-colors group opacity-75">
+<td class="py-4 pl-6 pr-3 text-center align-middle">
+<input aria-label="Concluir Modelagem de Diagrama UML de Classes" checked="" class="w-4 h-4 rounded text-secondary focus:ring-secondary/40 cursor-pointer accent-secondary" type="checkbox"/>
+</td>
+<td class="py-4 px-4 align-middle">
+<div class="flex flex-col">
+<span class="font-title text-title font-medium text-on-surface line-through text-on-surface-variant">Modelagem de Diagrama UML de Classes</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Módulo de pagamento e controle de estoque do e-commerce fictício</span>
+</div>
+</td>
+<td class="py-4 px-4 align-middle whitespace-nowrap">
+<div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-surface-container-high text-on-surface font-label-md text-label-md font-semibold">
+<span class="w-2 h-2 rounded-full bg-outline"></span>
+<span>Eng. de Software II</span>
+</div>
+</td>
+<td class="py-4 px-4 align-middle whitespace-nowrap">
+<span class="font-label-md text-label-md text-on-surface-variant">12 Mai (Entregue)</span>
+</td>
+<td class="py-4 px-4 align-middle whitespace-nowrap">
+<span class="inline-flex items-center gap-1.5 font-label-md text-label-md text-on-surface-variant">
+<span class="w-2 h-2 rounded-full bg-outline"></span>
+                  Baixa
+                </span>
+</td>
+<td class="py-4 px-4 align-middle whitespace-nowrap">
+<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full font-label-sm text-label-sm bg-surface-container text-on-surface font-semibold">
+<span class="material-symbols-outlined text-sm font-bold">check</span>
+                  Concluído
+                </span>
+</td>
+<td class="py-4 pr-6 pl-4 align-middle text-right whitespace-nowrap">
+<div class="flex items-center justify-end gap-1">
+<button class="p-1.5 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors" title="Editar" type="button">
+<span class="material-symbols-outlined text-lg">edit</span>
+</button>
+<button class="p-1.5 rounded-lg text-on-surface-variant hover:text-error hover:bg-surface-container transition-colors" title="Excluir" type="button">
+<span class="material-symbols-outlined text-lg">delete</span>
+</button>
+</div>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Table Footer / Pagination -->
+<div class="px-6 py-4 bg-surface-container-low flex flex-col sm:flex-row items-center justify-between gap-space-sm">
+<span class="font-body-sm text-body-sm text-on-surface-variant">
+          Mostrando <strong class="text-on-surface">5</strong> de <strong class="text-on-surface">34</strong> tarefas catalogadas
+        </span>
+<div class="flex items-center gap-1">
+<button class="p-2 rounded-lg text-on-surface-variant opacity-50 cursor-not-allowed" disabled="" type="button">
+<span class="material-symbols-outlined text-lg">chevron_left</span>
+</button>
+<button class="w-8 h-8 rounded-lg bg-primary text-on-primary font-label-sm text-label-sm font-bold flex items-center justify-center" type="button">1</button>
+<button class="w-8 h-8 rounded-lg hover:bg-surface-container text-on-surface font-label-sm text-label-sm flex items-center justify-center transition-colors" type="button">2</button>
+<button class="w-8 h-8 rounded-lg hover:bg-surface-container text-on-surface font-label-sm text-label-sm flex items-center justify-center transition-colors" type="button">3</button>
+<button class="p-2 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors" type="button">
+<span class="material-symbols-outlined text-lg">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Active Productivity Helper Card (Bottom Bento Area) -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-space-md">
+<div class="p-space-lg bg-surface-container-lowest rounded-2xl shadow-sm flex flex-col justify-between">
+<div class="flex items-start justify-between">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant font-semibold">Carga da Semana</span>
+<span class="font-headline-lg text-headline-lg text-on-surface font-bold mt-1">18.5 horas</span>
+</div>
+<div class="w-10 h-10 rounded-xl bg-secondary-fixed flex items-center justify-center text-on-secondary-fixed">
+<span class="material-symbols-outlined text-2xl">timelapse</span>
+</div>
+</div>
+<div class="mt-4 flex items-center gap-2">
+<div class="flex-1 bg-surface-container-high rounded-full h-2 overflow-hidden">
+<div class="bg-secondary h-2 rounded-full" style="width: 72%"></div>
+</div>
+<span class="font-code-sm text-code-sm text-secondary font-semibold">72% alocada</span>
+</div>
+</div>
+<div class="p-space-lg bg-surface-container-lowest rounded-2xl shadow-sm flex flex-col justify-between">
+<div class="flex items-start justify-between">
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant font-semibold">Predição de Fim de Ciclo</span>
+<span class="font-headline-lg text-headline-lg text-on-surface font-bold mt-1">94% taxa</span>
+</div>
+<div class="w-10 h-10 rounded-xl bg-surface-container-high flex items-center justify-center text-on-surface">
+<span class="material-symbols-outlined text-2xl">verified</span>
+</div>
+</div>
+<p class="mt-4 font-body-sm text-body-sm text-on-surface-variant">Ritmo compatível com término antecipado das entregas de Engenharia de Software.</p>
+</div>
+<div class="p-space-lg bg-gradient-to-br from-primary-container to-secondary-container text-on-primary rounded-2xl shadow-sm flex flex-col justify-between relative overflow-hidden">
+<div class="flex flex-col gap-1 z-10">
+<div class="flex items-center gap-1.5 text-secondary-fixed">
+<span class="material-symbols-outlined text-lg">auto_awesome</span>
+<span class="font-label-sm text-label-sm font-semibold uppercase tracking-wider">Otimizador TaskMind IA</span>
+</div>
+<h3 class="font-headline-sm text-headline-sm font-bold text-on-primary mt-1">Gerar Roteiro de Prova</h3>
+<p class="font-body-sm text-body-sm text-on-primary/80 mt-1">Converta 5 listas de Cálculo e anotações em flashcards de memorização.</p>
+</div>
+<button class="mt-4 w-fit px-4 py-2 bg-surface-container-lowest text-primary rounded-xl font-label-md text-label-md font-bold shadow hover:bg-surface-container transition-all z-10 flex items-center gap-1.5" type="button">
+<span>Criar Roteiro</span>
+<span class="material-symbols-outlined text-base">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+<!-- ACTIVE MODAL: Criar Nova Tarefa Acadêmica -->
+<!-- Designed as an open persistent overlay state per prompt requirement -->
+<div class="fixed inset-0 z-50 flex items-center justify-center p-space-sm sm:p-space-md lg:p-gutter overflow-y-auto">
+<!-- Backdrop Blur Scrim -->
+<div class="fixed inset-0 bg-primary-container/60 backdrop-blur-sm transition-opacity"></div>
+<!-- Modal Dialog Body -->
+<div class="relative w-full max-w-2xl bg-surface-container-lowest rounded-3xl shadow-2xl overflow-hidden z-10 my-auto animate-in fade-in zoom-in-95 duration-200">
+<!-- Modal Accent Top Ribbon -->
+<div class="h-1.5 w-full bg-gradient-to-r from-primary via-secondary to-secondary-container"></div>
+<!-- Modal Header -->
+<div class="px-space-lg pt-space-lg pb-space-sm flex items-start justify-between gap-space-md">
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-2">
+<span class="p-2 rounded-xl bg-secondary-fixed text-on-secondary-fixed">
+<span class="material-symbols-outlined text-xl">post_add</span>
+</span>
+<h2 class="font-headline-md text-headline-md font-bold text-on-surface">Criar Nova Tarefa Acadêmica</h2>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant">Adicione os detalhes da entrega ou deixe a IA estruturar para você.</p>
+</div>
+<button aria-label="Fechar janela" class="p-2 rounded-xl text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors" type="button">
+<span class="material-symbols-outlined text-2xl">close</span>
+</button>
+</div>
+<!-- Modal Interactive Form -->
+<form class="px-space-lg py-space-sm flex flex-col gap-space-md">
+<!-- Campo 1: Título da Tarefa -->
+<div class="flex flex-col gap-1.5">
+<label class="font-label-md text-label-md font-semibold text-on-surface flex items-center justify-between">
+<span>Título da Tarefa <span class="text-error">*</span></span>
+<span class="font-code-sm text-code-sm text-on-surface-variant">54/100</span>
+</label>
+<input class="w-full h-11 px-4 bg-surface-container-low rounded-xl font-body-md text-body-md text-on-surface focus:outline-none focus:bg-surface-container-lowest focus:ring-2 focus:ring-secondary/50 font-medium" placeholder="Ex.: Lista 4 de Física Teórica..." type="text" value="Implementar Algoritmo A* com Heurística Euclidiana"/>
+</div>
+<!-- Grid 2 Colunas: Disciplina e Data/Horário -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-space-md">
+<!-- Disciplina (Select) -->
+<div class="flex flex-col gap-1.5">
+<label class="font-label-md text-label-md font-semibold text-on-surface">
+              Disciplina Vinculada <span class="text-error">*</span>
+</label>
+<div class="relative">
+<select class="w-full h-11 pl-4 pr-10 bg-surface-container-low rounded-xl font-body-md text-body-md text-on-surface appearance-none focus:outline-none focus:bg-surface-container-lowest focus:ring-2 focus:ring-secondary/50 cursor-pointer">
+<option selected="" value="ia">Inteligência Artificial (Prof. Marcos)</option>
+<option value="calc">Cálculo Numérico (Profa. Heloísa)</option>
+<option value="es">Engenharia de Software (Prof. Renato)</option>
+<option value="bd">Banco de Dados II (Prof. Arnaldo)</option>
+<option value="so">Sistemas Operacionais (Profa. Clarice)</option>
+</select>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none text-xl">unfold_more</span>
+</div>
+</div>
+<!-- Data e Horário -->
+<div class="flex flex-col gap-1.5">
+<label class="font-label-md text-label-md font-semibold text-on-surface">
+              Prazo de Entrega <span class="text-error">*</span>
+</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-on-surface-variant text-xl pointer-events-none">calendar_clock</span>
+<input class="w-full h-11 pl-11 pr-4 bg-surface-container-low rounded-xl font-body-md text-body-md text-on-surface focus:outline-none focus:bg-surface-container-lowest focus:ring-2 focus:ring-secondary/50 font-medium" type="text" value="24/05/2025 às 23:59"/>
+</div>
+</div>
+</div>
+<!-- Campo 3: Prioridade (Radio Chips) -->
+<div class="flex flex-col gap-1.5">
+<label class="font-label-md text-label-md font-semibold text-on-surface">Grau de Prioridade Acadêmica</label>
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-space-xs">
+<label class="flex items-center justify-center gap-1.5 p-2 rounded-xl bg-surface-container-low hover:bg-surface-container cursor-pointer transition-colors text-on-surface-variant font-label-md text-label-md">
+<input class="sr-only" name="priority" type="radio" value="urgente"/>
+<span class="w-2.5 h-2.5 rounded-full bg-error"></span>
+<span>Urgente</span>
+</label>
+<label class="flex items-center justify-center gap-1.5 p-2 rounded-xl bg-error-container text-on-error-container font-semibold cursor-pointer shadow-xs">
+<input checked="" class="sr-only" name="priority" type="radio" value="alta"/>
+<span class="w-2.5 h-2.5 rounded-full bg-error"></span>
+<span>Alta</span>
+</label>
+<label class="flex items-center justify-center gap-1.5 p-2 rounded-xl bg-surface-container-low hover:bg-surface-container cursor-pointer transition-colors text-on-surface-variant font-label-md text-label-md">
+<input class="sr-only" name="priority" type="radio" value="media"/>
+<span class="w-2.5 h-2.5 rounded-full bg-secondary-container"></span>
+<span>Média</span>
+</label>
+<label class="flex items-center justify-center gap-1.5 p-2 rounded-xl bg-surface-container-low hover:bg-surface-container cursor-pointer transition-colors text-on-surface-variant font-label-md text-label-md">
+<input class="sr-only" name="priority" type="radio" value="baixa"/>
+<span class="w-2.5 h-2.5 rounded-full bg-outline"></span>
+<span>Baixa</span>
+</label>
+</div>
+</div>
+<!-- Campo 4: Descrição / Anotações -->
+<div class="flex flex-col gap-1.5">
+<label class="font-label-md text-label-md font-semibold text-on-surface">Instruções e Rubrica da Atividade</label>
+<textarea class="w-full p-3 bg-surface-container-low rounded-xl font-body-md text-body-md text-on-surface focus:outline-none focus:bg-surface-container-lowest focus:ring-2 focus:ring-secondary/50 resize-none" placeholder="Anotações sobre a entrega..." rows="2">Trabalho prático valendo 30% da nota final. Incluir testes unitários e documentação em markdown.</textarea>
+</div>
+<!-- Módulo IA: Checklist Inteligente Ativo -->
+<div class="p-space-md bg-secondary-fixed/30 rounded-2xl flex flex-col gap-space-sm">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-xl">auto_awesome</span>
+<span class="font-title text-title font-bold text-on-surface">Checklist Decomposto por IA</span>
+</div>
+<button class="inline-flex items-center gap-1 px-3 py-1 bg-secondary text-on-secondary rounded-lg font-label-sm text-label-sm font-semibold shadow-xs hover:bg-secondary-container transition-all" type="button">
+<span class="material-symbols-outlined text-sm">cached</span>
+<span>Regerar</span>
+</button>
+</div>
+<!-- Subtarefas Geradas -->
+<div class="flex flex-col gap-2">
+<div class="flex items-center gap-2 p-2 bg-surface-container-lowest rounded-xl">
+<input checked="" class="w-4 h-4 rounded text-secondary focus:ring-secondary/40 accent-secondary cursor-pointer" type="checkbox"/>
+<span class="font-body-md text-body-md text-on-surface flex-1 line-through text-on-surface-variant">1. Definir estrutura do grafo e classes de nós</span>
+<span class="font-code-sm text-code-sm text-secondary font-medium">30 min</span>
+</div>
+<div class="flex items-center gap-2 p-2 bg-surface-container-lowest rounded-xl">
+<input class="w-4 h-4 rounded text-secondary focus:ring-secondary/40 accent-secondary cursor-pointer" type="checkbox"/>
+<span class="font-body-md text-body-md text-on-surface flex-1">2. Implementar fila de prioridade com Heurística Euclidiana</span>
+<span class="font-code-sm text-code-sm text-secondary font-medium">1h 15m</span>
+</div>
+<div class="flex items-center gap-2 p-2 bg-surface-container-lowest rounded-xl">
+<input class="w-4 h-4 rounded text-secondary focus:ring-secondary/40 accent-secondary cursor-pointer" type="checkbox"/>
+<span class="font-body-md text-body-md text-on-surface flex-1">3. Validar resultados e gerar gráficos de convergência</span>
+<span class="font-code-sm text-code-sm text-secondary font-medium">45 min</span>
+</div>
+</div>
+</div>
+<!-- Anexos de Arquivos -->
+<div class="flex items-center gap-space-sm p-3 bg-surface-container-low rounded-xl">
+<div class="p-2 rounded-lg bg-surface-container-lowest text-on-surface-variant">
+<span class="material-symbols-outlined text-xl">attach_file</span>
+</div>
+<div class="flex flex-col flex-1 min-w-0">
+<span class="font-label-md text-label-md font-semibold text-on-surface truncate">especificacao_projeto_heuristica.pdf</span>
+<span class="font-code-sm text-code-sm text-on-surface-variant">1.4 MB • Enunciado e Rubrica</span>
+</div>
+<button class="text-on-surface-variant hover:text-error p-1 rounded transition-colors" title="Remover anexo" type="button">
+<span class="material-symbols-outlined text-lg">close</span>
+</button>
+</div>
+</form>
+<!-- Modal Footer Controls -->
+<div class="px-space-lg py-space-md bg-surface-container-low flex items-center justify-between gap-space-sm">
+<button class="font-label-md text-label-md text-on-surface-variant hover:text-error transition-colors flex items-center gap-1" type="button">
+<span class="material-symbols-outlined text-base">delete_sweep</span>
+<span>Descartar Rascunho</span>
+</button>
+<div class="flex items-center gap-space-sm">
+<button class="px-4 py-2.5 rounded-xl font-label-md text-label-md text-on-surface hover:bg-surface-container transition-colors" type="button">
+            Cancelar
+          </button>
+<button class="px-6 py-2.5 rounded-xl font-label-md text-label-md bg-primary text-on-primary hover:bg-primary-container hover:text-on-primary-container font-semibold shadow-md transition-all hover:scale-[1.02]" type="button">
+            Salvar Tarefa
+          </button>
+</div>
+</div>
+</div>
+</div>
+</div></main></div></body></html>
