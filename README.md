@@ -1,41 +1,47 @@
 # TaskMind — produtividade acadêmica com agente Gemini
 
-O TaskMind é uma aplicação acadêmica full stack para organizar tarefas, disciplinas, prazos, notas, frequência e planos de estudo. O projeto preserva as seis interfaces criadas no Google Stitch e adiciona autenticação, persistência relacional e um agente com function calling real.
-
-> Estado atual: o código, migrations, testes e build estão preparados localmente. A integração remota só é considerada ativa depois que as migrations forem aplicadas a um projeto Supabase e as variáveis server-side forem configuradas. Nenhum deploy ou banco remoto foi alterado por esta implementação.
+O TaskMind é uma aplicação acadêmica full stack para organizar tarefas, disciplinas, prazos, notas, frequência e planos de estudo. O projeto preserva as seis interfaces criadas no Google Stitch e integra autenticação via Supabase Auth, persistência relacional com Row Level Security (RLS) e um agente Gemini com function calling e confirmação humana obrigatória.
 
 ## Problema e justificativa
 
-Informações acadêmicas costumam ficar fragmentadas entre portais, calendários e anotações. Isso dificulta visualizar carga de trabalho, antecipar atrasos, acompanhar frequência e saber qual nota ainda é necessária. O TaskMind centraliza esses dados e permite que um agente consulte e proponha alterações sem executar ações destrutivas silenciosamente.
+Informações acadêmicas costumam ficar fragmentadas entre portais, calendários e anotações. Isso dificulta visualizar a carga de trabalho, antecipar atrasos, acompanhar frequência e calcular qual nota ainda é necessária. O TaskMind centraliza esses dados e permite que um agente inteligente consulte informações reais e proponha alterações sem executar ações destrutivas silenciosamente.
 
 ## Objetivos
 
 - Manter uma visão única e responsiva da rotina acadêmica.
-- Persistir dados por usuário com integridade relacional e Row Level Security.
-- Calcular médias, frequência e nota necessária com funções determinísticas.
-- Usar Gemini para interpretar linguagem natural e selecionar ferramentas.
-- Exigir confirmação humana para criação, edição e exclusão.
+- Persistir dados por usuário com integridade relacional e Row Level Security (RLS).
+- Calcular médias, frequência (regra MEC 75%) e nota necessária com funções determinísticas.
+- Usar Gemini para interpretar linguagem natural e encadear ferramentas de consulta.
+- Exigir confirmação humana explícita e idempotente para criação, edição e exclusão.
 
 ## Funcionalidades
 
 ### Implementadas no código
 
-- Cadastro, login, logout, recuperação de senha e restauração de sessão pelo Supabase Auth.
-- Rotas da aplicação protegidas por sessão.
-- CRUD persistente de tarefas, subtarefas e disciplinas.
-- Persistência de avaliações, frequência, conversas e planos de estudo.
-- Dashboard, calendário e filtros derivados do estado sincronizado.
-- Simulador acadêmico com tratamento de nota zero, dados ausentes e metas impossíveis.
-- `/api/agent` autenticado, com rate limit, timeout, schemas allowlist e erros específicos.
-- Ferramentas `listTasks`, `createTask`, `updateTask`, `deleteTask`, `listSubjects`, `suggestStudyPlan`, `calculateRequiredGrade` e `getAcademicOverview`.
-- Confirmações persistidas e idempotentes no backend.
-- Fallback local explicitamente identificado quando o Supabase não está configurado.
+- **Autenticação completa via Supabase Auth:**
+  - Login com e-mail e senha (com alternância de visibilidade de senha).
+  - **Link mágico** (acesso sem senha via OTP por e-mail).
+  - Cadastro com sincronização automática de perfil acadêmico (nome, curso e semestre opcionais).
+  - Reenvio de e-mail de confirmação, recuperação/redefinição de senha e tratamento de links expirados na URL.
+  - Mensagens de erro e feedback traduzidas para português brasileiro e detecção automática de provedores OAuth (`google` / `github`) quando habilitados no projeto Supabase.
+- **Gestão acadêmica persistente:**
+  - Rotas da aplicação protegidas por sessão autenticado no [`AuthGate`](src/components/auth/AuthGate.jsx).
+  - CRUD completo de tarefas, subtarefas e disciplinas.
+  - Persistência de avaliações, registros de frequência, conversas do chat e planos de estudo.
+  - Dashboard, calendário e filtros derivados do estado sincronizado.
+  - Simulador acadêmico com tratamento de nota zero, disciplinas sem avaliações e metas impossíveis.
+- **Agente IA (`/api/agent`) com Gemini + Supabase:**
+  - Endpoint autenticado por JWT do Supabase, com rate limit por usuário (`12 req/min`), timeout por chamada (`8s`) e fallback automático de modelos (`gemini-3-flash-preview` → `gemini-3.1-flash-lite` → `gemini-flash-lite-latest`).
+  - Encadeamento de múltiplas rodadas de ferramentas de leitura (ex.: `listSubjects` antes de `calculateRequiredGrade`) e correspondência flexível de disciplinas (nome parcial sem acentos ou código).
+  - Ferramentas disponíveis: `listTasks`, `createTask`, `updateTask`, `deleteTask`, `listSubjects`, `suggestStudyPlan`, `calculateRequiredGrade` e `getAcademicOverview`.
+  - Geração de etapas estruturadas de plano de estudo a partir das tarefas reais em aberto.
+  - Propostas de escrita persistidas em `agent_operations` e executadas uma única vez com controle atômico (`pending` → `executing` → `completed`).
+  - Fallback local explícito para modo demonstração quando as variáveis do Supabase não estão configuradas.
 
 ### Desabilitadas ou pendentes de configuração externa
 
-- SIGAA, Moodle, biblioteca e comandos de voz não possuem API/credenciais e aparecem como indisponíveis.
-- O ciclo real Supabase + Gemini requer aplicação das migrations, uma conta autenticada e segredos configurados.
-- O teste SQL de isolamento RLS exige uma instância Supabase local descartável.
+- Integrações externas (SIGAA, Moodle, biblioteca) e comandos de voz/anexos permanecem desabilitados até haver APIs/armazenamento configurados.
+- Login social (Google/GitHub) depende de ativação do respectivo provedor no painel **Supabase Auth → Sign In / Providers**.
 
 ## As seis telas
 
@@ -52,11 +58,11 @@ As referências completas do Stitch estão indexadas em [`docs/design/README.md`
 
 ## Tecnologias
 
-- React 19, React Router, Vite e Tailwind CSS.
-- Node.js e Express no servidor local; Vercel Functions em produção.
-- Supabase PostgreSQL, Auth e RLS.
-- `@google/genai` para Gemini Developer API.
-- `node:test` e ESLint.
+- **Frontend:** React 19, React Router, Vite 8 e Tailwind CSS v4.
+- **Backend:** Node.js 22+ e Express no servidor local (`server.js`); Vercel Serverless Functions (`/api/agent`) em produção.
+- **Banco e Autenticação:** Supabase PostgreSQL, Supabase Auth e Row Level Security.
+- **IA Generativa:** `@google/genai` (Gemini Developer API).
+- **Qualidade:** ESLint 9 e `node:test`.
 
 ## Arquitetura
 
@@ -66,13 +72,13 @@ flowchart LR
   Browser -->|CRUD com RLS| Supabase[(Supabase PostgreSQL)]
   Browser --> Auth[Supabase Auth]
   API -->|valida token| Auth
-  API -->|contexto mínimo| Gemini[Gemini API]
+  API -->|modelo + fallback| Gemini[Gemini API]
   API -->|token do usuário + RLS| Supabase
-  API -->|somente estado de confirmação| Ops[agent_operations]
+  API -->|estado idempotente| Ops[agent_operations]
   Ops --> Supabase
 ```
 
-O token do usuário define a identidade. O backend nunca aceita `userId` enviado pelo navegador ou pelo modelo. A chave secreta `sb_secret_…` é usada apenas no servidor para controlar a máquina de estados privada de `agent_operations`; dados acadêmicos continuam sendo consultados e alterados com o token do usuário e RLS.
+O token JWT do usuário define a identidade em todas as consultas e gravações acadêmicas. O backend nunca aceita `userId` enviado pelo navegador ou pelo modelo. A chave secreta (`SUPABASE_SECRET_KEY`) é usada exclusivamente no servidor para controlar a máquina de estados privada de `agent_operations`.
 
 ## Fluxo do agente e confirmação humana
 
@@ -85,44 +91,49 @@ sequenceDiagram
   participant DB as Supabase
   U->>UI: Pedido em português
   UI->>API: Mensagem + access token
-  API->>G: Prompt + declarações de ferramentas
-  G-->>API: FunctionCall
-  alt ferramenta de leitura
+  API->>G: Prompt + histórico + ferramentas
+  loop até 4 rodadas de leitura
+    G-->>API: FunctionCall (leitura)
     API->>DB: Consulta autorizada por RLS
     DB-->>API: Resultado real
     API->>G: FunctionResponse
-    G-->>UI: Explicação final
+  end
+  alt resposta final ou plano de estudo
+    G-->>API: Texto final
+    API-->>UI: Resposta (+ studyPlan opcional)
   else ferramenta de escrita
+    G-->>API: FunctionCall (mutação)
     API->>DB: Salva proposta pending
-    API-->>UI: Dados exatos para revisão
-    U->>UI: Confirma
+    API-->>UI: Dados exatos para revisão humana
+    U->>UI: Confirma operação
     UI->>API: operationId
     API->>DB: pending → executing (atômico)
-    API->>DB: Executa mutação com identidade autenticada
-    API->>G: FunctionResponse real
+    API->>DB: Executa mutação com token do usuário
+    API->>G: Síntese final com dados gravados
     G-->>UI: Confirmação final
   end
 ```
 
-Uma segunda confirmação recebe `409` e não repete a mutação. Falhas alteram a operação para `failed`; a interface não informa sucesso se a gravação falhar.
+Uma segunda confirmação recebe HTTP `409` e não repete a mutação. Falhas marcam a operação como `failed`; a interface não informa sucesso caso a gravação falhe.
 
 ## Estrutura principal
 
 ```text
 api/
-  agent.js                 endpoint Vercel e orquestração
-  _lib/agentTools.js       schemas, validação e ferramentas
+  agent.js                 endpoint Vercel e orquestração do agente
+  _lib/agentTools.js       módulo privado (schemas, validação e ferramentas)
 src/
-  components/              layout, autenticação e modais
+  components/              layout, AuthGate e modais
   context/                 AuthContext e AcademicContext
-  pages/                   seis telas preservadas
-  services/                Supabase, repositório e agente cliente
-  utils/                   cálculos acadêmicos puros
+  pages/                   seis telas do aplicativo
+  services/                cliente Supabase, repositório e cliente do agente
+  utils/                   cálculos acadêmicos puros e tradução de erros Auth
 supabase/
-  migrations/              schema e endurecimento de segurança
-  tests/                   isolamento RLS executável localmente
-tests/                      testes Node
-server.js                   Vite + API no desenvolvimento local
+  migrations/              schema inicial e endurecimento de segurança/RLS
+  tests/                   teste SQL de isolamento RLS
+tests/                     suítes automatizadas com node:test
+server.js                  servidor unificado (Vite + /api/agent) para uso local
+vercel.json                configuração de framework e rewrite SPA excluindo /api/
 ```
 
 ## Modelo relacional
@@ -143,37 +154,43 @@ erDiagram
   AUTH_USERS ||--o{ AGENT_OPERATIONS : confirma
 ```
 
-Todas as entidades usam UUID, constraints, timestamps, chaves estrangeiras e índices adequados. As migrations criam políticas SELECT, INSERT, UPDATE e DELETE separadas. Relações sem `user_id` verificam a propriedade pela entidade-pai.
+Todas as entidades usam UUID, constraints, timestamps, chaves estrangeiras e índices adequados. As migrations criam políticas `SELECT`, `INSERT`, `UPDATE` e `DELETE` separadas por operação.
 
 ## Variáveis de ambiente
 
-Copie `.env.example` para `.env`. Não faça commit desse arquivo.
+Copie `.env.example` para `.env` (nunca faça commit do `.env`):
 
 | Variável | Ambiente | Uso |
 |---|---|---|
-| `VITE_SUPABASE_URL` | navegador/servidor | URL pública do projeto |
+| `VITE_SUPABASE_URL` | navegador/servidor | URL pública do projeto Supabase |
 | `VITE_SUPABASE_PUBLISHABLE_KEY` | navegador/servidor | chave publicável protegida por RLS |
-| `SUPABASE_SECRET_KEY` | somente servidor | chave `sb_secret_…` para o estado idempotente das confirmações |
-| `GEMINI_API_KEY` | somente servidor | Gemini Developer API |
-| `GEMINI_MODEL` | somente servidor | modelo suportado configurável (`gemini-3-flash-preview` com fallback automático) |
-| `APP_URL` | servidor | URL da aplicação e redirects |
+| `SUPABASE_SECRET_KEY` | somente servidor | chave secreta para o controle idempotente de `agent_operations` |
+| `GEMINI_API_KEY` | somente servidor | chave da Gemini Developer API |
+| `GEMINI_MODEL` | somente servidor | modelo principal configurável (padrão `gemini-3-flash-preview` com fallback automático) |
+| `APP_URL` | servidor | URL base da aplicação e redirects |
 
-Nunca use prefixo `VITE_` em `GEMINI_API_KEY` ou `SUPABASE_SECRET_KEY`.
+Opcionalmente, `GEMINI_FALLBACK_MODELS` aceita uma lista separada por vírgulas para customizar a ordem de fallback. Nunca use o prefixo `VITE_` em `GEMINI_API_KEY` ou `SUPABASE_SECRET_KEY`.
 
 ## Instalação e execução local
 
-Requisitos: Node.js 22+ e npm.
+Requisitos: **Node.js 22+** e **npm**.
 
 ```bash
 npm install
 npm run dev
 ```
 
-`npm run dev` inicia Express, a função `/api/agent` e o Vite na mesma origem. Use `TASKMIND_PORT` se a porta 3000 estiver ocupada. `npm run dev:frontend` inicia somente a interface e não serve o agente.
+`npm run dev` inicia Express, a rota `/api/agent` e o Vite na mesma origem (`http://localhost:3000`). Use `TASKMIND_PORT` se a porta 3000 estiver ocupada.
+
+> **Importante:** use `npm run dev` (e não `npm run dev:frontend`) para testar o Assistente IA localmente, pois `dev:frontend` sobe apenas o Vite sem o endpoint `/api/agent`.
 
 ## Migrations e RLS
 
-Para uma instância local descartável:
+As migrations ficam em `supabase/migrations/`:
+- `202611100001_initial_schema.sql`: schema relacional, triggers e RLS inicial.
+- `202611100002_agent_security.sql`: tabelas `academic_settings` e `agent_operations` e políticas CRUD granulares.
+
+Para testar isolamento RLS em uma instância local descartável:
 
 ```bash
 npx supabase start
@@ -181,9 +198,7 @@ npx supabase db reset
 npx supabase test db
 ```
 
-As migrations ficam em `supabase/migrations`. O teste `supabase/tests/rls_isolation.sql` alterna identidades e falha se um usuário conseguir ler a disciplina de outro. Para um projeto remoto, revise o diff e execute `supabase db push` somente após autorização explícita.
-
-Em **Supabase Auth → URL Configuration**, configure `http://localhost:3000` e os domínios de preview/produção permitidos.
+Em **Supabase Auth → URL Configuration**, cadastre `http://localhost:3000` e os domínios de preview/produção permitidos em **Redirect URLs**.
 
 ## Testes e qualidade
 
@@ -194,42 +209,35 @@ npm run build
 npm run check
 ```
 
-Resultado local em 10/11/2026:
+Verificação realizada em **11/11/2026**:
 
-- ESLint: aprovado, sem erros.
-- Node test runner: 28 testes aprovados, 0 falhas.
-- Vite build: aprovado.
-- `npm audit --omit=dev`: 0 vulnerabilidades conhecidas.
-- Endpoint local sem token: rejeitado com HTTP 401.
-- Consulta de metadados do modelo `gemini-3.8-flash`: aprovada; tentativa de function calling real recebeu HTTP 503 por alta demanda temporária.
-- Teste SQL RLS e ciclo remoto Gemini/Supabase: não executados, pois exigem migrations aplicadas e configuração externa.
+- **ESLint** (`npm run lint`): aprovado sem erros.
+- **Testes automatizados** (`npm test`): **36 testes em 5 suítes aprovados** (`0` falhas), cobrindo validação de schemas, rate limit, timeout, fallback de modelos, encadeamento de ferramentas, prevenção de mensagens órfãs, idempotência de confirmação, tradução de erros de autenticação e cálculos acadêmicos.
+- **Build de produção** (`npm run build`): aprovado via Vite 8.
+- **Ciclo ponta a ponta ao vivo (`server.js` + Supabase Auth + Gemini):** verificado bloqueio HTTP `401` sem token, login com usuário efêmero, chamada de leitura (`listTasks` via `gemini-3-flash-preview`), proposta de criação (`createTask`), confirmação humana (`executed: true`) e remoção do usuário de teste.
+- **Pendências fora do escopo local:** teste SQL RLS em container descartável (`supabase test db`) e suíte visual E2E completa em navegador após deploy.
 
-Mocks são usados apenas para testar validação, timeout e idempotência isoladamente; não são apresentados como prova de integração remota.
+## Deploy na Vercel
 
-## Vercel
+O projeto já está preparado para deploy contínuo via GitHub + Vercel:
 
-1. Importe o repositório e mantenha o framework Vite.
-2. Cadastre as seis variáveis da tabela nos ambientes Preview e Production apropriados.
-3. Configure as Redirect URLs do Supabase para cada domínio autorizado.
-4. Aguarde o workflow de lint/test/build antes de promover uma versão.
-5. Valide login, consulta e confirmação em Preview.
+1. Importe o repositório na Vercel mantendo o preset **Vite** e **Node.js 22.x**.
+2. Cadastre as 6 variáveis de ambiente de `.env.example` nos ambientes **Production** e **Preview**.
+3. Em **Supabase → Authentication → URL Configuration**, atualize **Site URL** para o domínio da Vercel e adicione `https://<seu-projeto>.vercel.app/**` (e domínios de Preview, se aplicável) em **Redirect URLs**.
+4. Faça o deploy após a aprovação do workflow de CI (`lint`, `test` e `build`).
 
-`vercel.json` usa o fallback SPA oficial. A Vercel dá precedência aos arquivos/funções existentes antes do rewrite, portanto `/api/agent` permanece uma Function. Nenhum deploy é executado automaticamente por scripts deste repositório.
-
-## Cronograma acadêmico — novembro de 2026
-
-- **10/11:** base visual, domínio acadêmico e auditoria.
-- **17/11:** persistência, autenticação, migrations e RLS.
-- **24/11:** agente Gemini, testes integrados, documentação e preparação de entrega.
+Detalhes de configuração já aplicados:
+- [`vercel.json`](vercel.json) utiliza `"source": "/((?!api/).*)"` para o fallback SPA sem interceptar chamadas `/api/*`.
+- Os utilitários compartilhados do backend ficam em [`api/_lib/agentTools.js`](api/_lib/agentTools.js) para não serem expostos como endpoints públicos pela Vercel.
+- Cada chamada ao modelo usa timeout de `8s` com fallback automático para modelos de baixa latência, compatível com o limite padrão de `10s` do plano Hobby.
 
 ## Limitações e evoluções futuras
 
-- Aplicar e validar as migrations em ambiente remoto autorizado.
-- Executar o teste RLS em duas contas reais e o fluxo Gemini ponta a ponta.
-- Adicionar testes E2E de navegador após disponibilizar um ambiente descartável.
-- Implementar edição de perfil e configurações acadêmicas pela interface.
-- Dividir o bundle principal, atualmente acima do aviso de 500 kB do Vite.
-- Integrar sistemas institucionais somente quando APIs oficiais estiverem disponíveis.
+- Adicionar tela dedicada para edição de perfil e metas acadêmicas (`academic_settings`).
+- Dividir o bundle principal com *code-splitting* (atualmente acima do aviso de 500 kB do Vite).
+- Habilitar provedores sociais (Google/GitHub) no Supabase Auth caso desejado.
+- Adicionar suíte E2E automatizada em navegador (Playwright) no CI.
+- Integrar sistemas institucionais (SIGAA/Moodle) somente quando houver APIs oficiais disponíveis.
 
 ## Créditos e autoria
 
