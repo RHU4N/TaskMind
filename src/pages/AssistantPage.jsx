@@ -31,7 +31,7 @@ export default function AssistantPage() {
     if (chatStreamRef.current) {
       chatStreamRef.current.scrollTop = chatStreamRef.current.scrollHeight;
     }
-  }, [chatMessages]);
+  }, [chatMessages, isSending]);
 
   const handleSend = async (e) => {
     if (e) e.preventDefault();
@@ -40,9 +40,11 @@ export default function AssistantPage() {
     const text = inputPrompt;
     setInputPrompt('');
     setIsSending(true);
-
-    await sendUserMessage(text);
-    setIsSending(false);
+    try {
+      await sendUserMessage(text);
+    } finally {
+      setIsSending(false);
+    }
   };
 
   const handleInsertPrompt = (promptText) => {
@@ -63,8 +65,11 @@ export default function AssistantPage() {
               <span className="w-2 h-2 rounded-full bg-secondary animate-pulse" />
               Contexto Ativo: {subjects.length} disciplina(s) sincronizada(s)
             </span>
-            <span className="hidden md:inline-flex text-on-surface-variant font-body-sm text-body-sm">
-              Semestre Letivo {settings.user.semester} • {settings.user.institution} / {settings.user.course}
+              <span className="hidden md:inline-flex text-on-surface-variant font-body-sm text-body-sm">
+              {settings.user.semester ? `Semestre Letivo ${settings.user.semester}` : 'Semestre atual'}
+              {settings.user.institution || settings.user.course
+                ? ` • ${[settings.user.institution, settings.user.course].filter(Boolean).join(' / ')}`
+                : ''}
             </span>
           </div>
 
@@ -199,7 +204,7 @@ export default function AssistantPage() {
                             isUser ? 'text-on-surface-variant' : 'text-secondary'
                           }`}
                         >
-                          {msg.authorName}
+                          {msg.authorName || (isUser ? settings.user.name || 'Você' : 'TaskMind AI')}
                         </span>
                         <span className="font-code-sm text-code-sm text-on-surface-variant">
                           {msg.timestamp}
@@ -340,6 +345,18 @@ export default function AssistantPage() {
                   </div>
                 );
               })}
+
+              {isSending && (
+                <div className="flex items-start gap-space-sm pr-6">
+                  <div className="w-9 h-9 rounded-full bg-secondary flex items-center justify-center text-on-secondary shadow-md shrink-0 mt-1 animate-pulse">
+                    <span className="material-symbols-outlined text-lg">auto_awesome</span>
+                  </div>
+                  <div className="p-space-md rounded-2xl rounded-tl-none bg-surface-container-low text-on-surface-variant font-body-md text-body-md flex items-center gap-2 shadow-xs">
+                    <span className="w-2 h-2 rounded-full bg-secondary animate-bounce" />
+                    <span>TaskMind AI está analisando seus dados acadêmicos…</span>
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* Quick Prompt Chips & Interactive Input Area */}
@@ -352,10 +369,10 @@ export default function AssistantPage() {
                 </span>
 
                 {[
-                  '⚡ Resumir PDF do seminário de IA',
-                  '📅 Reagendar tarefas atrasadas sem estresse',
-                  '🎯 Criar checklist para entrega de TCC',
-                  '⏱️ Planejar bloco de Pomodoro para Cálculo',
+                  'Quais são minhas tarefas pendentes e atrasadas?',
+                  'Faça um resumo das minhas disciplinas e frequência',
+                  'Criar tarefa: Revisar conteúdo para a próxima prova',
+                  'Monte um plano de estudo com 3 horas disponíveis',
                 ].map((promptText, i) => (
                   <button
                     key={i}

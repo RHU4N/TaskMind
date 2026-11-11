@@ -155,17 +155,39 @@ export function matchSubjectInText(text, subjects = []) {
  * @param {Object} contextData - { tasks: [], subjects: [] }
  * @returns {Promise<Object>}
  */
+async function callAgentEndpoint(body, accessToken, fallbackError) {
+  const response = await fetch('/api/agent', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${accessToken}` },
+    body: JSON.stringify(body),
+  });
+  const contentType = response.headers?.get?.('content-type') || '';
+  if (!contentType.includes('application/json')) {
+    throw new Error('O servidor do agente (/api/agent) não respondeu em JSON. Execute a aplicação com "npm run dev".');
+  }
+  const payload = await response.json().catch(() => ({}));
+  if (!response.ok) throw new Error(payload.error || fallbackError);
+  if (typeof payload.content !== 'string') {
+    throw new Error('Resposta incompleta recebida do servidor de IA.');
+  }
+  return payload;
+}
+
 export async function processAgentMessage(prompt, contextData = {}) {
   if (isSupabaseConfigured) {
     const { data } = await supabase.auth.getSession();
     if (!data.session) throw new Error('Sua sessão expirou. Entre novamente.');
-    const response = await fetch('/api/agent', {
-      method: 'POST', headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${data?.session?.access_token || ''}` },
-      body: JSON.stringify({ action: 'message', prompt, conversationId: contextData.conversationId || null }),
-    });
-    const payload = await response.json().catch(() => ({}));
-    if (!response.ok) throw new Error(payload.error || 'Falha ao consultar o agente.');
-    return { ...payload, notice: 'Resposta do Gemini com ferramentas executadas no servidor.' };
+    const payload = await callAgentEndpoint(
+      { action: 'message', prompt, conversationId: contextData.conversationId || null },
+      data.session.access_token || '',
+      'Falha ao consultar o agente.'
+    );
+    return {
+      ...payload,
+      notice: payload.modelUsed
+        ? `Resposta do ${payload.modelUsed} com ferramentas executadas no servidor.`
+        : 'Resposta do Gemini com ferramentas executadas no servidor.',
+    };
   }
   // Explicit demo/offline fallback below. It is never used for authenticated production sessions.
   const normalized = (prompt || '').toLowerCase().trim();
@@ -282,12 +304,9 @@ export async function confirmAgentOperation(operationId) {
   if (!isSupabaseConfigured) throw new Error('Confirmação remota indisponível no modo demonstração.');
   const { data } = await supabase.auth.getSession();
   if (!data.session) throw new Error('Sua sessão expirou. Entre novamente.');
-  const response = await fetch('/api/agent', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${data.session.access_token}` },
-    body: JSON.stringify({ action: 'confirm', operationId }),
-  });
-  const payload = await response.json().catch(() => ({}));
-  if (!response.ok) throw new Error(payload.error || 'Não foi possível executar a operação.');
-  return payload;
+  return callAgentEndpoint(
+    { action: 'confirm', operationId },
+    data.session.access_token,
+    'Não foi possível executar a operação.'
+  );
 }

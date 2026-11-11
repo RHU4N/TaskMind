@@ -24,7 +24,7 @@ import SimulatorPage from './pages/SimulatorPage.jsx';
 
 function MainLayout() {
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
-  const { isLoading, repositoryError } = useAcademic();
+  const { isLoading, repositoryError, dismissRepositoryError } = useAcademic();
 
   return (
     <div className="bg-surface font-body-md text-on-surface antialiased min-h-screen flex">
@@ -41,7 +41,14 @@ function MainLayout() {
 
         {/* Routed Page Container */}
         <main className="w-full pt-16 bg-surface flex-1">
-          {repositoryError && <div role="alert" className="m-4 rounded-lg bg-error-container p-3 text-on-error-container">Falha de sincronização: {repositoryError}</div>}
+          {repositoryError && (
+            <div role="alert" className="m-4 rounded-xl bg-error-container p-3 text-on-error-container flex items-center justify-between gap-3">
+              <span>Falha de sincronização: {repositoryError}</span>
+              <button type="button" onClick={dismissRepositoryError} aria-label="Fechar aviso" className="p-1 rounded-lg hover:bg-error/10 cursor-pointer">
+                <span className="material-symbols-outlined text-lg">close</span>
+              </button>
+            </div>
+          )}
           {isLoading && <div className="m-4 rounded-lg bg-surface-container p-3 text-on-surface-variant">Sincronizando dados acadêmicos…</div>}
           <Routes>
             <Route path="/" element={<DashboardPage />} />

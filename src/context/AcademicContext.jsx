@@ -24,7 +24,7 @@ import {
 } from '../services/agentExecutionService.js';
 import { calculateOverallAttendance, calculateIra } from '../utils/academicCalculations.js';
 import { isSupabaseConfigured } from '../services/supabaseClient.js';
-import { loadAcademicData, persistTask, removeTask, persistSubject, removeSubject, setTodayAttendance, persistStudyPlan } from '../services/academicRepository.js';
+import { loadAcademicData, persistTask, removeTask, persistSubject, removeSubject, setTodayAttendance, persistStudyPlan, syncProfileMetadata } from '../services/academicRepository.js';
 import { useAuth } from './AuthContext.jsx';
 
 const AcademicContext = createContext(null);
@@ -49,17 +49,78 @@ export function AcademicProvider({ children }) {
 
   useEffect(() => {
     if (!isSupabaseConfigured || !user) { setIsLoading(false); return; }
-    setSettings((old) => ({ ...old, user: { ...old.user, name: user.user_metadata?.full_name || user.email?.split('@')[0] || 'Estudante', course: '', institution: '', semester: '', avatar: user.user_metadata?.avatar_url || '' } }));
+    const metaName = user.user_metadata?.full_name || user.email?.split('@')[0] || 'Estudante';
+    const metaCourse = user.user_metadata?.course || '';
+    const metaInstitution = user.user_metadata?.institution || '';
+    const metaSemester = user.user_metadata?.semester || '';
+    setSettings((old) => ({
+      ...old,
+      user: {
+        ...old.user,
+        name: metaName,
+        course: metaCourse,
+        institution: metaInstitution,
+        semester: metaSemester,
+        avatar: user.user_metadata?.avatar_url || '',
+      },
+    }));
     setIsLoading(true);
     loadAcademicData().then((data) => {
-      setTasks(data.tasks); setSubjects(data.subjects);
+      setTasks(data.tasks);
+      setSubjects(data.subjects);
       setConversationId(data.conversation?.id || null);
-      setChatMessages((data.conversation?.chat_messages || []).map((m) => ({ id: m.id, sender: m.role === 'user' ? 'user' : 'assistant', content: m.content, timestamp: new Date(m.created_at).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }), toolProposal: m.metadata?.toolProposal })));
+
+      const displayName = data.profile?.full_name || metaName;
+      const opById = new Map((data.operations || []).map((op) => [op.id, op]));
+      const loadedMessages = (data.conversation?.chat_messages || [])
+        .filter((m) => m.role === 'user' || m.role === 'assistant')
+        .map((m) => {
+          const rawProposal = m.metadata?.toolProposal || null;
+          const op = rawProposal?.id ? opById.get(rawProposal.id) : null;
+          const toolProposal = rawProposal
+            ? {
+                ...rawProposal,
+                executed: op ? op.status === 'completed' : Boolean(rawProposal.executed),
+                executedAt: op?.executed_at || rawProposal.executedAt,
+              }
+            : null;
+          return {
+            id: m.id,
+            sender: m.role === 'user' ? 'user' : 'assistant',
+            authorName: m.role === 'user' ? displayName : 'TaskMind AI',
+            content: m.content,
+            timestamp: new Date(m.created_at).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }),
+            toolProposal,
+            notice: m.metadata?.notice,
+          };
+        });
+      setChatMessages(loadedMessages);
+
+      if ((!data.profile?.course && metaCourse) || (!data.profile?.semester && metaSemester) || (!data.profile?.institution && metaInstitution)) {
+        syncProfileMetadata(user.id, {
+          full_name: data.profile?.full_name || metaName,
+          course: data.profile?.course || metaCourse,
+          institution: data.profile?.institution || metaInstitution,
+          semester: data.profile?.semester || metaSemester,
+        }).catch(() => {});
+      }
+
       const semesterEnd = data.academicSettings?.semester_end ? new Date(`${data.academicSettings.semester_end}T23:59:59`) : null;
       const semesterStart = data.academicSettings?.semester_start ? new Date(`${data.academicSettings.semester_start}T00:00:00`) : null;
       const daysRemaining = semesterEnd ? Math.max(0, Math.ceil((semesterEnd - new Date()) / 86400000)) : 0;
       const progress = semesterStart && semesterEnd && semesterEnd > semesterStart ? Math.max(0, Math.min(100, Math.round(((Date.now() - semesterStart.getTime()) / (semesterEnd - semesterStart)) * 100))) : 0;
-      setSettings((old) => ({ ...old, user: { ...old.user, name: data.profile?.full_name || user.email?.split('@')[0] || 'Estudante', course: data.profile?.course || '', institution: data.profile?.institution || '', semester: data.profile?.semester || '', daysRemaining, semesterProgressPercent: progress } }));
+      setSettings((old) => ({
+        ...old,
+        user: {
+          ...old.user,
+          name: displayName,
+          course: data.profile?.course || metaCourse,
+          institution: data.profile?.institution || metaInstitution,
+          semester: data.profile?.semester || metaSemester,
+          daysRemaining,
+          semesterProgressPercent: progress,
+        },
+      }));
       if (data.plan?.plan) setActionPlan(data.plan.plan);
     }).catch((error) => setRepositoryError(error.message)).finally(() => setIsLoading(false));
   }, [user]);
@@ -319,24 +380,24 @@ export function AcademicProvider({ children }) {
       if (response.conversationId) setConversationId(response.conversationId);
       if (response.studyPlan) setActionPlan(response.studyPlan);
     } catch (error) {
-      response = { content: `Não foi possível processar sua mensagem: ${error.message}`, notice: 'Nenhuma operação foi executada.' };
-      setRepositoryError(error.message);
+      response = {
+        content: `Não foi possível processar sua mensagem: ${error.message}`,
+        notice: 'Nenhuma operação foi executada.',
+      };
     }
 
-    setTimeout(() => {
-      const assistantMsg = {
-        id: `msg-${Date.now() + 1}`,
-        sender: 'assistant',
-        authorName: 'TaskMind AI',
-        timestamp: new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }),
-        badge: 'Cross-Schedule v2',
-        content: response.content,
-        toolProposal: response.toolProposal,
-        contextFactors: response.contextFactors || [],
-        notice: response.notice,
-      };
-      setChatMessages((prev) => [...prev, assistantMsg]);
-    }, 450);
+    const assistantMsg = {
+      id: `msg-${Date.now() + 1}`,
+      sender: 'assistant',
+      authorName: 'TaskMind AI',
+      timestamp: new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }),
+      badge: response.modelUsed || 'Gemini Agent',
+      content: response.content,
+      toolProposal: response.toolProposal,
+      contextFactors: response.contextFactors || [],
+      notice: response.notice,
+    };
+    setChatMessages((prev) => [...prev, assistantMsg]);
   };
 
   const executeProposedAction = async (proposal, messageId) => {
@@ -478,6 +539,7 @@ export function AcademicProvider({ children }) {
     metrics,
     isLoading,
     repositoryError,
+    dismissRepositoryError: () => setRepositoryError(''),
     conversationId,
     globalSearch,
     setGlobalSearch,

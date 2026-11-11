@@ -9,12 +9,12 @@ export const MUTATING_TOOLS = new Set(['createTask', 'updateTask', 'deleteTask']
 
 export const AGENT_TOOLS = [{ functionDeclarations: [
   { name: 'listTasks', description: 'Consulta tarefas reais do estudante com filtros opcionais.', parameters: { type: Type.OBJECT, properties: { status: { type: Type.STRING, enum: [...STATUSES, 'overdue'] }, priority: { type: Type.STRING, enum: PRIORITIES }, subjectName: { type: Type.STRING }, dueBefore: { type: Type.STRING, description: 'Data ISO 8601.' } } } },
-  { name: 'createTask', description: 'Prepara uma proposta de nova tarefa. Não executa sem confirmação humana.', parameters: { type: Type.OBJECT, properties: { title: { type: Type.STRING }, subjectName: { type: Type.STRING }, dueDate: { type: Type.STRING }, priority: { type: Type.STRING, enum: PRIORITIES }, description: { type: Type.STRING } }, required: ['title'] } },
-  { name: 'updateTask', description: 'Prepara alteração de tarefa. Não executa sem confirmação humana.', parameters: { type: Type.OBJECT, properties: { taskId: { type: Type.STRING }, status: { type: Type.STRING, enum: STATUSES }, dueDate: { type: Type.STRING }, priority: { type: Type.STRING, enum: PRIORITIES }, description: { type: Type.STRING }, title: { type: Type.STRING } }, required: ['taskId'] } },
-  { name: 'deleteTask', description: 'Prepara exclusão de tarefa. Sempre exige confirmação humana.', parameters: { type: Type.OBJECT, properties: { taskId: { type: Type.STRING } }, required: ['taskId'] } },
-  { name: 'listSubjects', description: 'Consulta as disciplinas reais cadastradas.', parameters: { type: Type.OBJECT, properties: {} } },
+  { name: 'createTask', description: 'Prepara uma proposta de nova tarefa. Não executa sem confirmação humana.', parameters: { type: Type.OBJECT, properties: { title: { type: Type.STRING }, subjectName: { type: Type.STRING }, dueDate: { type: Type.STRING, description: 'Data e hora ISO 8601.' }, priority: { type: Type.STRING, enum: PRIORITIES }, estimatedTime: { type: Type.STRING, description: 'Ex: 1h 30m' }, description: { type: Type.STRING } }, required: ['title'] } },
+  { name: 'updateTask', description: 'Prepara alteração de tarefa usando o taskId UUID obtido via listTasks. Não executa sem confirmação humana.', parameters: { type: Type.OBJECT, properties: { taskId: { type: Type.STRING }, status: { type: Type.STRING, enum: STATUSES }, dueDate: { type: Type.STRING }, priority: { type: Type.STRING, enum: PRIORITIES }, description: { type: Type.STRING }, title: { type: Type.STRING } }, required: ['taskId'] } },
+  { name: 'deleteTask', description: 'Prepara exclusão de tarefa usando o taskId UUID obtido via listTasks. Sempre exige confirmação humana.', parameters: { type: Type.OBJECT, properties: { taskId: { type: Type.STRING } }, required: ['taskId'] } },
+  { name: 'listSubjects', description: 'Consulta as disciplinas reais cadastradas (retorna id UUID, código, nome e nota atual).', parameters: { type: Type.OBJECT, properties: {} } },
   { name: 'suggestStudyPlan', description: 'Obtém dados reais para elaborar um plano de estudos sem alterar o banco.', parameters: { type: Type.OBJECT, properties: { subjectName: { type: Type.STRING }, availableHours: { type: Type.NUMBER }, topic: { type: Type.STRING } }, required: ['availableHours'] } },
-  { name: 'calculateRequiredGrade', description: 'Calcula deterministicamente a nota necessária usando avaliações reais.', parameters: { type: Type.OBJECT, properties: { subjectId: { type: Type.STRING }, targetAverage: { type: Type.NUMBER } }, required: ['subjectId'] } },
+  { name: 'calculateRequiredGrade', description: 'Calcula deterministicamente a nota necessária usando o subjectId UUID obtido via listSubjects.', parameters: { type: Type.OBJECT, properties: { subjectId: { type: Type.STRING }, targetAverage: { type: Type.NUMBER } }, required: ['subjectId'] } },
   { name: 'getAcademicOverview', description: 'Consulta um resumo acadêmico real do estudante.', parameters: { type: Type.OBJECT, properties: {} } },
 ] }];
 
@@ -38,6 +38,14 @@ function isoDate(value, field) {
   return parsed.toISOString();
 }
 
+function normalizeLabel(value = '') {
+  return String(value)
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .trim();
+}
+
 export function validateToolCall(name, input = {}) {
   if (!AGENT_TOOLS[0].functionDeclarations.some((tool) => tool.name === name)) throw new Error('Ferramenta não permitida.');
   if (!input || typeof input !== 'object' || Array.isArray(input)) throw new Error('Argumentos inválidos.');
@@ -53,7 +61,10 @@ export function validateToolCall(name, input = {}) {
     case 'createTask': {
       const args = { title: text(input.title, 'title', { required: true, max: 300 }), priority: input.priority || 'media' };
       if (!PRIORITIES.includes(args.priority)) throw new Error('Prioridade inválida.');
-      for (const key of ['subjectName', 'description']) { const value = text(input[key], key, { max: key === 'description' ? 2000 : 160 }); if (value) args[key] = value; }
+      for (const [key, max] of [['subjectName', 160], ['description', 2000], ['estimatedTime', 40]]) {
+        const value = text(input[key], key, { max });
+        if (value) args[key] = value;
+      }
       const dueDate = isoDate(input.dueDate, 'dueDate'); if (dueDate) args.dueDate = dueDate;
       return args;
     }
@@ -89,9 +100,69 @@ const unwrap = (result) => { if (result.error) throw new Error(result.error.mess
 
 async function resolveSubject(db, name) {
   if (!name) return null;
-  const data = unwrap(await db.from('subjects').select('id,name').ilike('name', name).limit(1).maybeSingle());
-  if (!data) throw new Error(`A disciplina "${name}" não está cadastrada. Solicite esclarecimento ao estudante.`);
-  return data;
+  const subjects = unwrap(await db.from('subjects').select('id,code,name').order('name'));
+  const target = normalizeLabel(name);
+
+  const exact = subjects.find((s) => normalizeLabel(s.name) === target || (s.code && normalizeLabel(s.code) === target));
+  if (exact) return { id: exact.id, name: exact.name };
+
+  const partial = subjects.filter((s) => normalizeLabel(s.name).includes(target) || target.includes(normalizeLabel(s.name)));
+  if (partial.length === 1) return { id: partial[0].id, name: partial[0].name };
+  if (partial.length > 1) {
+    throw new Error(`Mais de uma disciplina corresponde a "${name}": ${partial.map((s) => s.name).join(', ')}. Especifique qual.`);
+  }
+
+  const available = subjects.length ? ` Disciplinas cadastradas: ${subjects.map((s) => s.name).join(', ')}.` : '';
+  throw new Error(`A disciplina "${name}" não está cadastrada.${available}`);
+}
+
+export function buildStudyPlan(result, content) {
+  const hours = Number(result.availableHours) || 1;
+  const openTasks = Array.isArray(result.openTasks) ? result.openTasks : [];
+  const formatDuration = (h) => {
+    const mins = Math.max(25, Math.round(h * 60));
+    const hrsPart = Math.floor(mins / 60);
+    const minPart = mins % 60;
+    return hrsPart > 0 ? `${hrsPart}h ${String(minPart).padStart(2, '0')}m` : `${minPart}m`;
+  };
+
+  let steps;
+  if (openTasks.length > 0) {
+    const selected = openTasks.slice(0, 5);
+    const perTaskHours = hours / selected.length;
+    steps = selected.map((task, idx) => ({
+      id: `step-${task.id || idx}`,
+      title: task.title,
+      period: `Bloco ${idx + 1}`,
+      duration: formatDuration(perTaskHours),
+      description: task.due_date
+        ? `Prazo: ${new Date(task.due_date).toLocaleDateString('pt-BR')}`
+        : 'Sem prazo definido',
+      subject: task.subjects?.name || result.subject?.name || 'Geral',
+      priority: `Prioridade ${task.priority || 'media'}`,
+      completed: false,
+    }));
+  } else {
+    steps = [
+      {
+        id: 'step-focus-1',
+        title: result.topic || `Revisão de ${result.subject?.name || 'conteúdos prioritários'}`,
+        period: 'Bloco Único',
+        duration: formatDuration(hours),
+        description: 'Sessão estruturada conforme disponibilidade informada.',
+        subject: result.subject?.name || 'Geral',
+        priority: 'Foco Direcionado',
+        completed: false,
+      },
+    ];
+  }
+
+  return {
+    title: `Plano de estudo${result.subject?.name ? ` — ${result.subject.name}` : result.topic ? ` — ${result.topic}` : ''}`,
+    description: content,
+    stats: { totalTime: `${hours}h`, efficiency: 'Sugestão Gemini' },
+    steps,
+  };
 }
 
 export async function executeReadTool(db, name, args) {
@@ -134,7 +205,18 @@ export async function normalizeMutation(db, name, args) {
 
 export async function executeMutation(db, name, args) {
   if (name === 'createTask') {
-    const row = { title: args.title, description: args.description || '', priority: args.priority, due_date: args.dueDate || null, subject_id: args.subjectId || null, status: 'pending', is_ai_prioritized: true, has_ai_badge: true, ai_badge_text: 'Criada pelo agente' };
+    const row = {
+      title: args.title,
+      description: args.description || '',
+      priority: args.priority,
+      due_date: args.dueDate || null,
+      subject_id: args.subjectId || null,
+      estimated_time: args.estimatedTime || '1h 00m',
+      status: 'pending',
+      is_ai_prioritized: true,
+      has_ai_badge: true,
+      ai_badge_text: 'Criada pelo agente',
+    };
     return { task: unwrap(await db.from('tasks').insert(row).select('id,title,status,priority,due_date,subject_id').single()) };
   }
   if (name === 'updateTask') {

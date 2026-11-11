@@ -8,21 +8,38 @@ const fail = (error) => { if (error) throw error; };
 
 export async function loadAcademicData() {
   const db = required();
-  const [tasks, subjects, conversations, plans, profile, academicSettings] = await Promise.all([
+  const [tasks, subjects, conversations, plans, profile, academicSettings, operations] = await Promise.all([
     db.from('tasks').select('*, subjects(name), subtasks(*)').order('created_at', { ascending: false }),
     db.from('subjects').select('*, assessments(*), attendance_records(*)').order('created_at'),
     db.from('chat_conversations').select('*, chat_messages(*)').order('updated_at', { ascending: false }).limit(1),
     db.from('study_plans').select('*').order('updated_at', { ascending: false }).limit(1),
     db.from('profiles').select('*').maybeSingle(),
     db.from('academic_settings').select('*').maybeSingle(),
+    db.from('agent_operations').select('id,status,executed_at').order('created_at', { ascending: false }).limit(30),
   ]);
-  [tasks, subjects, conversations, plans, profile, academicSettings].forEach(({ error }) => fail(error));
+  [tasks, subjects, conversations, plans, profile, academicSettings, operations].forEach(({ error }) => fail(error));
   return {
     tasks: tasks.data.map((t) => ({ ...t, subjectId: t.subject_id, subjectName: t.subjects?.name || 'Geral', dueDate: t.due_date, estimatedTime: t.estimated_time, isAiPrioritized: t.is_ai_prioritized, hasAiBadge: t.has_ai_badge, aiBadgeText: t.ai_badge_text, subtasks: t.subtasks || [] })),
     subjects: subjects.data.map((s) => ({ ...s, totalClasses: s.total_classes, attendances: s.attendance_records.filter((a) => a.status === 'present').length, absences: s.attendance_records.filter((a) => a.status === 'absent').length, maxAbsences: s.max_absences, currentGrade: s.current_grade, assessments: s.assessments || [] })),
     conversation: conversations.data[0] ? { ...conversations.data[0], chat_messages: [...(conversations.data[0].chat_messages || [])].sort((a, b) => new Date(a.created_at) - new Date(b.created_at)) } : null,
-    plan: plans.data[0] || null, profile: profile.data || null, academicSettings: academicSettings.data || null,
+    plan: plans.data[0] || null,
+    profile: profile.data || null,
+    academicSettings: academicSettings.data || null,
+    operations: operations.data || [],
   };
+}
+
+export async function syncProfileMetadata(userId, metadata = {}) {
+  const db = required();
+  const patch = {};
+  if (metadata.full_name) patch.full_name = metadata.full_name;
+  if (metadata.course) patch.course = metadata.course;
+  if (metadata.institution) patch.institution = metadata.institution;
+  if (metadata.semester) patch.semester = metadata.semester;
+  if (Object.keys(patch).length === 0) return null;
+  const r = await db.from('profiles').upsert({ id: userId, ...patch, updated_at: new Date().toISOString() }, { onConflict: 'id' }).select().single();
+  fail(r.error);
+  return r.data;
 }
 
 export async function persistTask(task) {
