@@ -9,7 +9,19 @@ create table public.chat_conversations (id uuid primary key default gen_random_u
 create table public.chat_messages (id uuid primary key default gen_random_uuid(), conversation_id uuid not null references public.chat_conversations(id) on delete cascade, role text not null check (role in ('user','assistant','tool')), content text not null, metadata jsonb not null default '{}'::jsonb, created_at timestamptz not null default now());
 create table public.study_plans (id uuid primary key default gen_random_uuid(), user_id uuid not null references auth.users(id) on delete cascade, title text not null, description text, plan jsonb not null default '{}'::jsonb, created_at timestamptz not null default now(), updated_at timestamptz not null default now());
 create index tasks_user_due_idx on public.tasks(user_id, due_date); create index subjects_user_idx on public.subjects(user_id); create index conversations_user_idx on public.chat_conversations(user_id); create index plans_user_idx on public.study_plans(user_id);
-create function public.set_owner() returns trigger language plpgsql security definer set search_path = public as $$ begin if new.user_id is null then new.user_id = auth.uid(); end if new.user_id <> auth.uid() then raise exception 'cannot write another user''s data'; end if; return new; end; $$;
+create function public.set_owner() returns trigger language plpgsql security definer set search_path = public as $$
+begin
+  if new.user_id is null then
+    new.user_id := auth.uid();
+  end if;
+
+  if new.user_id <> auth.uid() then
+    raise exception 'cannot write another user''s data';
+  end if;
+
+  return new;
+end;
+$$;
 create function public.create_profile() returns trigger language plpgsql security definer set search_path = public as $$ begin insert into public.profiles(id, full_name) values(new.id, coalesce(new.raw_user_meta_data->>'full_name','')); return new; end; $$;
 create trigger on_auth_user_created after insert on auth.users for each row execute procedure public.create_profile();
 create trigger owner_subjects before insert on public.subjects for each row execute procedure public.set_owner(); create trigger owner_tasks before insert on public.tasks for each row execute procedure public.set_owner(); create trigger owner_conversations before insert on public.chat_conversations for each row execute procedure public.set_owner(); create trigger owner_plans before insert on public.study_plans for each row execute procedure public.set_owner();
